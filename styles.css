@@ -344,6 +344,79 @@ a { color: inherit; text-decoration: none; }
 .scroll-hint span { width: 4px; height: 8px; border-radius: 2px; background: var(--text-soft); animation: scrollDot 1.8s infinite; }
 @keyframes scrollDot { 0% { opacity: 0; transform: translateY(-4px); } 40% { opacity: 1; } 80% { opacity: 0; transform: translateY(10px); } }
 
+/* =========================== 3D viz panels ============================= */
+@media (min-width: 901px) {
+  .hero-inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1.04fr) minmax(0, 0.9fr);
+    column-gap: clamp(1.6rem, 4vw, 3.2rem);
+    align-items: center;
+  }
+  .hero-copy { grid-column: 1; min-width: 0; }
+  .hero-viz { grid-column: 2; }
+  .hero-stats { grid-column: 1 / -1; margin-top: 2.6rem; }
+}
+
+.hero-viz {
+  position: relative;
+  width: 100%;
+  height: clamp(360px, 52vh, 520px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background:
+    radial-gradient(130% 110% at 60% 0%, color-mix(in srgb, var(--g2) 12%, transparent), transparent 68%),
+    var(--surface);
+  overflow: hidden;
+  backdrop-filter: blur(8px);
+  box-shadow: var(--shadow);
+}
+@media (max-width: 900px) { .hero-viz { height: clamp(300px, 64vw, 400px); margin-top: 2.4rem; } }
+
+.skills-viz {
+  position: relative;
+  width: 100%;
+  height: clamp(380px, 54vh, 540px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background:
+    radial-gradient(120% 120% at 50% 0%, color-mix(in srgb, var(--g3) 9%, transparent), transparent 70%),
+    var(--surface);
+  overflow: hidden;
+  backdrop-filter: blur(8px);
+  box-shadow: var(--shadow);
+  margin-bottom: 1.8rem;
+  display: none;
+}
+.skills-viz.viz-on { display: block; }
+
+.viz-canvas { position: absolute; inset: 0; pointer-events: none; }
+.viz-live .viz-canvas { pointer-events: auto; }
+.viz-canvas canvas { display: block; }
+
+.viz-tag {
+  position: absolute; top: 0.85rem; right: 0.9rem; z-index: 4;
+  display: inline-flex; align-items: center; gap: 0.42rem;
+  font-family: var(--font-mono); font-size: 0.67rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--text-soft); padding: 0.32rem 0.65rem;
+  border: 1px solid var(--border); border-radius: 999px;
+  background: color-mix(in srgb, var(--bg) 55%, transparent);
+}
+.viz-tag-dot { width: 7px; height: 7px; border-radius: 50%; background: #34d399; box-shadow: 0 0 0 0 rgba(52, 211, 153, .55); animation: pulse 2.4s infinite; }
+
+.viz-legend { position: absolute; left: 0.95rem; bottom: 0.85rem; z-index: 4; list-style: none; display: none; flex-wrap: wrap; gap: 0.35rem 0.85rem; max-width: 78%; }
+.viz-live .viz-legend { display: flex; }
+.viz-legend li { display: inline-flex; align-items: center; gap: 0.42rem; font-size: 0.71rem; font-family: var(--font-mono); color: var(--text-soft); }
+.viz-legend i { width: 9px; height: 9px; border-radius: 50%; background: var(--c); box-shadow: 0 0 8px -1px var(--c); }
+
+/* Hero static fallback: also the no-JS / reduced-motion / no-WebGL view */
+.viz-fallback.flow { list-style: none; position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; gap: 0.15rem; padding: clamp(1.2rem, 3vw, 2rem); }
+.viz-live .viz-fallback { display: none; }
+.flow li { position: relative; display: grid; grid-template-columns: auto 1fr; column-gap: 0.85rem; padding: 0.4rem 0; }
+.flow li:not(:last-child)::after { content: ""; position: absolute; left: 6px; top: 1.95rem; height: 0.95rem; width: 2px; background: linear-gradient(var(--g2), transparent); opacity: 0.55; }
+.flow-dot { width: 13px; height: 13px; border-radius: 50%; background: var(--c); box-shadow: 0 0 10px -1px var(--c); grid-row: span 2; align-self: start; margin-top: 0.2rem; }
+.flow b { font-family: var(--font-display); font-weight: 600; font-size: 1rem; color: var(--text); align-self: end; }
+.flow em { font-style: normal; font-family: var(--font-mono); font-size: 0.73rem; color: var(--text-mute); grid-column: 2; align-self: start; }
+
 /* =========================== About ===================================== */
 .about-grid { display: grid; grid-template-columns: 1.7fr 1fr; gap: 2.5rem; align-items: start; }
 .about-copy p { color: var(--text-soft); margin-bottom: 1.1rem; font-size: 1.04rem; }
