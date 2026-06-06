@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pierce Lonergan — Software Engineer III @ JPMorganChase</title>
+  <meta name="description" content="Pierce Lonergan — Software Engineer III at JPMorganChase. High-throughput streaming &amp; batch data infrastructure (Kafka, Spark, Iceberg, Snowflake, AWS) and production applied ML / RAG systems." />
+  <meta name="author" content="Pierce Lonergan" />
+  <meta name="theme-color" content="#070b14" />
+
+  <!-- Open Graph / social preview -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Pierce Lonergan — Software Engineer III @ JPMorganChase" />
+  <meta property="og:description" content="Data engineer &amp; applied-ML builder. Streaming lakehouse infrastructure + production RAG / semantic schema matching." />
+  <meta property="og:url" content="https://pierce-lonergan.github.io/" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="canonical" href="https://pierce-lonergan.github.io/" />
+
+  <!-- Fonts (progressive enhancement; system fonts are the fallback) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Scroll progress -->
+  <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+
+  <!-- Animated backdrop -->
+  <div class="aurora" aria-hidden="true">
+    <span class="aurora-blob a1"></span>
+    <span class="aurora-blob a2"></span>
+    <span class="aurora-blob a3"></span>
+    <div class="grid-overlay"></div>
+  </div>
+
+  <!-- Navigation -->
+  <header class="nav" id="nav">
+    <a class="nav-brand" href="#top" aria-label="Pierce Lonergan — home">
+      <span class="brand-mark">PL</span>
+      <span class="brand-name">Pierce Lonergan</span>
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="#about">About</a>
+      <a href="#experience">Experience</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#education">Education</a>
+    </nav>
+    <div class="nav-actions">
+      <button id="themeToggle" class="icon-btn" type="button" aria-label="Toggle color theme" title="Toggle theme">
+        <svg class="i-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        <svg class="i-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+      <a class="btn btn-ghost nav-cta" href="https://github.com/pierce-lonergan" target="_blank" rel="noopener">GitHub</a>
+    </div>
+    <button id="navToggle" class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  </header>
+
+  <main id="top">
+    <!-- HERO -->
+    <section class="hero" id="hero">
+      <div class="hero-inner">
+        <p class="hero-eyebrow reveal">
+          <span class="status-dot" aria-hidden="true"></span> Open to new opportunities · Columbus, OH
+        </p>
+        <h1 class="hero-name reveal">Pierce Lonergan</h1>
+        <h2 class="hero-role reveal">
+          <span class="role-static">I build</span>
+          <span class="role-rotator" id="roleRotator" aria-live="polite"><span>data infrastructure</span></span>
+        </h2>
+        <p class="hero-lede reveal">
+          <strong>Software Engineer III</strong> at <strong>JPMorganChase</strong> — designing high-throughput
+          streaming &amp; batch data platforms and shipping production applied-ML / RAG systems on top of them.
+        </p>
+        <div class="hero-cta reveal">
+          <a class="btn btn-primary" href="#projects">View Projects</a>
+          <a class="btn btn-ghost" href="https://www.linkedin.com/in/pierce-lonergan-84034422a/" target="_blank" rel="noopener">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.55V9h3.57v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
+            LinkedIn
+          </a>
+          <a class="btn btn-ghost" href="https://github.com/pierce-lonergan" target="_blank" rel="noopener">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.73.5.5 5.73.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56 0-.27-.01-1.16-.02-2.1-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.68 0-1.25.45-2.28 1.18-3.08-.12-.29-.51-1.46.11-3.05 0 0 .96-.31 3.15 1.18a10.9 10.9 0 0 1 5.74 0c2.19-1.49 3.15-1.18 3.15-1.18.62 1.59.23 2.76.11 3.05.74.8 1.18 1.83 1.18 3.08 0 4.41-2.69 5.38-5.25 5.67.41.36.78 1.06.78 2.14 0 1.55-.01 2.8-.01 3.18 0 .31.21.68.8.56A11.51 11.51 0 0 0 23.5 12C23.5 5.73 18.27.5 12 .5z"/></svg>
+            GitHub
+          </a>
+        </div>
+
+        <dl class="hero-stats reveal" id="heroStats">
+          <div class="stat"><dt class="stat-num" data-count="4" data-suffix="+ yrs">0</dt><dd>Shipping data infra at JPMorganChase</dd></div>
+          <div class="stat"><dt class="stat-num" data-count="15" data-prefix="" data-suffix="×">0</dt><dd>Pipeline output (≈2 → 30 / month)</dd></div>
+          <div class="stat"><dt class="stat-num" data-count="100" data-suffix="%">0</dt><dd>Precision@1, semantic schema matcher</dd></div>
+          <div class="stat"><dt class="stat-num" data-count="5" data-suffix="">0</dt><dd>Open-source projects</dd></div>
+        </dl>
+      </div>
+      <a class="scroll-hint" href="#about" aria-label="Scroll to content"><span></span></a>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="section" id="about">
+      <div class="container">
+        <p class="section-kicker reveal">01 — About</p>
+        <h2 class="section-title reveal">Engineer first, scientist by training.</h2>
+        <div class="about-grid">
+          <div class="about-copy reveal">
+            <p>
+              I'm a <strong>Software Engineer III</strong> at <strong>JPMorganChase</strong>, where I build the
+              high-throughput streaming and batch data infrastructure that Consumer &amp; Community Banking runs on.
+              My focus is <em>reusable platforms</em>: declarative source/sink/transform factories, automatic
+              forward-compatible schema evolution, and recursive flattening for arbitrarily nested data — the systems
+              that took my team from roughly <strong>2 to 30 production pipelines a month</strong>.
+            </p>
+            <p>
+              Increasingly my work lives at the intersection of <strong>data and applied ML</strong>: production
+              Retrieval-Augmented Generation and semantic schema-matching systems built on hybrid lexical + dense
+              retrieval with late-interaction (ColBERT) reranking, running on the Kafka / Spark / Iceberg / Snowflake /
+              AWS lakehouse that real ML depends on.
+            </p>
+            <p>
+              My foundation is scientific — a dual <strong>B.S. in Biochemistry and Computer Science</strong> from
+              Ohio State — which shows up as a bias toward measurement, evaluation, and honest results over hype.
+            </p>
+          </div>
+          <aside class="about-aside reveal">
+            <h3>At a glance</h3>
+            <ul class="facts">
+              <li><span>Role</span><strong>Software Engineer III</strong></li>
+              <li><span>Company</span><strong>JPMorganChase</strong></li>
+              <li><span>Org</span><strong>Data Engineering / Delivery</strong></li>
+              <li><span>Location</span><strong>Columbus, OH</strong></li>
+              <li><span>Focus</span><strong>Streaming · Lakehouse · Applied ML</strong></li>
+              <li><span>Core langs</span><strong>Python · Java · Scala</strong></li>
+            </ul>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section class="section section-alt" id="experience">
+      <div class="container">
+        <p class="section-kicker reveal">02 — Experience</p>
+        <h2 class="section-title reveal">Four years, three promotions, one mission: move data reliably.</h2>
+        <p class="section-sub reveal">JPMorganChase · Full-time · Columbus, Ohio · 4 yrs 3 mos</p>
+
+        <ol class="timeline">
+          <li class="tl-item reveal">
+            <div class="tl-marker"><span class="tl-badge">Now</span></div>
+            <div class="tl-card">
+              <div class="tl-head">
+                <h3>Software Engineer III</h3>
+                <span class="tl-date">Feb 2026 — Present</span>
+              </div>
+              <p class="tl-org">JPMorganChase · Data Engineering</p>
+              <ul>
+                <li>Architected reusable streaming-pipeline infrastructure — declarative source/sink/transform factories, built-in forward-compatible schema evolution, and generic recursive flattening — lifting the team from <strong>~2 to ~30 production pipelines per month</strong>.</li>
+                <li>Solved lifecycle concerns once and reused them everywhere: checkpointing, error handling, and graceful shutdown standardized across every pipeline.</li>
+                <li>Shipped <strong>governance automation that cut weeks from data-approval cycles</strong> — now a production internal product.</li>
+                <li>Led a hackathon team to <strong>4th place globally</strong>; architects projected the platform would save ~80 engineer-hours / month.</li>
+              </ul>
+              <div class="tl-tags"><span>Kafka</span><span>Spark</span><span>Iceberg</span><span>Snowflake</span><span>AWS</span><span>AI-assisted dev</span></div>
+            </div>
+          </li>
+
+          <li class="tl-item reveal">
+            <div class="tl-marker"></div>
+            <div class="tl-card">
+              <div class="tl-head">
+                <h3>Associate Software Engineer</h3>
+                <span class="tl-date">Jan 2024 — Feb 2026</span>
+              </div>
+              <p class="tl-org">JPMorganChase · Data Engineering</p>
+              <ul>
+                <li>Built high-performance <strong>ETL Spark pipelines</strong> with asynchronous processing and parallelization, increasing throughput for real-time, data-informed decisioning.</li>
+                <li>Integrated <strong>Kafka</strong> for near-real-time distributed streaming — reducing data latency and improving system reliability and scalability.</li>
+                <li>Developed algorithms to automate complex data workflows and embedded ML models into ETL to preempt data bottlenecks.</li>
+              </ul>
+              <div class="tl-tags"><span>Spark</span><span>Kafka</span><span>ETL</span><span>ML in pipeline</span></div>
+            </div>
+          </li>
+
+          <li class="tl-item reveal">
+            <div class="tl-marker"></div>
+            <div class="tl-card">
+              <div class="tl-head">
+                <h3>Software Engineer</h3>
+                <span class="tl-date">Apr 2022 — Jan 2024</span>
+              </div>
+              <p class="tl-org">JPMorganChase · Data Engineering</p>
+              <ul>
+                <li>Modernized big-data solutions with <strong>reactive paradigms (Project Reactor)</strong> to move millions of records per day through responsive, resilient, scalable pipelines.</li>
+                <li>Designed automated, defensive, redundant reactive <strong>Kafka</strong> messaging paired with <strong>Cassandra</strong> reconciliation and <strong>Spark</strong> ETL.</li>
+                <li>Began migrating high-throughput systems to <strong>federated AWS</strong> environments.</li>
+              </ul>
+              <div class="tl-tags"><span>Project Reactor</span><span>Kafka</span><span>Cassandra</span><span>Spark</span></div>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section class="section" id="skills">
+      <div class="container">
+        <p class="section-kicker reveal">03 — Skills</p>
+        <h2 class="section-title reveal">The stack behind the systems.</h2>
+        <div class="skills-grid">
+          <article class="skill-card reveal">
+            <h3><span class="skill-ico">⚡</span> Streaming &amp; Big Data</h3>
+            <ul class="chips">
+              <li>Apache Kafka</li><li>Apache Spark</li><li>Structured Streaming</li><li>Project Reactor</li><li>Cassandra</li><li>Apache Avro</li><li>Schema evolution</li><li>CDC</li><li>Exactly-once</li>
+            </ul>
+          </article>
+          <article class="skill-card reveal">
+            <h3><span class="skill-ico">🧊</span> Lakehouse &amp; Warehouse</h3>
+            <ul class="chips">
+              <li>Apache Iceberg</li><li>Snowflake</li><li>Parquet</li><li>Partitioning</li><li>Data modeling</li><li>Incremental sync</li>
+            </ul>
+          </article>
+          <article class="skill-card reveal">
+            <h3><span class="skill-ico">☁️</span> Cloud &amp; Infrastructure</h3>
+            <ul class="chips">
+              <li>AWS S3</li><li>EMR</li><li>MSK</li><li>Glue</li><li>Kinesis</li><li>Lambda</li><li>Docker</li><li>CI/CD</li><li>Hexagonal architecture</li>
+            </ul>
+          </article>
+          <article class="skill-card reveal">
+            <h3><span class="skill-ico">🧠</span> Applied ML &amp; Retrieval</h3>
+            <ul class="chips">
+              <li>RAG</li><li>Hybrid retrieval (BM25 + dense)</li><li>ColBERT reranking</li><li>Cross-encoder reranking</li><li>Embeddings (BGE)</li><li>Qdrant</li><li>LLM apps</li><li>INT8 quantization</li>
+            </ul>
+          </article>
+          <article class="skill-card reveal">
+            <h3><span class="skill-ico">🛡️</span> Data Governance</h3>
+            <ul class="chips">
+              <li>Canonical catalogs</li><li>Semantic schema matching</li><li>Entity resolution</li><li>Lineage</li><li>Data-quality validation</li>
+            </ul>
+          </article>
+          <article class="skill-card reveal">
+            <h3><span class="skill-ico">⌨️</span> Languages</h3>
+            <ul class="chips">
+              <li>Python</li><li>Java</li><li>Scala</li><li>Groovy</li><li>Bash</li><li>SQL</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section class="section section-alt" id="projects">
+      <div class="container">
+        <p class="section-kicker reveal">04 — Projects</p>
+        <h2 class="section-title reveal">Open-source work — the systems, in public.</h2>
+        <p class="section-sub reveal">Live from GitHub · <a href="https://github.com/pierce-lonergan?tab=repositories" target="_blank" rel="noopener">@pierce-lonergan</a></p>
+        <div class="projects-grid" id="projectsGrid">
+          <!-- Cards injected by script.js (with a static fallback baked in below) -->
+        </div>
+      </div>
+    </section>
+
+    <!-- EDUCATION & AWARDS -->
+    <section class="section" id="education">
+      <div class="container">
+        <p class="section-kicker reveal">05 — Education &amp; Recognition</p>
+        <h2 class="section-title reveal">Where the rigor comes from.</h2>
+        <div class="edu-grid">
+          <article class="edu-card reveal">
+            <div class="edu-icon" aria-hidden="true">🎓</div>
+            <div>
+              <h3>The Ohio State University</h3>
+              <p class="edu-meta">Aug 2016 — Dec 2021 · Columbus, OH</p>
+              <p>Dual <strong>B.S. Biochemistry</strong> &amp; <strong>B.S. Computer Science &amp; Engineering</strong>. Coursework across machine learning, distributed computing, multithreading, and database systems.</p>
+            </div>
+          </article>
+          <article class="edu-card reveal">
+            <div class="edu-icon" aria-hidden="true">🏆</div>
+            <div>
+              <h3>Best Data Visualization — ASA DataFest 2021</h3>
+              <p class="edu-meta">American Statistical Association · The Ohio State University · Apr 2021</p>
+              <p>Awarded for visual analysis of the U.S. 2019 Non-Medical Use of Prescription Drugs survey — surfacing demographic and geographic insight with Python, R, and ArcGIS.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="section contact" id="contact">
+      <div class="container contact-inner reveal">
+        <h2 class="section-title">Let's build something that moves the business.</h2>
+        <p class="contact-sub">Open to roles in applied ML, data engineering, and platform work. The fastest way to reach me is LinkedIn.</p>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="https://www.linkedin.com/in/pierce-lonergan-84034422a/" target="_blank" rel="noopener">Connect on LinkedIn</a>
+          <a class="btn btn-ghost" href="https://github.com/pierce-lonergan" target="_blank" rel="noopener">See the code on GitHub</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <span class="brand-mark">PL</span>
+      <p>© <span id="year">2026</span> Pierce Lonergan · Built with vanilla HTML, CSS &amp; JavaScript — no frameworks, no build step.</p>
+      <div class="footer-links">
+        <a href="https://www.linkedin.com/in/pierce-lonergan-84034422a/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://github.com/pierce-lonergan" target="_blank" rel="noopener">GitHub</a>
+        <a href="#top">Back to top ↑</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
