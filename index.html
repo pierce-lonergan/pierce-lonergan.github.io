@@ -322,13 +322,13 @@
         <div class="galaxy-viz" id="galaxyViz" role="img" aria-label="3D map of résumé sections positioned in embedding space.">
           <div class="viz-canvas" id="galaxyCanvas"></div>
           <div class="gx-loading">Mapping the résumé into embedding space...</div>
-          <ul class="viz-legend" aria-hidden="true">
-            <li><i style="--c:#38bdf8"></i>Experience</li>
-            <li><i style="--c:#34d399"></i>Skills</li>
-            <li><i style="--c:#c084fc"></i>Projects</li>
-            <li><i style="--c:#fbbf24"></i>Background</li>
-          </ul>
         </div>
+        <ul class="gx-legend" aria-hidden="true">
+          <li><i style="--c:#38bdf8"></i>Experience</li>
+          <li><i style="--c:#34d399"></i>Skills</li>
+          <li><i style="--c:#c084fc"></i>Projects</li>
+          <li><i style="--c:#fbbf24"></i>Background</li>
+        </ul>
         <form class="gx-controls" id="gxForm" autocomplete="off">
           <input id="gxQuery" type="text" placeholder="Try: kafka streaming · drug repurposing · what does he want next" aria-label="Query the embedding space" />
           <button type="submit" class="btn btn-ghost">Retrieve</button>

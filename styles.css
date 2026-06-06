@@ -394,8 +394,12 @@ a { color: inherit; text-decoration: none; }
 }
 .skills-viz.viz-on { display: block; }
 
-.galaxy-viz { position: relative; width: 100%; height: clamp(380px, 56vh, 560px); border: 1px solid var(--border); border-radius: var(--radius); background: radial-gradient(120% 120% at 50% 0%, color-mix(in srgb, var(--g3) 9%, transparent), transparent 70%), var(--surface); overflow: hidden; backdrop-filter: blur(8px); box-shadow: var(--shadow); display: none; }
+.galaxy-viz { position: relative; width: 100%; height: clamp(380px, 56vh, 560px); min-height: 420px; border: 1px solid var(--border-strong); border-radius: var(--radius); background: radial-gradient(120% 120% at 50% 0%, color-mix(in srgb, var(--g3) 10%, transparent), transparent 70%), var(--surface); overflow: hidden; backdrop-filter: blur(8px); box-shadow: var(--shadow); display: none; }
 .galaxy-viz.viz-on { display: block; }
+.gx-legend { display: none; flex-wrap: wrap; gap: 0.4rem 1.1rem; list-style: none; margin-top: 1rem; }
+.galaxy-viz.viz-on ~ .gx-legend { display: flex; }
+.gx-legend li { display: inline-flex; align-items: center; gap: 0.45rem; font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-soft); }
+.gx-legend i { width: 9px; height: 9px; border-radius: 50%; background: var(--c); box-shadow: 0 0 8px -1px var(--c); }
 .gx-loading { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 0.6rem; font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-soft); z-index: 3; text-align: center; padding: 1rem; }
 .gx-loading::before { content: ""; width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--border-strong); border-top-color: var(--g2); animation: gxspin 0.8s linear infinite; flex-shrink: 0; }
 @keyframes gxspin { to { transform: rotate(360deg); } }

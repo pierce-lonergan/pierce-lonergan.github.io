@@ -105,7 +105,7 @@
         .linkWidth(0.6)
         .graphData({ nodes: nodes, links: links });
       try { graph.d3Force("charge").strength(-65); } catch (e) {}
-      sizeAndControls(canvas);
+      setupGraph(canvas);
       graph.onEngineStop(function () { try { graph.zoomToFit(700, 44); } catch (e) {} });
       setLoading("");
       panel.classList.add("viz-live");
@@ -115,10 +115,18 @@
     }).catch(function () { setLoading("The embedding map could not load here."); });
   }
 
-  function sizeAndControls(canvas) {
-    function size() { var w = canvas.clientWidth, h = canvas.clientHeight; if (w && h) graph.width(w).height(h); }
-    size();
-    window.addEventListener("resize", function () { clearTimeout(window.__gxr); window.__gxr = setTimeout(size, 200); }, { passive: true });
+  function setupGraph(canvas) {
+    function applySize() {
+      if (!graph) return;
+      var w = canvas.clientWidth || (panelEl && panelEl.clientWidth) || 600;
+      var h = canvas.clientHeight || (panelEl && panelEl.clientHeight) || 480;
+      graph.width(w).height(h);
+    }
+    applySize();
+    requestAnimationFrame(applySize);
+    // Layout can settle a frame late; re-size and re-frame so points sit inside the panel.
+    setTimeout(function () { applySize(); try { graph.zoomToFit(600, 46); } catch (e) {} }, 400);
+    window.addEventListener("resize", function () { clearTimeout(window.__gxr); window.__gxr = setTimeout(applySize, 200); }, { passive: true });
     try { var r = graph.renderer(); if (r && r.setPixelRatio) r.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5)); } catch (e) {}
     try { var c = graph.controls(); if (c) c.noZoom = true; } catch (e) {}
   }
