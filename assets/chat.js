@@ -206,6 +206,21 @@
     setStatus(b, '<span class="cb-load">' + esc(txt) + "</span>" + p);
   }
 
+  // Visible RAG: surface which resume sections the semantic search retrieved.
+  function renderRag(b, contexts) {
+    if (!contexts || !contexts.length || !b || !b.wrap) return;
+    var chips = contexts.slice(0, 4).map(function (c) {
+      var topic = (c.item && c.item.topic) || "résumé";
+      var pct = (c.score != null && c.score <= 1 && c.score > 0) ? Math.round(c.score * 100) + "%" : "";
+      return '<span class="cb-rag-chip"' + (pct ? ' title="cosine similarity ' + pct + '"' : "") + ">" + esc(topic) + "</span>";
+    }).join("");
+    var el = document.createElement("div");
+    el.className = "cb-rag";
+    el.innerHTML = '<span class="cb-rag-label">retrieved</span>' + chips;
+    b.wrap.insertBefore(el, b.body);
+    ui.msgs.scrollTop = ui.msgs.scrollHeight;
+  }
+
   function greet() {
     if (state.greeted) return;
     state.greeted = true;
@@ -247,6 +262,7 @@
     try {
       setStatus(b, '<span class="cb-load">Searching Pierce\'s résumé...</span>');
       var contexts = await retrieve(query);
+      renderRag(b, contexts);
 
       if (state.webgpu && !state.llmFailed) {
         if (!state.engineReady) {
