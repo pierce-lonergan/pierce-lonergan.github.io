@@ -401,7 +401,7 @@ a { color: inherit; text-decoration: none; }
 }
 .skill-card:hover { transform: translateY(-4px); border-color: var(--border-strong); box-shadow: var(--shadow); }
 .skill-card h3 { font-family: var(--font-display); font-size: 1.05rem; display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1.1rem; }
-.skill-ico { font-size: 1.15rem; }
+.skill-ico { width: 26px; height: 26px; flex-shrink: 0; }
 .chips { list-style: none; display: flex; flex-wrap: wrap; gap: 0.5rem; }
 .chips li {
   font-size: 0.82rem;
@@ -441,7 +441,7 @@ a { color: inherit; text-decoration: none; }
 .project-card:hover::before { transform: scaleX(1); }
 .pc-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.8rem; margin-bottom: 0.7rem; }
 .pc-title { font-family: var(--font-display); font-size: 1.15rem; letter-spacing: -0.01em; display: flex; align-items: center; gap: 0.5rem; }
-.pc-icon { font-size: 1.2rem; }
+.pc-icon { width: 24px; height: 24px; flex-shrink: 0; }
 .pc-stars { display: inline-flex; align-items: center; gap: 0.25rem; font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-mute); white-space: nowrap; }
 .pc-desc { color: var(--text-soft); font-size: 0.94rem; flex: 1; margin-bottom: 1rem; }
 .pc-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.1rem; }
@@ -458,7 +458,8 @@ a { color: inherit; text-decoration: none; }
 .edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.3rem; }
 .edu-card { display: flex; gap: 1.1rem; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.6rem; transition: transform 0.3s var(--ease), border-color 0.3s; }
 .edu-card:hover { transform: translateY(-4px); border-color: var(--border-strong); }
-.edu-icon { font-size: 1.8rem; line-height: 1; flex-shrink: 0; }
+.edu-icon { line-height: 0; flex-shrink: 0; }
+.edu-icon svg { width: 34px; height: 34px; display: block; }
 .edu-card h3 { font-family: var(--font-display); font-size: 1.1rem; margin-bottom: 0.3rem; }
 .edu-meta { font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-mute); margin-bottom: 0.6rem; }
 .edu-card p { color: var(--text-soft); font-size: 0.92rem; }

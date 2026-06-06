@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pierce Lonergan — Software Engineer III @ JPMorganChase</title>
-  <meta name="description" content="Pierce Lonergan — Software Engineer III at JPMorganChase. High-throughput streaming &amp; batch data infrastructure (Kafka, Spark, Iceberg, Snowflake, AWS) and production applied ML / RAG systems." />
+  <title>Pierce Lonergan · Software Engineer III @ JPMorganChase</title>
+  <meta name="description" content="Pierce Lonergan, Software Engineer III at JPMorganChase. High-throughput streaming &amp; batch data infrastructure (Kafka, Spark, Iceberg, Snowflake, AWS), plus open-source applied ML and retrieval (RAG, semantic schema matching)." />
   <meta name="author" content="Pierce Lonergan" />
   <meta name="theme-color" content="#070b14" />
 
   <!-- Open Graph / social preview -->
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Pierce Lonergan — Software Engineer III @ JPMorganChase" />
-  <meta property="og:description" content="Data engineer &amp; applied-ML builder. Streaming lakehouse infrastructure + production RAG / semantic schema matching." />
+  <meta property="og:title" content="Pierce Lonergan · Software Engineer III @ JPMorganChase" />
+  <meta property="og:description" content="Data engineer and applied-ML builder. Streaming lakehouse infrastructure, plus open-source RAG and semantic schema matching." />
   <meta property="og:url" content="https://pierce-lonergan.github.io/" />
   <meta name="twitter:card" content="summary_large_image" />
 
@@ -26,6 +26,9 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <!-- Shared gradient for the custom line icons -->
+  <svg width="0" height="0" aria-hidden="true" style="position:absolute"><defs><linearGradient id="iconGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#38bdf8"/><stop offset=".5" stop-color="#818cf8"/><stop offset="1" stop-color="#c084fc"/></linearGradient></defs></svg>
+
   <!-- Scroll progress -->
   <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
 
@@ -39,7 +42,7 @@
 
   <!-- Navigation -->
   <header class="nav" id="nav">
-    <a class="nav-brand" href="#top" aria-label="Pierce Lonergan — home">
+    <a class="nav-brand" href="#top" aria-label="Pierce Lonergan, home">
       <span class="brand-mark">PL</span>
       <span class="brand-name">Pierce Lonergan</span>
     </a>
@@ -74,8 +77,8 @@
         </h2>
         <p class="hero-lede reveal">
           <strong>Software Engineer III</strong> at <strong>JPMorganChase</strong>, building high-throughput
-          streaming &amp; batch data infrastructure — and exploring applied ML &amp; retrieval (RAG, semantic search)
-          through open-source projects.
+          streaming &amp; batch data infrastructure. On the side, I explore applied ML &amp; retrieval
+          (RAG, semantic search) through open-source projects.
         </p>
         <div class="hero-cta reveal">
           <a class="btn btn-primary" href="#projects">View Projects</a>
@@ -102,7 +105,7 @@
     <!-- ABOUT -->
     <section class="section" id="about">
       <div class="container">
-        <p class="section-kicker reveal">01 — About</p>
+        <p class="section-kicker reveal">01 · About</p>
         <h2 class="section-title reveal">Engineer first, scientist by training.</h2>
         <div class="about-grid">
           <div class="about-copy reveal">
@@ -110,18 +113,18 @@
               I'm a <strong>Software Engineer III</strong> at <strong>JPMorganChase</strong>, where I build the
               high-throughput streaming and batch data infrastructure that Consumer &amp; Community Banking runs on.
               My focus is <em>reusable platforms</em>: declarative source/sink/transform factories, automatic
-              forward-compatible schema evolution, and recursive flattening for arbitrarily nested data — the systems
-              that took my team from roughly <strong>2 to 30 production pipelines a month</strong>.
+              forward-compatible schema evolution, and recursive flattening for arbitrarily nested data. These are the
+              systems that took my team from roughly <strong>2 to 30 production pipelines a month</strong>.
             </p>
             <p>
-              Alongside the day job, I build at the intersection of <strong>data and applied ML</strong> —
+              Alongside the day job, I build at the intersection of <strong>data and applied ML</strong>. I write
               open-source systems for Retrieval-Augmented Generation and semantic schema matching, using hybrid
               lexical + dense retrieval with late-interaction (ColBERT) reranking. The same engineering rigor I bring
               to the lakehouse, pointed at retrieval problems.
             </p>
             <p>
-              My foundation is scientific — a dual <strong>B.S. in Biochemistry and Computer Science</strong> from
-              Ohio State — which shows up as a bias toward measurement, evaluation, and honest results over hype.
+              My foundation is scientific: a dual <strong>B.S. in Biochemistry and Computer Science</strong> from
+              Ohio State. It shows up as a bias toward measurement, evaluation, and honest results over hype.
             </p>
           </div>
           <aside class="about-aside reveal">
@@ -142,7 +145,7 @@
     <!-- EXPERIENCE -->
     <section class="section section-alt" id="experience">
       <div class="container">
-        <p class="section-kicker reveal">02 — Experience</p>
+        <p class="section-kicker reveal">02 · Experience</p>
         <h2 class="section-title reveal">Four years, three promotions, one mission: move data reliably.</h2>
         <p class="section-sub reveal">JPMorganChase · Full-time · Columbus, Ohio · 4 yrs 3 mos</p>
 
@@ -152,13 +155,13 @@
             <div class="tl-card">
               <div class="tl-head">
                 <h3>Software Engineer III</h3>
-                <span class="tl-date">Feb 2026 — Present</span>
+                <span class="tl-date">Feb 2026 to Present</span>
               </div>
               <p class="tl-org">JPMorganChase · Data Engineering</p>
               <ul>
-                <li>Architected reusable streaming-pipeline infrastructure — declarative source/sink/transform factories, built-in forward-compatible schema evolution, and generic recursive flattening — lifting the team from <strong>~2 to ~30 production pipelines per month</strong>.</li>
+                <li>Architected reusable streaming-pipeline infrastructure (declarative source/sink/transform factories, built-in forward-compatible schema evolution, and generic recursive flattening) that lifted the team from <strong>~2 to ~30 production pipelines per month</strong>.</li>
                 <li>Solved lifecycle concerns once and reused them everywhere: checkpointing, error handling, and graceful shutdown standardized across every pipeline.</li>
-                <li>Shipped <strong>governance automation that cut weeks from data-approval cycles</strong> — now a production internal product.</li>
+                <li>Shipped <strong>governance automation that cut weeks from data-approval cycles</strong>, now a production internal product.</li>
                 <li>Led a hackathon team to <strong>4th place globally</strong>; architects projected the platform would save ~80 engineer-hours / month.</li>
               </ul>
               <div class="tl-tags"><span>Kafka</span><span>Spark</span><span>Iceberg</span><span>Snowflake</span><span>AWS</span><span>AI-assisted dev</span></div>
@@ -170,12 +173,12 @@
             <div class="tl-card">
               <div class="tl-head">
                 <h3>Associate Software Engineer</h3>
-                <span class="tl-date">Jan 2024 — Feb 2026</span>
+                <span class="tl-date">Jan 2024 to Feb 2026</span>
               </div>
               <p class="tl-org">JPMorganChase · Data Engineering</p>
               <ul>
                 <li>Built high-performance <strong>ETL Spark pipelines</strong> with asynchronous processing and parallelization, increasing throughput for real-time, data-informed decisioning.</li>
-                <li>Integrated <strong>Kafka</strong> for near-real-time distributed streaming — reducing data latency and improving system reliability and scalability.</li>
+                <li>Integrated <strong>Kafka</strong> for near-real-time distributed streaming, reducing data latency and improving system reliability and scalability.</li>
                 <li>Developed algorithms to automate complex data workflows and embedded ML models into ETL to preempt data bottlenecks.</li>
               </ul>
               <div class="tl-tags"><span>Spark</span><span>Kafka</span><span>ETL</span><span>ML in pipeline</span></div>
@@ -187,7 +190,7 @@
             <div class="tl-card">
               <div class="tl-head">
                 <h3>Software Engineer</h3>
-                <span class="tl-date">Apr 2022 — Jan 2024</span>
+                <span class="tl-date">Apr 2022 to Jan 2024</span>
               </div>
               <p class="tl-org">JPMorganChase · Data Engineering</p>
               <ul>
@@ -205,41 +208,41 @@
     <!-- SKILLS -->
     <section class="section" id="skills">
       <div class="container">
-        <p class="section-kicker reveal">03 — Skills</p>
+        <p class="section-kicker reveal">03 · Skills</p>
         <h2 class="section-title reveal">The stack behind the systems.</h2>
         <div class="skills-grid">
           <article class="skill-card reveal">
-            <h3><span class="skill-ico">⚡</span> Streaming &amp; Big Data</h3>
+            <h3><svg class="skill-ico" viewBox="0 0 24 24" fill="none" stroke="url(#iconGrad)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 7 q3 -3 6 0 t6 0 t6 0"/><path d="M2 12 q3 -3 6 0 t6 0 t6 0"/><path d="M2 17 q3 -3 6 0 t6 0 t6 0"/></svg> Streaming &amp; Big Data</h3>
             <ul class="chips">
               <li>Apache Kafka</li><li>Apache Spark</li><li>Structured Streaming</li><li>Project Reactor</li><li>Cassandra</li><li>Apache Avro</li><li>Schema evolution</li><li>CDC</li><li>Exactly-once</li>
             </ul>
           </article>
           <article class="skill-card reveal">
-            <h3><span class="skill-ico">🧊</span> Lakehouse &amp; Warehouse</h3>
+            <h3><svg class="skill-ico" viewBox="0 0 24 24" fill="none" stroke="url(#iconGrad)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v6c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 11v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg> Lakehouse &amp; Warehouse</h3>
             <ul class="chips">
               <li>Apache Iceberg</li><li>Snowflake</li><li>Parquet</li><li>Partitioning</li><li>Data modeling</li><li>Incremental sync</li>
             </ul>
           </article>
           <article class="skill-card reveal">
-            <h3><span class="skill-ico">☁️</span> Cloud &amp; Infrastructure</h3>
+            <h3><svg class="skill-ico" viewBox="0 0 24 24" fill="none" stroke="url(#iconGrad)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.5 18a3.5 3.5 0 0 0 .5-6.96 5.5 5.5 0 0 0-10.6-1.4A4 4 0 0 0 7 18h10.5z"/></svg> Cloud &amp; Infrastructure</h3>
             <ul class="chips">
               <li>AWS S3</li><li>EMR</li><li>MSK</li><li>Glue</li><li>Kinesis</li><li>Lambda</li><li>Docker</li><li>CI/CD</li><li>Hexagonal architecture</li>
             </ul>
           </article>
           <article class="skill-card reveal">
-            <h3><span class="skill-ico">🧠</span> Applied ML &amp; Retrieval</h3>
+            <h3><svg class="skill-ico" viewBox="0 0 24 24" fill="none" stroke="url(#iconGrad)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="6" r="1.5"/><circle cx="5" cy="12" r="1.5"/><circle cx="5" cy="18" r="1.5"/><circle cx="13" cy="9" r="1.5"/><circle cx="13" cy="15" r="1.5"/><circle cx="20" cy="12" r="1.5"/><path d="M6.5 6.4l5 2M6.5 11.6l5-2M6.5 12.4l5 2M6.5 17.6l5-2M14.4 9.5l4.2 1.8M14.4 14.5l4.2-1.8"/></svg> Applied ML &amp; Retrieval</h3>
             <ul class="chips">
               <li>RAG</li><li>Hybrid retrieval (BM25 + dense)</li><li>ColBERT reranking</li><li>Cross-encoder reranking</li><li>Embeddings (BGE)</li><li>Qdrant</li><li>LLM apps</li><li>INT8 quantization</li>
             </ul>
           </article>
           <article class="skill-card reveal">
-            <h3><span class="skill-ico">🛡️</span> Data Governance</h3>
+            <h3><svg class="skill-ico" viewBox="0 0 24 24" fill="none" stroke="url(#iconGrad)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 2.6v5.4c0 4.3-3 7.3-7 8.5-4-1.2-7-4.2-7-8.5V5.6L12 3z"/><path d="M9 12l2 2 4-4"/></svg> Data Governance</h3>
             <ul class="chips">
               <li>Canonical catalogs</li><li>Semantic schema matching</li><li>Entity resolution</li><li>Lineage</li><li>Data-quality validation</li>
             </ul>
           </article>
           <article class="skill-card reveal">
-            <h3><span class="skill-ico">⌨️</span> Languages</h3>
+            <h3><svg class="skill-ico" viewBox="0 0 24 24" fill="none" stroke="url(#iconGrad)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 8L4 12l4.5 4"/><path d="M15.5 8L20 12l-4.5 4"/><path d="M13.5 6l-3 12"/></svg> Languages</h3>
             <ul class="chips">
               <li>Python</li><li>Java</li><li>Scala</li><li>Groovy</li><li>Bash</li><li>SQL</li>
             </ul>
@@ -251,8 +254,8 @@
     <!-- PROJECTS -->
     <section class="section section-alt" id="projects">
       <div class="container">
-        <p class="section-kicker reveal">04 — Projects</p>
-        <h2 class="section-title reveal">Open-source work — the systems, in public.</h2>
+        <p class="section-kicker reveal">04 · Projects</p>
+        <h2 class="section-title reveal">Open-source work. The systems, in public.</h2>
         <p class="section-sub reveal">Live from GitHub · <a href="https://github.com/pierce-lonergan?tab=repositories" target="_blank" rel="noopener">@pierce-lonergan</a></p>
         <div class="projects-grid" id="projectsGrid">
           <!-- Cards injected by script.js (with a static fallback baked in below) -->
@@ -263,23 +266,23 @@
     <!-- EDUCATION & AWARDS -->
     <section class="section" id="education">
       <div class="container">
-        <p class="section-kicker reveal">05 — Education &amp; Recognition</p>
+        <p class="section-kicker reveal">05 · Education &amp; Recognition</p>
         <h2 class="section-title reveal">Where the rigor comes from.</h2>
         <div class="edu-grid">
           <article class="edu-card reveal">
-            <div class="edu-icon" aria-hidden="true">🎓</div>
+            <div class="edu-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="url(#iconGrad)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4L2 9l10 5 10-5-10-5z"/><path d="M6 11v4.5c0 1.4 2.7 2.5 6 2.5s6-1.1 6-2.5V11"/><path d="M22 9v5"/></svg></div>
             <div>
               <h3>The Ohio State University</h3>
-              <p class="edu-meta">Aug 2016 — Dec 2021 · Columbus, OH</p>
+              <p class="edu-meta">Aug 2016 to Dec 2021 · Columbus, OH</p>
               <p>Dual <strong>B.S. Biochemistry</strong> &amp; <strong>B.S. Computer Science &amp; Engineering</strong>. Coursework across machine learning, distributed computing, multithreading, and database systems.</p>
             </div>
           </article>
           <article class="edu-card reveal">
-            <div class="edu-icon" aria-hidden="true">🏆</div>
+            <div class="edu-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="url(#iconGrad)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4h10v3.5a5 5 0 0 1-10 0V4z"/><path d="M7 5.5H4.5v1.5a3 3 0 0 0 3 3"/><path d="M17 5.5h2.5v1.5a3 3 0 0 1-3 3"/><path d="M12 12.5v4"/><path d="M8.5 20l1-3.2h5l1 3.2z"/></svg></div>
             <div>
-              <h3>Best Data Visualization — ASA DataFest 2021</h3>
+              <h3>Best Data Visualization, ASA DataFest 2021</h3>
               <p class="edu-meta">American Statistical Association · The Ohio State University · Apr 2021</p>
-              <p>Awarded for visual analysis of the U.S. 2019 Non-Medical Use of Prescription Drugs survey — surfacing demographic and geographic insight with Python, R, and ArcGIS.</p>
+              <p>Awarded for visual analysis of the U.S. 2019 Non-Medical Use of Prescription Drugs survey, surfacing demographic and geographic insight with Python, R, and ArcGIS.</p>
             </div>
           </article>
         </div>
@@ -302,7 +305,7 @@
   <footer class="footer">
     <div class="container footer-inner">
       <span class="brand-mark">PL</span>
-      <p>© <span id="year">2026</span> Pierce Lonergan · Built with vanilla HTML, CSS &amp; JavaScript — no frameworks, no build step.</p>
+      <p>© <span id="year">2026</span> Pierce Lonergan · Hand-built with vanilla HTML, CSS &amp; JavaScript. No build step; the 3D graphics &amp; in-browser AI stream from a CDN.</p>
       <div class="footer-links">
         <a href="https://www.linkedin.com/in/pierce-lonergan-84034422a/" target="_blank" rel="noopener">LinkedIn</a>
         <a href="https://github.com/pierce-lonergan" target="_blank" rel="noopener">GitHub</a>

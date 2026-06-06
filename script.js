@@ -153,34 +153,34 @@
   var PROJECTS = [
     {
       name: "nexus_matcher",
-      icon: "🧩",
+      icon: '<svg class="pc-icon" viewBox="0 0 24 24" fill="none" stroke="url(#iconGrad)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="6" r="1.5"/><circle cx="5" cy="12" r="1.5"/><circle cx="5" cy="18" r="1.5"/><circle cx="19" cy="6" r="1.5"/><circle cx="19" cy="12" r="1.5"/><circle cx="19" cy="18" r="1.5"/><path d="M6.5 6h11M6.5 12l11 6M6.5 18l11-6"/></svg>',
       title: "NexusMatcher",
-      desc: "A personal R&D project — an enterprise-grade semantic schema-matching system: multi-stage retrieval → neural reranking → learned type projections. 100% Precision@1, sub-4ms rerank latency, 433 passing tests.",
+      desc: "A personal R&D project: an enterprise-grade semantic schema-matching system. Multi-stage retrieval → neural reranking → learned type projections. 100% Precision@1, sub-4ms rerank latency, 433 passing tests.",
       lang: "Python",
       tags: ["RAG", "BM25 + dense", "ColBERT", "Qdrant"],
       repo: "https://github.com/pierce-lonergan/nexus_matcher"
     },
     {
       name: "NexusPiercer",
-      icon: "🗜️",
+      icon: '<svg class="pc-icon" viewBox="0 0 24 24" fill="none" stroke="url(#iconGrad)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4v16M8 7v10M12 10v4"/><path d="M13 12h7M17 9l3 3-3 3"/></svg>',
       title: "NexusPiercer",
-      desc: "A data-engineering toolkit that pierces through deeply nested JSON & Avro — flattening, consolidating, and analyzing data and schemas into flat, Spark-ready structures with rich metadata. The recursive-flattening engine, productized.",
+      desc: "A data-engineering toolkit that pierces through deeply nested JSON & Avro, flattening, consolidating, and analyzing data and schemas into flat, Spark-ready structures with rich metadata. The recursive-flattening engine, productized.",
       lang: "Java / Groovy",
       tags: ["Java", "Avro", "Spark", "Schema"],
       repo: "https://github.com/pierce-lonergan/NexusPiercer"
     },
     {
       name: "MAMMAL_Cognitive_Enhancement_Drug_Repurposing",
-      icon: "🧬",
+      icon: '<svg class="pc-icon" viewBox="0 0 24 24" fill="none" stroke="url(#iconGrad)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="5" r="2"/><circle cx="6" cy="16" r="2"/><circle cx="18" cy="16" r="2"/><circle cx="12" cy="13" r="1.4"/><path d="M12 7v4.2M10.7 13.9l-3 1.4M13.3 13.9l3 1.4"/></svg>',
       title: "MAMMAL Drug Repurposing",
-      desc: "A multi-layer Bayesian pipeline for cognition-enhancement drug repurposing built on IBM Research's MAMMAL foundation model. Mechanism-class track record discriminates clinical success vs. failure at AUROC 1.00 — and it runs on a single 12 GB consumer GPU.",
+      desc: "A multi-layer Bayesian pipeline for cognition-enhancement drug repurposing built on IBM Research's MAMMAL foundation model. Mechanism-class track record discriminates clinical success vs. failure at AUROC 1.00, and it runs on a single 12 GB consumer GPU.",
       lang: "Python",
       tags: ["Bayesian", "PyMC NUTS", "DTI", "Calibration"],
       repo: "https://github.com/pierce-lonergan/MAMMAL_Cognitive_Enhancement_Drug_Repurposing"
     },
     {
       name: "entropy-engine",
-      icon: "🌀",
+      icon: '<svg class="pc-icon" viewBox="0 0 24 24" fill="none" stroke="url(#iconGrad)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5h18M5.5 9h13M8 13h8M10.5 17h3M11.5 21h1"/></svg>',
       title: "Entropy Engine",
       desc: "A chaos-engineering benchmark for AI agents: can an agent keep a data pipeline intact under schema drift, poison pills, and 10× backpressure? Built on Google A2A + Apache Kafka for the Berkeley RDI AgentBeats Competition.",
       lang: "Python",
@@ -189,9 +189,9 @@
     },
     {
       name: "series-65-learning-lab",
-      icon: "📈",
+      icon: '<svg class="pc-icon" viewBox="0 0 24 24" fill="none" stroke="url(#iconGrad)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4v16h16"/><path d="M7 14l3.5-4 3 2.5 5-6"/><path d="M18.5 6.5h-3M18.5 6.5v3"/></svg>',
       title: "Series 65 Learning Lab",
-      desc: "An interactive, single-file study system for the NASAA Series 65 exam — 402 flashcards, a 320+ concept hyperlinked glossary, 20+ interactive graphics, and a timed exam simulator. Pure HTML/CSS/JS, zero build step.",
+      desc: "An interactive, single-file study system for the NASAA Series 65 exam: 402 flashcards, a 320+ concept hyperlinked glossary, 20+ interactive graphics, and a timed exam simulator. Pure HTML/CSS/JS, zero build step.",
       lang: "HTML",
       tags: ["HTML", "JavaScript", "MathJax"],
       repo: "https://github.com/pierce-lonergan/series-65-learning-lab",
@@ -211,7 +211,7 @@
     return '' +
       '<article class="project-card reveal">' +
         '<div class="pc-top">' +
-          '<h3 class="pc-title"><span class="pc-icon" aria-hidden="true">' + p.icon + '</span>' + esc(p.title) + '</h3>' +
+          '<h3 class="pc-title">' + p.icon + esc(p.title) + '</h3>' +
           '<span class="pc-stars" data-repo="' + esc(p.name) + '" hidden>' +
             '<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>' +
             '<span class="star-count">0</span>' +
