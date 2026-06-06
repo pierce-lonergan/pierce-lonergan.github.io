@@ -155,7 +155,7 @@
       name: "nexus_matcher",
       icon: "🧩",
       title: "NexusMatcher",
-      desc: "Enterprise semantic schema-matching system — multi-stage retrieval → neural reranking → learned type projections. 100% Precision@1, sub-4ms rerank latency, 433 passing tests. The open-source embodiment of the data-governance work I do at JPMorganChase.",
+      desc: "A personal R&D project — an enterprise-grade semantic schema-matching system: multi-stage retrieval → neural reranking → learned type projections. 100% Precision@1, sub-4ms rerank latency, 433 passing tests.",
       lang: "Python",
       tags: ["RAG", "BM25 + dense", "ColBERT", "Qdrant"],
       repo: "https://github.com/pierce-lonergan/nexus_matcher"
