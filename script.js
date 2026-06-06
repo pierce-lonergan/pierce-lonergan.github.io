@@ -25,6 +25,18 @@
     });
   }
 
+  /* ------------------------------------------------- Résumé (print to PDF) */
+  // Reuses the print stylesheet so the résumé always matches the live site.
+  function printResume(e) {
+    if (e) e.preventDefault();
+    var orig = document.title;
+    document.title = "Pierce Lonergan - Resume";
+    var restore = function () { document.title = orig; window.removeEventListener("afterprint", restore); };
+    window.addEventListener("afterprint", restore);
+    try { window.print(); } catch (err) { restore(); }
+  }
+  $$(".js-resume").forEach(function (b) { b.addEventListener("click", printResume); });
+
   /* ----------------------------------------------------------- Year stamp */
   var yearEl = $("#year");
   if (yearEl) yearEl.textContent = String(new Date().getFullYear());
@@ -130,7 +142,7 @@
   /* ------------------------------------------------------- Hero role rotator */
   var rotator = $("#roleRotator");
   if (rotator && !prefersReduced) {
-    var words = ["data infrastructure", "streaming pipelines", "lakehouse platforms", "applied-ML & RAG systems", "things that scale"];
+    var words = ["data infrastructure", "streaming pipelines", "lakehouse platforms", "retrieval systems", "things that scale"];
     var idx = 0;
     setInterval(function () {
       var cur = rotator.firstChild;

@@ -301,15 +301,20 @@ a { color: inherit; text-decoration: none; }
   font-family: var(--font-display);
   font-weight: 600;
   font-size: clamp(1.3rem, 4.5vw, 2.4rem);
+  line-height: 1.15;
   letter-spacing: -0.01em;
   margin-bottom: 1.4rem;
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5ch;
+  gap: 0 0.5ch;
   align-items: baseline;
+  align-content: flex-start;
+  /* Reserve two lines so the rotating word never changes the line's height
+     and the rest of the page stays put as the text cycles. */
+  min-height: 2.5em;
 }
 .role-static { color: var(--text-soft); }
-.role-rotator { position: relative; min-width: 1ch; }
+.role-rotator { position: relative; min-width: 1ch; white-space: nowrap; }
 .role-rotator > span { display: inline-block; background: var(--gradient); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .role-rotator > span.swap-out { animation: swapOut 0.4s var(--ease) forwards; }
 .role-rotator > span.swap-in { animation: swapIn 0.5s var(--ease) forwards; }
@@ -668,7 +673,8 @@ a { color: inherit; text-decoration: none; }
 
 /* =========================== Print (clean résumé) ====================== */
 @media print {
-  .aurora, .scroll-progress, .nav, .scroll-hint, .hero-cta, .nav-toggle, #themeToggle, .contact .hero-cta { display: none !important; }
+  .aurora, .scroll-progress, .nav, .scroll-hint, .hero-cta, .nav-toggle, #themeToggle, .contact .hero-cta, .hero-viz, .skills-viz, .cb-launcher, .cb-panel { display: none !important; }
+  .hero-inner { display: block !important; }
   :root, [data-theme] { --bg: #fff; --text: #111; --text-soft: #222; --text-mute: #555; --border: #ccc; --surface: #fff; --surface-2: #f4f4f4; }
   body { background: #fff; color: #111; }
   .hero { min-height: auto; padding: 1.5rem 0; }
