@@ -137,18 +137,81 @@
     return { nodes: nodes, links: links };
   }
 
+  function degraded(l) { return (l.source && l.source.degraded) || (l.target && l.target.degraded); }
+
   function initPipeline(FG, panel) {
     var canvas = panel.querySelector(".viz-canvas");
+    var data = pipelineData();
     var graph = makeGraph(FG, canvas, { interactive: false, particles: 3, particleSpeed: 0.012, particleWidth: 2.6, nodeRelSize: 5 });
     graph
       .dagMode("td")
       .dagLevelDistance(34)
-      .linkDirectionalParticleColor(function (l) { var s = l.source; return (s && s.color) || "#a5b4fc"; })
-      .graphData(pipelineData());
+      .nodeColor(function (n) { return n.degraded ? "#ff5a5a" : n.color; })
+      .linkColor(function (l) { return degraded(l) ? "rgba(255,90,90,0.55)" : "rgba(148,163,184,0.26)"; })
+      .linkDirectionalParticleSpeed(function (l) { return degraded(l) ? 0.0028 : 0.012; })
+      .linkDirectionalParticleColor(function (l) { var s = l.source; return (s && s.degraded) ? "#ff8a8a" : ((s && s.color) || "#a5b4fc"); })
+      .graphData(data);
     graph.onEngineStop(function () { try { graph.zoomToFit(700, 26); } catch (e) {} });
     wireVisibility(graph, canvas, true, 0.0018);
     panel.classList.add("viz-live");
+    pipelineExtras(panel, graph, data);
     return graph;
+  }
+
+  // Live telemetry + chaos injection: turns the diagram into a running platform.
+  function pipelineExtras(panel, graph, data) {
+    var vtThr = panel.querySelector("#vtThroughput");
+    var vtLag = panel.querySelector("#vtLag");
+    var vtP99 = panel.querySelector("#vtP99");
+    var statusEl = panel.querySelector("#vizStatus");
+    var chaosBtn = panel.querySelector(".js-chaos");
+    var nodeById = {};
+    data.nodes.forEach(function (n) { nodeById[n.id] = n; });
+
+    var health = 1, chaosActive = false;
+    function fmt(n) { return n >= 1000 ? (n / 1000).toFixed(1) + "k" : Math.round(n) + ""; }
+
+    // Re-applying the accessors with fresh closures forces 3d-force-graph to repaint.
+    function restyle() {
+      graph.nodeColor(function (n) { return n.degraded ? "#ff5a5a" : n.color; });
+      graph.linkColor(function (l) { return degraded(l) ? "rgba(255,90,90,0.55)" : "rgba(148,163,184,0.26)"; });
+      graph.linkDirectionalParticleSpeed(function (l) { return degraded(l) ? 0.0028 : 0.012; });
+      graph.linkDirectionalParticleColor(function (l) { var s = l.source; return (s && s.degraded) ? "#ff8a8a" : ((s && s.color) || "#a5b4fc"); });
+    }
+    function status(text, kind) {
+      if (!statusEl) return;
+      statusEl.textContent = text || "";
+      statusEl.className = "viz-status" + (kind ? " " + kind : "") + (text ? " show" : "");
+    }
+    function tick() {
+      if (document.hidden) return;
+      var j = function (s) { return 1 + (Math.random() - 0.5) * s; };
+      var h = Math.max(health, 0.12);
+      if (vtThr) vtThr.textContent = fmt(12600 * health * j(0.12));
+      if (vtLag) vtLag.textContent = Math.round((health > 0.85 ? 38 : 38 / h) * j(0.2)) + " ms";
+      if (vtP99) vtP99.textContent = Math.round((health > 0.85 ? 172 : 172 / h) * j(0.15)) + " ms";
+    }
+    tick();
+    setInterval(tick, 820);
+
+    function chaos() {
+      if (chaosActive) return;
+      chaosActive = true;
+      var target = nodeById.spark || data.nodes[Math.min(3, data.nodes.length - 1)];
+      target.degraded = true; restyle();
+      health = 0.16;
+      panel.classList.add("viz-alert");
+      status("Backpressure on " + target.name + ". Consumer lag climbing.", "warn");
+      setTimeout(function () { status("Draining the backlog. Recovering.", "warn"); health = 0.5; }, 2300);
+      setTimeout(function () {
+        target.degraded = false; restyle();
+        health = 1; panel.classList.remove("viz-alert");
+        status("Pipeline healthy. Exactly-once preserved.", "ok");
+        setTimeout(function () { status(""); chaosActive = false; }, 2400);
+      }, 4800);
+    }
+    if (chaosBtn) chaosBtn.addEventListener("click", chaos);
+    window.PL_injectChaos = chaos;
   }
 
   /* ------------------------------------------ Skills: force-directed graph */

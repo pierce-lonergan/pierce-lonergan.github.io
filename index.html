@@ -103,7 +103,16 @@
         </div><!-- /.hero-copy -->
 
         <div class="hero-viz reveal" id="heroViz" role="img" aria-label="Animated diagram of a streaming data platform: sources flow into Kafka, then Spark, into Iceberg and Snowflake, and out to machine learning and serving.">
-          <span class="viz-tag" aria-hidden="true"><span class="viz-tag-dot"></span>live data flow</span>
+          <div class="viz-telemetry" aria-hidden="true">
+            <span class="vt-metric"><b id="vtThroughput">--</b><i>events/s</i></span>
+            <span class="vt-metric"><b id="vtLag">--</b><i>consumer lag</i></span>
+            <span class="vt-metric"><b id="vtP99">--</b><i>p99 latency</i></span>
+          </div>
+          <button class="viz-chaos js-chaos" type="button" aria-label="Inject chaos into the pipeline">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2L4 14h7l-1 8 10-12h-7l1-8z"/></svg>
+            Inject chaos
+          </button>
+          <div class="viz-status" id="vizStatus" aria-hidden="true"></div>
           <div class="viz-canvas" id="heroVizCanvas"></div>
           <ul class="viz-legend" aria-hidden="true">
             <li><i style="--c:#38bdf8"></i>Sources</li>
