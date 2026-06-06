@@ -25,18 +25,6 @@
     });
   }
 
-  /* ------------------------------------------------- Résumé (print to PDF) */
-  // Reuses the print stylesheet so the résumé always matches the live site.
-  function printResume(e) {
-    if (e) e.preventDefault();
-    var orig = document.title;
-    document.title = "Pierce Lonergan - Resume";
-    var restore = function () { document.title = orig; window.removeEventListener("afterprint", restore); };
-    window.addEventListener("afterprint", restore);
-    try { window.print(); } catch (err) { restore(); }
-  }
-  $$(".js-resume").forEach(function (b) { b.addEventListener("click", printResume); });
-
   /* ----------------------------------------------------------- Year stamp */
   var yearEl = $("#year");
   if (yearEl) yearEl.textContent = String(new Date().getFullYear());
