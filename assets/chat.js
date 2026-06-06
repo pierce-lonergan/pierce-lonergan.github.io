@@ -219,6 +219,7 @@
     el.innerHTML = '<span class="cb-rag-label">retrieved</span>' + chips;
     b.wrap.insertBefore(el, b.body);
     ui.msgs.scrollTop = ui.msgs.scrollHeight;
+    if (window.PL_galaxyHighlight) { try { window.PL_galaxyHighlight(contexts.map(function (c) { return c.item && c.item.topic; })); } catch (e) {} }
   }
 
   function greet() {

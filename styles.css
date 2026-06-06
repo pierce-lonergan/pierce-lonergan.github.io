@@ -394,6 +394,20 @@ a { color: inherit; text-decoration: none; }
 }
 .skills-viz.viz-on { display: block; }
 
+.galaxy-viz { position: relative; width: 100%; height: clamp(380px, 56vh, 560px); border: 1px solid var(--border); border-radius: var(--radius); background: radial-gradient(120% 120% at 50% 0%, color-mix(in srgb, var(--g3) 9%, transparent), transparent 70%), var(--surface); overflow: hidden; backdrop-filter: blur(8px); box-shadow: var(--shadow); display: none; }
+.galaxy-viz.viz-on { display: block; }
+.gx-loading { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 0.6rem; font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-soft); z-index: 3; text-align: center; padding: 1rem; }
+.gx-loading::before { content: ""; width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--border-strong); border-top-color: var(--g2); animation: gxspin 0.8s linear infinite; flex-shrink: 0; }
+@keyframes gxspin { to { transform: rotate(360deg); } }
+.gx-controls { display: none; gap: 0.6rem; margin-top: 1.1rem; }
+.galaxy-viz.viz-on ~ .gx-controls { display: flex; }
+.gx-controls input { flex: 1; min-width: 0; background: var(--surface); border: 1px solid var(--border); border-radius: 999px; padding: 0.72rem 1.1rem; color: var(--text); font-family: var(--font-sans); font-size: 0.92rem; outline: none; transition: border-color 0.2s; }
+.gx-controls input:focus { border-color: var(--g2); }
+.gx-caption { display: none; margin-top: 0.9rem; font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-soft); min-height: 1.2em; line-height: 1.5; }
+.galaxy-viz.viz-on ~ .gx-caption { display: block; }
+.gx-caption b { color: var(--text); }
+@media (max-width: 560px) { .gx-controls { flex-direction: column; } }
+
 .viz-canvas { position: absolute; inset: 0; pointer-events: none; }
 .viz-live .viz-canvas { pointer-events: auto; }
 .viz-canvas canvas { display: block; }

@@ -313,10 +313,34 @@
       </div>
     </section>
 
+    <!-- EMBEDDING SPACE -->
+    <section class="section" id="embedding">
+      <div class="container">
+        <p class="section-kicker reveal">05 · Retrieval, visualized</p>
+        <h2 class="section-title reveal">Watch semantic search think.</h2>
+        <p class="section-sub reveal">Every point is a piece of my résumé, embedded with a sentence-transformer and placed by meaning, so related work clusters together. Ask the assistant, or type a query below, to see what gets retrieved.</p>
+        <div class="galaxy-viz" id="galaxyViz" role="img" aria-label="3D map of résumé sections positioned in embedding space.">
+          <div class="viz-canvas" id="galaxyCanvas"></div>
+          <div class="gx-loading">Mapping the résumé into embedding space...</div>
+          <ul class="viz-legend" aria-hidden="true">
+            <li><i style="--c:#38bdf8"></i>Experience</li>
+            <li><i style="--c:#34d399"></i>Skills</li>
+            <li><i style="--c:#c084fc"></i>Projects</li>
+            <li><i style="--c:#fbbf24"></i>Background</li>
+          </ul>
+        </div>
+        <form class="gx-controls" id="gxForm" autocomplete="off">
+          <input id="gxQuery" type="text" placeholder="Try: kafka streaming · drug repurposing · what does he want next" aria-label="Query the embedding space" />
+          <button type="submit" class="btn btn-ghost">Retrieve</button>
+        </form>
+        <p class="gx-caption" id="gxCaption" aria-live="polite"></p>
+      </div>
+    </section>
+
     <!-- EDUCATION & AWARDS -->
     <section class="section" id="education">
       <div class="container">
-        <p class="section-kicker reveal">05 · Education &amp; Recognition</p>
+        <p class="section-kicker reveal">06 · Education &amp; Recognition</p>
         <h2 class="section-title reveal">Where the rigor comes from.</h2>
         <div class="edu-grid">
           <article class="edu-card reveal">
@@ -369,5 +393,6 @@
   <script src="assets/knowledge.js" defer></script>
   <script src="assets/chat.js" defer></script>
   <script src="assets/palette.js" defer></script>
+  <script src="assets/galaxy.js" defer></script>
 </body>
 </html>
