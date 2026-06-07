@@ -421,6 +421,10 @@ a { color: inherit; text-decoration: none; }
 #sankey path:hover { stroke-opacity: 0.62 !important; }
 @media (max-width: 560px) { #sankey .sankey-labels text { font-size: 9px; } }
 
+/* =========================== Particle flow field ====================== */
+.flow-wrap { position: relative; width: 100%; height: clamp(380px, 54vh, 520px); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; background: var(--surface); box-shadow: var(--shadow); }
+#flowCanvas { display: block; width: 100%; height: 100%; }
+
 .viz-canvas { position: absolute; inset: 0; pointer-events: none; }
 .viz-live .viz-canvas { pointer-events: auto; }
 .viz-canvas canvas { display: block; }

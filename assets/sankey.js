@@ -1,9 +1,10 @@
 /* =========================================================================
    Pierce Lonergan - data-platform Sankey
    A magnitude-weighted flow of the lakehouse: width tracks throughput as data
-   moves from sources through Kafka and Spark into the Bronze/Silver/Gold
-   medallion layers, then out to the warehouse, ML features, and reverse ETL.
-   D3 + d3-sankey, loaded from CDN on view. Warm-themed. Degrades silently.
+   branches from sources through Kafka and Spark into the Bronze/Silver/Gold
+   medallion layers, then fans out to the warehouse, ML, reverse ETL, and BI.
+   Gradient-filled ribbons (source-to-target) keep it flowing, not blocky.
+   D3 + d3-sankey, loaded from CDN on view. Degrades silently.
    ========================================================================= */
 (function () {
   "use strict";
@@ -19,25 +20,26 @@
       .then(function () { return load("https://cdn.jsdelivr.net/npm/d3-sankey@0.12/dist/d3-sankey.min.js"); });
   }
 
-  var NODES = ["API events", "CDC streams", "File drops", "Kafka", "Spark", "Bronze", "Silver", "Gold", "Snowflake", "ML features", "Reverse ETL"];
-  var COLORS = ["#f0a866", "#f0a866", "#e09a62", "#5fb0a8", "#e07a5c", "#cc9a80", "#e8c06a", "#fbbf24", "#d56f7a", "#b07e9e", "#9a8f7a"];
+  var NODES = ["API events", "CDC streams", "File drops", "Kafka", "Spark", "Bronze", "Silver", "Gold", "Snowflake", "ML features", "Reverse ETL", "Dashboards"];
+  var COLORS = ["#f0a866", "#ef9a73", "#e09a62", "#5fb0a8", "#e07a5c", "#c98a5c", "#bcae93", "#f0b429", "#d56f7a", "#b07e9e", "#8a9a8a", "#e8956a"];
   var LINKS = [
-    [0, 3, 38], [1, 3, 24], [2, 4, 12],
-    [3, 4, 62],
-    [4, 5, 72],
-    [5, 6, 72],
-    [6, 7, 60],
-    [7, 8, 28], [7, 9, 20], [7, 10, 12]
+    [0, 3, 40], [1, 3, 26],   // sources into Kafka
+    [2, 4, 16],               // files straight into Spark
+    [3, 4, 52], [3, 5, 14],   // Kafka into Spark, and a raw branch into Bronze
+    [4, 5, 62],               // Spark into Bronze
+    [5, 6, 70],               // Bronze into Silver
+    [6, 7, 48], [6, 9, 20],   // Silver into Gold, and features straight from Silver
+    [7, 8, 24], [7, 10, 10], [7, 11, 16]  // Gold fans out
   ];
 
   var built = false;
   function build() {
     var d3 = window.d3;
     try {
-      var W = Math.max(360, host.clientWidth), H = Math.max(300, host.clientHeight || 420);
+      var W = Math.max(360, host.clientWidth), H = Math.max(320, host.clientHeight || 440);
       var nodes = NODES.map(function (n, i) { return { name: n, c: COLORS[i] }; });
       var links = LINKS.map(function (l) { return { source: l[0], target: l[1], value: l[2] }; });
-      var sankey = d3.sankey().nodeWidth(13).nodePadding(15).extent([[4, 12], [W - 4, H - 12]]);
+      var sankey = d3.sankey().nodeWidth(11).nodePadding(20).extent([[4, 14], [W - 4, H - 14]]);
       var g = sankey({ nodes: nodes, links: links });
 
       host.innerHTML = "";
@@ -46,10 +48,19 @@
         .attr("viewBox", "0 0 " + W + " " + H)
         .attr("preserveAspectRatio", "xMidYMid meet");
 
+      // Per-link source-to-target gradient so ribbons flow rather than block.
+      var defs = svg.append("defs");
+      g.links.forEach(function (d, i) {
+        var gr = defs.append("linearGradient").attr("id", "plg" + i).attr("gradientUnits", "userSpaceOnUse")
+          .attr("x1", d.source.x1).attr("x2", d.target.x0);
+        gr.append("stop").attr("offset", "5%").attr("stop-color", d.source.c);
+        gr.append("stop").attr("offset", "95%").attr("stop-color", d.target.c);
+      });
+
       var link = svg.append("g").attr("fill", "none").selectAll("path").data(g.links).join("path")
         .attr("d", d3.sankeyLinkHorizontal())
-        .attr("stroke", function (d) { return d.source.c; })
-        .attr("stroke-opacity", 0.3)
+        .attr("stroke", function (d, i) { return "url(#plg" + i + ")"; })
+        .attr("stroke-opacity", 0.5)
         .attr("stroke-width", function (d) { return Math.max(1, d.width); });
       link.append("title").text(function (d) { return d.source.name + "  to  " + d.target.name + " : " + d.value; });
 
@@ -61,14 +72,14 @@
       node.append("title").text(function (d) { return d.name; });
 
       svg.append("g").attr("class", "sankey-labels").selectAll("text").data(g.nodes).join("text")
-        .attr("x", function (d) { return d.x0 < W / 2 ? d.x1 + 7 : d.x0 - 7; })
+        .attr("x", function (d) { return d.x0 < W / 2 ? d.x1 + 8 : d.x0 - 8; })
         .attr("y", function (d) { return (d.y0 + d.y1) / 2; })
         .attr("dy", "0.34em")
         .attr("text-anchor", function (d) { return d.x0 < W / 2 ? "start" : "end"; })
         .text(function (d) { return d.name; });
 
       if (!prefersReduced) {
-        link.attr("stroke-opacity", 0).transition().delay(function (d, i) { return i * 55; }).duration(750).attr("stroke-opacity", 0.3);
+        link.attr("stroke-opacity", 0).transition().delay(function (d, i) { return i * 60; }).duration(800).attr("stroke-opacity", 0.5);
         node.attr("opacity", 0).transition().duration(550).attr("opacity", 1);
       }
       built = true;
