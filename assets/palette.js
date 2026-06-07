@@ -23,7 +23,7 @@
     var c = [];
     [
       ["platform", "The platform, live"], ["about", "About"], ["experience", "Experience"], ["skills", "Skills"],
-      ["projects", "Projects"], ["embedding", "Retrieval, visualized"], ["education", "Education & Recognition"], ["contact", "Contact"]
+      ["dataflow", "Data flow"], ["projects", "Projects"], ["embedding", "Retrieval, visualized"], ["education", "Education & Recognition"], ["contact", "Contact"]
     ].forEach(function (s) {
       if (!document.getElementById(s[0])) return;
       c.push({ title: "Go to " + s[1], keywords: s[1] + " section jump scroll", icon: ICON.jump,
