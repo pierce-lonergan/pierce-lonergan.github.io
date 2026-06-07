@@ -71,6 +71,7 @@
   <main id="top">
     <!-- HERO -->
     <section class="hero" id="hero">
+      <canvas id="meshCanvas" class="hero-mesh" aria-hidden="true"></canvas>
       <div class="hero-inner">
         <div class="hero-copy">
         <p class="hero-eyebrow reveal">
@@ -102,6 +103,22 @@
           </a>
         </div><!-- /.hero-copy -->
 
+        <dl class="hero-stats reveal" id="heroStats">
+          <div class="stat"><dt class="stat-num" data-count="4" data-suffix="+ yrs">0</dt><dd>Shipping data infra at JPMorganChase</dd></div>
+          <div class="stat"><dt class="stat-num" data-count="15" data-prefix="" data-suffix="×">0</dt><dd>Pipeline output (≈2 → 30 / month)</dd></div>
+          <div class="stat"><dt class="stat-num" data-count="100" data-suffix="%">0</dt><dd>Precision@1, semantic schema matcher</dd></div>
+          <div class="stat"><dt class="stat-num" data-count="5" data-suffix="">0</dt><dd>Open-source projects</dd></div>
+        </dl>
+      </div>
+      <a class="scroll-hint" href="#platform" aria-label="Scroll to content"><span></span></a>
+    </section>
+
+    <!-- THE PLATFORM (pipeline moved out of the hero for a calm first impression) -->
+    <section class="section section-alt" id="platform">
+      <div class="container">
+        <p class="section-kicker reveal">00 · The platform, live</p>
+        <h2 class="section-title reveal">What I build, running.</h2>
+        <p class="section-sub reveal">A live model of the streaming and lakehouse platform. Data flows from sources through Kafka and Spark into Iceberg and Snowflake, then out to ML. Hit "inject chaos" to break a stage and watch it heal.</p>
         <div class="hero-viz reveal" id="heroViz" role="img" aria-label="Animated diagram of a streaming data platform: sources flow into Kafka, then Spark, into Iceberg and Snowflake, and out to machine learning and serving.">
           <div class="viz-telemetry" aria-hidden="true">
             <span class="vt-metric"><b id="vtThroughput">--</b><i>events/s</i></span>
@@ -129,15 +146,7 @@
             <li><span class="flow-dot" style="--c:#d56f7a"></span><b>ML / Serving</b><em>features + models</em></li>
           </ol>
         </div>
-
-        <dl class="hero-stats reveal" id="heroStats">
-          <div class="stat"><dt class="stat-num" data-count="4" data-suffix="+ yrs">0</dt><dd>Shipping data infra at JPMorganChase</dd></div>
-          <div class="stat"><dt class="stat-num" data-count="15" data-prefix="" data-suffix="×">0</dt><dd>Pipeline output (≈2 → 30 / month)</dd></div>
-          <div class="stat"><dt class="stat-num" data-count="100" data-suffix="%">0</dt><dd>Precision@1, semantic schema matcher</dd></div>
-          <div class="stat"><dt class="stat-num" data-count="5" data-suffix="">0</dt><dd>Open-source projects</dd></div>
-        </dl>
       </div>
-      <a class="scroll-hint" href="#about" aria-label="Scroll to content"><span></span></a>
     </section>
 
     <!-- ABOUT -->
@@ -388,7 +397,13 @@
     </div>
   </footer>
 
+  <button class="motion-toggle js-motion" type="button" aria-label="Pause background motion" title="Pause background motion">
+    <svg class="i-pause" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 5v14M16 5v14"/></svg>
+    <svg class="i-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5v14l12-7z"/></svg>
+  </button>
+
   <script src="script.js" defer></script>
+  <script src="assets/mesh.js" defer></script>
   <script src="assets/viz.js" defer></script>
   <script src="assets/knowledge.js" defer></script>
   <script src="assets/chat.js" defer></script>

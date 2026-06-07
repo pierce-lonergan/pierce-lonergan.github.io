@@ -25,6 +25,16 @@
     });
   }
 
+  /* ------------------------------------------------ Motion pause (WCAG) */
+  $$(".js-motion").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var paused = root.classList.toggle("motion-paused");
+      var label = paused ? "Resume background motion" : "Pause background motion";
+      b.setAttribute("aria-label", label);
+      b.setAttribute("title", label);
+    });
+  });
+
   /* ----------------------------------------------------------- Year stamp */
   var yearEl = $("#year");
   if (yearEl) yearEl.textContent = String(new Date().getFullYear());

@@ -22,7 +22,7 @@
   function buildCommands() {
     var c = [];
     [
-      ["about", "About"], ["experience", "Experience"], ["skills", "Skills"],
+      ["platform", "The platform, live"], ["about", "About"], ["experience", "Experience"], ["skills", "Skills"],
       ["projects", "Projects"], ["embedding", "Retrieval, visualized"], ["education", "Education & Recognition"], ["contact", "Contact"]
     ].forEach(function (s) {
       if (!document.getElementById(s[0])) return;

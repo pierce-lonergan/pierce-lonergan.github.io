@@ -276,7 +276,8 @@ a { color: inherit; text-decoration: none; }
   margin: 0 auto;
   position: relative;
 }
-.hero-inner { width: 100%; }
+.hero-inner { width: 100%; position: relative; z-index: 1; }
+.hero-mesh { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 100vw; height: 100%; z-index: -1; display: block; pointer-events: none; opacity: 0.92; }
 .hero-eyebrow {
   display: inline-flex;
   align-items: center;
@@ -359,15 +360,7 @@ a { color: inherit; text-decoration: none; }
 
 /* =========================== 3D viz panels ============================= */
 @media (min-width: 901px) {
-  .hero-inner {
-    display: grid;
-    grid-template-columns: minmax(0, 1.04fr) minmax(0, 0.9fr);
-    column-gap: clamp(1.6rem, 4vw, 3.2rem);
-    align-items: center;
-  }
-  .hero-copy { grid-column: 1; min-width: 0; }
-  .hero-viz { grid-column: 2; }
-  .hero-stats { grid-column: 1 / -1; margin-top: 2.6rem; }
+  .hero-copy { max-width: 64ch; }
 }
 
 .hero-viz {
@@ -750,6 +743,16 @@ a { color: inherit; text-decoration: none; }
 .cmdk-foot span:last-child { margin-left: auto; }
 @media (max-width: 600px) { .cmdk-foot span:nth-child(2) { display: none; } }
 @media print { .cmdk, .cmdk-trigger { display: none !important; } }
+
+/* =========================== Motion pause control ====================== */
+.motion-toggle { position: fixed; left: clamp(0.8rem, 3vw, 1.4rem); bottom: clamp(0.8rem, 3vw, 1.4rem); z-index: 80; width: 34px; height: 34px; display: grid; place-items: center; border-radius: 9px; border: 1px solid var(--border); background: color-mix(in srgb, var(--bg) 70%, transparent); color: var(--text-mute); cursor: pointer; backdrop-filter: blur(8px); transition: color 0.2s, border-color 0.2s, opacity 0.2s; opacity: 0.55; }
+.motion-toggle:hover { opacity: 1; color: var(--text-soft); border-color: var(--border-strong); }
+.motion-toggle svg { width: 15px; height: 15px; }
+.motion-toggle .i-play { display: none; }
+.motion-paused .motion-toggle .i-pause { display: none; }
+.motion-paused .motion-toggle .i-play { display: block; }
+.motion-paused .aurora-blob, .motion-paused .btn-primary, .motion-paused .status-dot, .motion-paused .viz-tag-dot { animation-play-state: paused !important; }
+@media print { .motion-toggle { display: none !important; } }
 
 /* =========================== Reduced motion ============================ */
 @media (prefers-reduced-motion: reduce) {
