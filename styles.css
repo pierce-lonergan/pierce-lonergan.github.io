@@ -14,10 +14,17 @@
   --g3: #c084fc;  /* violet*/
   --gradient: linear-gradient(120deg, var(--g1), var(--g2) 50%, var(--g3));
 
+  /* Warm accents - used sparingly (~10% of surface) for warmth without a temperature flip */
+  --warm-1: #fbbf24;  /* amber */
+  --warm-2: #fb7185;  /* coral */
+  --warm-3: #fdba74;  /* peach */
+  --gradient-warm: linear-gradient(115deg, var(--g1), var(--g2) 38%, var(--g3) 66%, var(--warm-2));
+
   --radius: 16px;
   --radius-sm: 10px;
   --maxw: 1080px;
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --spring: cubic-bezier(0.34, 1.56, 0.64, 1); /* ~15% overshoot; stays under the 0.4 gimmick line */
 }
 
 /* ---- Dark theme (default) ---- */
@@ -77,6 +84,7 @@ a { color: inherit; text-decoration: none; }
   z-index: -2;
   overflow: hidden;
   background:
+    radial-gradient(820px 460px at 88% 6%, rgba(251, 113, 133, 0.12), transparent 60%),
     radial-gradient(1200px 600px at 80% -10%, rgba(129, 140, 248, 0.12), transparent 60%),
     radial-gradient(900px 500px at -10% 20%, rgba(56, 189, 248, 0.1), transparent 55%),
     var(--bg);
@@ -89,7 +97,7 @@ a { color: inherit; text-decoration: none; }
   will-change: transform;
 }
 .aurora-blob.a1 { width: 46vw; height: 46vw; left: -8vw; top: -10vw; background: radial-gradient(circle, var(--g1), transparent 70%); animation: drift1 22s var(--ease) infinite alternate; }
-.aurora-blob.a2 { width: 40vw; height: 40vw; right: -6vw; top: 8vh; background: radial-gradient(circle, var(--g3), transparent 70%); animation: drift2 26s var(--ease) infinite alternate; }
+.aurora-blob.a2 { width: 40vw; height: 40vw; right: -6vw; top: 8vh; background: radial-gradient(circle, var(--warm-2), transparent 70%); animation: drift2 26s var(--ease) infinite alternate; }
 .aurora-blob.a3 { width: 38vw; height: 38vw; left: 30vw; bottom: -16vw; background: radial-gradient(circle, var(--g2), transparent 70%); animation: drift3 30s var(--ease) infinite alternate; }
 
 @keyframes drift1 { to { transform: translate(8vw, 10vh) scale(1.15); } }
@@ -206,18 +214,18 @@ a { color: inherit; text-decoration: none; }
   border-radius: 999px;
   border: 1px solid transparent;
   cursor: pointer;
-  transition: transform 0.2s var(--ease), box-shadow 0.25s, background 0.25s, border-color 0.25s;
+  transition: transform 0.28s var(--spring), box-shadow 0.25s, background 0.25s, border-color 0.25s;
   white-space: nowrap;
 }
 .btn-primary {
   color: #fff;
-  background: var(--gradient);
-  background-size: 160% 160%;
-  box-shadow: 0 12px 30px -10px var(--g2);
-  animation: shimmer 6s ease infinite;
+  background: var(--gradient-warm);
+  background-size: 175% 175%;
+  box-shadow: 0 12px 30px -10px var(--g2), 0 6px 22px -12px var(--warm-2);
+  animation: shimmer 7s ease infinite;
 }
 @keyframes shimmer { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
-.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 18px 40px -10px var(--g2); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 18px 44px -10px var(--g2), 0 10px 30px -12px var(--warm-2); }
 .btn-ghost {
   color: var(--text);
   background: var(--surface);
@@ -492,7 +500,7 @@ a { color: inherit; text-decoration: none; }
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 1.4rem 1.5rem;
-  transition: transform 0.3s var(--ease), border-color 0.3s, box-shadow 0.3s;
+  transition: transform 0.34s var(--spring), border-color 0.3s, box-shadow 0.3s;
 }
 .tl-card:hover { transform: translateX(4px); border-color: var(--border-strong); box-shadow: var(--shadow); }
 .tl-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 0.4rem 1rem; }
@@ -513,7 +521,7 @@ a { color: inherit; text-decoration: none; }
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 1.5rem;
-  transition: transform 0.3s var(--ease), border-color 0.3s, box-shadow 0.3s;
+  transition: transform 0.34s var(--spring), border-color 0.3s, box-shadow 0.3s;
 }
 .skill-card:hover { transform: translateY(-4px); border-color: var(--border-strong); box-shadow: var(--shadow); }
 .skill-card h3 { font-family: var(--font-display); font-size: 1.05rem; display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1.1rem; }
@@ -541,7 +549,7 @@ a { color: inherit; text-decoration: none; }
   border-radius: var(--radius);
   padding: 1.5rem;
   overflow: hidden;
-  transition: transform 0.3s var(--ease), border-color 0.3s, box-shadow 0.3s;
+  transition: transform 0.34s var(--spring), border-color 0.3s, box-shadow 0.3s;
 }
 .project-card::before {
   content: "";
@@ -572,7 +580,7 @@ a { color: inherit; text-decoration: none; }
 
 /* =========================== Education ================================= */
 .edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.3rem; }
-.edu-card { display: flex; gap: 1.1rem; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.6rem; transition: transform 0.3s var(--ease), border-color 0.3s; }
+.edu-card { display: flex; gap: 1.1rem; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.6rem; transition: transform 0.34s var(--spring), border-color 0.3s; }
 .edu-card:hover { transform: translateY(-4px); border-color: var(--border-strong); }
 .edu-icon { line-height: 0; flex-shrink: 0; }
 .edu-icon svg { width: 34px; height: 34px; display: block; }
