@@ -9,9 +9,9 @@
   --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
 
   /* Brand gradient */
-  --g1: #38bdf8;  /* sky   */
-  --g2: #818cf8;  /* indigo*/
-  --g3: #c084fc;  /* violet*/
+  --g1: #f0a866;  /* sky   */
+  --g2: #e07a5c;  /* indigo*/
+  --g3: #d56f7a;  /* violet*/
   --gradient: linear-gradient(120deg, var(--g1), var(--g2) 50%, var(--g3));
 
   /* Warm accents - used sparingly (~10% of surface) for warmth without a temperature flip */
@@ -29,15 +29,15 @@
 
 /* ---- Dark theme (default) ---- */
 [data-theme="dark"] {
-  --bg: #070b14;
-  --bg-2: #0b1120;
-  --surface: rgba(255, 255, 255, 0.035);
-  --surface-2: rgba(255, 255, 255, 0.06);
-  --border: rgba(255, 255, 255, 0.09);
-  --border-strong: rgba(255, 255, 255, 0.16);
-  --text: #e8eef9;
-  --text-soft: #aeb9cc;
-  --text-mute: #6b7689;
+  --bg: #17130f;
+  --bg-2: #201913;
+  --surface: rgba(247, 226, 198, 0.04);
+  --surface-2: rgba(247, 226, 198, 0.065);
+  --border: rgba(247, 226, 198, 0.1);
+  --border-strong: rgba(247, 226, 198, 0.18);
+  --text: #f2ece1;
+  --text-soft: #c6bdac;
+  --text-mute: #8c8474;
   --shadow: 0 24px 60px -20px rgba(0, 0, 0, 0.7);
   --aurora-opacity: 0.55;
   color-scheme: dark;

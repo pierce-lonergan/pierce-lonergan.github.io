@@ -52,7 +52,7 @@
       .linkDirectionalParticles(opts.particles != null ? opts.particles : 0)
       .linkDirectionalParticleWidth(opts.particleWidth || 2.2)
       .linkDirectionalParticleSpeed(opts.particleSpeed || 0.01)
-      .nodeColor(function (n) { return n.color || "#818cf8"; })
+      .nodeColor(function (n) { return n.color || "#e07a5c"; })
       .nodeVal(function (n) { return n.val || 1; })
       .nodeLabel(function (n) { return n.label || n.name || ""; });
 
@@ -115,7 +115,7 @@
 
   /* ----------------------------------------------- Hero: data-flow pipeline */
   function pipelineData() {
-    var C = { src: "#38bdf8", kafka: "#22d3ee", spark: "#818cf8", schema: "#fbbf24", ice: "#34d399", snow: "#60a5fa", ml: "#c084fc" };
+    var C = { src: "#f0a866", kafka: "#5fb0a8", spark: "#e07a5c", schema: "#fbbf24", ice: "#34d399", snow: "#cc9a80", ml: "#d56f7a" };
     var nodes = [
       { id: "src",     name: "Sources",         label: "Sources: APIs, CDC, files",                         color: C.src,    val: 6 },
       { id: "kafka",   name: "Kafka",            label: "Kafka: streaming backbone",                         color: C.kafka,  val: 9 },
@@ -149,7 +149,7 @@
       .nodeColor(function (n) { return n.degraded ? "#ff5a5a" : n.color; })
       .linkColor(function (l) { return degraded(l) ? "rgba(255,90,90,0.55)" : "rgba(148,163,184,0.26)"; })
       .linkDirectionalParticleSpeed(function (l) { return degraded(l) ? 0.0028 : 0.012; })
-      .linkDirectionalParticleColor(function (l) { var s = l.source; return (s && s.degraded) ? "#ff8a8a" : ((s && s.color) || "#a5b4fc"); })
+      .linkDirectionalParticleColor(function (l) { var s = l.source; return (s && s.degraded) ? "#ff8a8a" : ((s && s.color) || "#f0b58a"); })
       .graphData(data);
     graph.onEngineStop(function () { try { graph.zoomToFit(700, 26); } catch (e) {} });
     wireVisibility(graph, canvas, true, 0.0018);
@@ -176,7 +176,7 @@
       graph.nodeColor(function (n) { return n.degraded ? "#ff5a5a" : n.color; });
       graph.linkColor(function (l) { return degraded(l) ? "rgba(255,90,90,0.55)" : "rgba(148,163,184,0.26)"; });
       graph.linkDirectionalParticleSpeed(function (l) { return degraded(l) ? 0.0028 : 0.012; });
-      graph.linkDirectionalParticleColor(function (l) { var s = l.source; return (s && s.degraded) ? "#ff8a8a" : ((s && s.color) || "#a5b4fc"); });
+      graph.linkDirectionalParticleColor(function (l) { var s = l.source; return (s && s.degraded) ? "#ff8a8a" : ((s && s.color) || "#f0b58a"); });
     }
     function status(text, kind) {
       if (!statusEl) return;
@@ -217,10 +217,10 @@
   /* ------------------------------------------ Skills: force-directed graph */
   function constellationData() {
     var domains = [
-      { id: "streaming", name: "Streaming", color: "#22d3ee", skills: ["Kafka", "Spark", "Structured Streaming", "Project Reactor", "Cassandra", "Avro", "Schema evolution", "CDC", "Exactly-once"] },
+      { id: "streaming", name: "Streaming", color: "#5fb0a8", skills: ["Kafka", "Spark", "Structured Streaming", "Project Reactor", "Cassandra", "Avro", "Schema evolution", "CDC", "Exactly-once"] },
       { id: "lakehouse", name: "Lakehouse", color: "#34d399", skills: ["Iceberg", "Snowflake", "Parquet", "Partitioning", "Data modeling", "Incremental sync"] },
-      { id: "cloud", name: "Cloud", color: "#38bdf8", skills: ["S3", "EMR", "MSK", "Glue", "Kinesis", "Lambda", "Docker", "CI/CD", "Hexagonal arch"] },
-      { id: "ml", name: "ML & Retrieval", color: "#c084fc", skills: ["RAG", "Hybrid retrieval", "ColBERT", "Cross-encoder", "Embeddings (BGE)", "Qdrant", "LLM apps", "INT8"] },
+      { id: "cloud", name: "Cloud", color: "#f0a866", skills: ["S3", "EMR", "MSK", "Glue", "Kinesis", "Lambda", "Docker", "CI/CD", "Hexagonal arch"] },
+      { id: "ml", name: "ML & Retrieval", color: "#d56f7a", skills: ["RAG", "Hybrid retrieval", "ColBERT", "Cross-encoder", "Embeddings (BGE)", "Qdrant", "LLM apps", "INT8"] },
       { id: "gov", name: "Governance", color: "#fbbf24", skills: ["Canonical catalogs", "Semantic schema matching", "Entity resolution", "Lineage", "Data quality"] },
       { id: "lang", name: "Languages", color: "#fb7185", skills: ["Python", "Java", "Scala", "Groovy", "Bash", "SQL"] }
     ];

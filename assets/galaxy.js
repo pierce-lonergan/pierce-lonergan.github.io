@@ -18,7 +18,7 @@
   var KB = window.PL_KB || [];
 
   var CATS = {
-    exp: "#38bdf8", skills: "#34d399", projects: "#c084fc", background: "#fbbf24"
+    exp: "#f0a866", skills: "#34d399", projects: "#d56f7a", background: "#fbbf24"
   };
   function categoryOf(topic) {
     var t = (topic || "").toLowerCase();

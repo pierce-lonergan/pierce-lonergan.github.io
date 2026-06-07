@@ -203,7 +203,7 @@
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]; }); }
 
   function cardHTML(p) {
-    var color = LANG_COLORS[p.lang] || "#818cf8";
+    var color = LANG_COLORS[p.lang] || "#e07a5c";
     var tags = p.tags.map(function (t) { return "<span>" + esc(t) + "</span>"; }).join("");
     var demo = p.demo
       ? '<a class="primary" href="' + esc(p.demo) + '" target="_blank" rel="noopener">Live demo ↗</a>'
