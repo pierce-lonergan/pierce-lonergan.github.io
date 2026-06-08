@@ -1,10 +1,11 @@
 /* =========================================================================
    Pierce Lonergan - hero name particle reveal
-   The heading is hidden at first. A dense cloud of particles churns as pure
-   chaos (the name is unreadable), then rushes and collapses into the shape of
-   "Pierce Lonergan", at which point the crisp <h1> fades in underneath and the
-   particles fade out. The <h1> is real text (a11y/SEO); a head script + a
-   safety timeout + a no-JS fallback guarantee it always becomes visible.
+   The canvas spans the whole hero, so a dense cloud of particles starts as
+   chaos across the screen (no visible box), then rushes inward and collapses
+   into the shape of "Pierce Lonergan" at the heading's real position. The
+   crisp <h1> then fades in underneath and the particles fade out.
+   The <h1> is real text (a11y/SEO); a head script + safety timeout + no-JS
+   fallback guarantee it always becomes visible.
    ========================================================================= */
 (function () {
   "use strict";
@@ -18,10 +19,10 @@
   var ctx = canvas.getContext("2d");
   if (!ctx || prefersReduced) { show(); return; }
 
-  var dpr = Math.min(window.devicePixelRatio || 1, 2);
+  var dpr = Math.min(window.devicePixelRatio || 1, 1.5);
   var W = 0, H = 0, particles = [], color = "#241a12", raf = null, t = 0, phase = 0, phaseT = 0, done = false;
-  // phases: CHAOS (drift, name unreadable), FORM (collapse into the name)
-  var DUR = [58, 82], SC = 0.004, SPEED = 2.3 * dpr;
+  // phases: CHAOS (drift across the hero, name unreadable), FORM (collapse into the name)
+  var DUR = [60, 84], SC = 0.0026, SPEED = 2.2 * dpr;
 
   function hash(x, y) { var n = Math.sin(x * 127.1 + y * 311.7) * 43758.5453; return n - Math.floor(n); }
   function noise(x, y) {
@@ -34,24 +35,28 @@
   function readColor() { var c = getComputedStyle(document.documentElement).getPropertyValue("--text").trim(); if (c) color = c; }
 
   function setup() {
-    var cw = h1.clientWidth, ch = h1.clientHeight;
+    var cw = canvas.clientWidth, ch = canvas.clientHeight;
     if (!cw || !ch) return false;
     canvas.width = W = Math.round(cw * dpr); canvas.height = H = Math.round(ch * dpr);
+    var crect = canvas.getBoundingClientRect(), hrect = h1.getBoundingClientRect();
+    if (!hrect.width || !hrect.height) return false;
+    var ox = (hrect.left - crect.left) * dpr, oy = (hrect.top - crect.top) * dpr;
+    var nW = Math.max(1, Math.round(hrect.width * dpr)), nH = Math.max(1, Math.round(hrect.height * dpr));
     var cs = getComputedStyle(h1), fs = parseFloat(cs.fontSize) * dpr;
-    var off = document.createElement("canvas"); off.width = W; off.height = H;
+    var off = document.createElement("canvas"); off.width = nW; off.height = nH;
     var o = off.getContext("2d");
     o.fillStyle = "#fff"; o.textAlign = "left"; o.textBaseline = "alphabetic"; o.font = "700 " + fs + "px " + cs.fontFamily;
     try { o.letterSpacing = "-0.03em"; } catch (e) {}
     var lh = fs * 0.98;
     o.fillText("Pierce", 0, fs * 0.80); o.fillText("Lonergan", 0, fs * 0.80 + lh);
-    var img; try { img = o.getImageData(0, 0, W, H).data; } catch (e) { return false; }
+    var img; try { img = o.getImageData(0, 0, nW, nH).data; } catch (e) { return false; }
     var pts = [], gap = Math.max(2, Math.round(2.3 * dpr));
-    for (var y = 0; y < H; y += gap) for (var x = 0; x < W; x += gap) { if (img[(y * W + x) * 4 + 3] > 130) pts.push(x, y); }
+    for (var y = 0; y < nH; y += gap) for (var x = 0; x < nW; x += gap) { if (img[(y * nW + x) * 4 + 3] > 130) pts.push(x + ox, y + oy); }
     if (!pts.length) return false;
-    var total = pts.length / 2, cap = 13000, stride = total > cap ? Math.ceil(total / cap) : 1;
+    var total = pts.length / 2, cap = 16000, stride = total > cap ? Math.ceil(total / cap) : 1;
     particles = [];
     for (var i = 0; i < total; i += stride) {
-      particles.push({ x: Math.random() * W, y: Math.random() * H, tx: pts[i * 2], ty: pts[i * 2 + 1], v: 0.07 + Math.random() * 0.08 });
+      particles.push({ x: Math.random() * W, y: Math.random() * H, tx: pts[i * 2], ty: pts[i * 2 + 1], v: 0.06 + Math.random() * 0.07 });
     }
     return true;
   }
@@ -60,12 +65,12 @@
     ctx.clearRect(0, 0, W, H);
     ctx.fillStyle = color;
     var fa = phase === 0 ? 0 : ease(phaseT / DUR[1]), inv = 1 - fa, s = Math.max(1, 1.25 * dpr);
-    ctx.globalAlpha = 0.9;
+    ctx.globalAlpha = 0.85;
     for (var i = 0; i < particles.length; i++) {
       var p = particles[i];
       var ang = noise(p.x * SC + t * 0.05, p.y * SC) * Math.PI * 4;
-      p.x += Math.cos(ang) * SPEED * inv + (p.tx - p.x) * 0.18 * fa;
-      p.y += Math.sin(ang) * SPEED * inv + (p.ty - p.y) * 0.18 * fa;
+      p.x += Math.cos(ang) * SPEED * inv + (p.tx - p.x) * 0.17 * fa;
+      p.y += Math.sin(ang) * SPEED * inv + (p.ty - p.y) * 0.17 * fa;
       ctx.fillRect(p.x - s / 2, p.y - s / 2, s, s);
     }
     ctx.globalAlpha = 1; t++; phaseT++;
