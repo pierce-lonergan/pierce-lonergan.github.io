@@ -81,7 +81,10 @@
         <p class="hero-eyebrow reveal">
           <span class="status-dot" aria-hidden="true"></span> Open to new opportunities · Columbus, OH
         </p>
-        <h1 class="hero-name reveal">Pierce Lonergan</h1>
+        <div class="hero-name-stage">
+          <h1 class="hero-name reveal" id="heroName">Pierce Lonergan</h1>
+          <canvas id="nameCanvas" class="hero-name-canvas" aria-hidden="true"></canvas>
+        </div>
         <h2 class="hero-role reveal">
           <span class="role-static">I build</span>
           <span class="role-rotator" id="roleRotator" aria-live="polite"><span>data infrastructure</span></span>
@@ -359,20 +362,10 @@
       </div>
     </section>
 
-    <!-- PARTICLE FLOW FIELD -->
-    <section class="section" id="flow">
-      <div class="container">
-        <p class="section-kicker reveal">07 · Signal from noise</p>
-        <h2 class="section-title reveal">Order, out of noise.</h2>
-        <p class="section-sub reveal">A few thousand particles start as pure noise, then collapse and resolve into signal, dissolve, and resolve again. The whole job, in one loop. Give it a second to find its shape.</p>
-        <div class="flow-wrap reveal"><canvas id="flowCanvas" aria-hidden="true"></canvas></div>
-      </div>
-    </section>
-
     <!-- EDUCATION & AWARDS -->
     <section class="section" id="education">
       <div class="container">
-        <p class="section-kicker reveal">08 · Education &amp; Recognition</p>
+        <p class="section-kicker reveal">07 · Education &amp; Recognition</p>
         <h2 class="section-title reveal">Where the rigor comes from.</h2>
         <div class="edu-grid">
           <article class="edu-card reveal">
@@ -428,6 +421,6 @@
   <script src="assets/palette.js" defer></script>
   <script src="assets/galaxy.js" defer></script>
   <script src="assets/sankey.js" defer></script>
-  <script src="assets/flow.js" defer></script>
+  <script src="assets/heroname.js" defer></script>
 </body>
 </html>
