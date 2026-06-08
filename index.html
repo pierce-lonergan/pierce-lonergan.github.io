@@ -24,6 +24,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="styles.css" />
+  <!-- Hide the hero name until its particle reveal; safety timeout + no-JS fallback guarantee it shows. -->
+  <script>document.documentElement.classList.add('js-name');setTimeout(function(){document.documentElement.classList.add('name-shown');},3500);</script>
 </head>
 <body>
   <!-- Shared gradient for the custom line icons -->
@@ -82,7 +84,7 @@
           <span class="status-dot" aria-hidden="true"></span> Open to new opportunities · Columbus, OH
         </p>
         <div class="hero-name-stage">
-          <h1 class="hero-name reveal" id="heroName">Pierce Lonergan</h1>
+          <h1 class="hero-name" id="heroName">Pierce Lonergan</h1>
           <canvas id="nameCanvas" class="hero-name-canvas" aria-hidden="true"></canvas>
         </div>
         <h2 class="hero-role reveal">
