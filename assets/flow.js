@@ -1,11 +1,12 @@
 /* =========================================================================
    Pierce Lonergan - "signal from noise" particle field
-   A few thousand particles begin as pure noise drifting through a flow field,
-   then collapse and resolve into a coherent form (the name), hold, dissolve
-   back to noise, and loop. The story of data work: raw noise into signal.
+   A few thousand particles drift as pure noise, then collapse and resolve
+   into a word, hold, dissolve back to noise, and reform as the next word in
+   a cycle (NOISE -> SIGNAL -> STREAM -> SCALE). Raw noise into signal.
 
-   High-performance 2D canvas. Theme-aware, pause-aware; reduced motion shows
-   the resolved (formed) state statically. Caps work on small screens.
+   Transparent canvas (trails fade via destination-out) so the particles
+   overlay the page's warm background rather than sitting in a box.
+   Theme-agnostic colors, pause-aware; reduced motion holds one resolved word.
    ========================================================================= */
 (function () {
   "use strict";
@@ -16,8 +17,8 @@
   var ctx = canvas.getContext("2d");
   if (!ctx) return;
 
-  var TEXT = ["PIERCE", "LONERGAN"];
-  var COLORS = ["#f0a866", "#e07a5c", "#d56f7a", "#fbbf24", "#5fb0a8", "#e8956a"];
+  var WORDS = ["NOISE", "SIGNAL", "STREAM", "SCALE"];
+  var COLORS = ["#e07a5c", "#d56f7a", "#5fb0a8", "#e8956a", "#cf6a8a", "#eab04a"];
 
   function hash(x, y) { var n = Math.sin(x * 127.1 + y * 311.7) * 43758.5453; return n - Math.floor(n); }
   function noise(x, y) {
@@ -29,27 +30,18 @@
   function ease(x) { return x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2; }
 
   var dpr = Math.min(window.devicePixelRatio || 1, 1.5);
-  var W = 0, H = 0, particles = [], targets = [], fade = "rgba(20,16,12,0.09)", t = 0;
-  var SC = 0.0016, SPEED = 1.0 * dpr;
-  // phases: 0 noise, 1 forming, 2 formed, 3 dissolving
-  var DUR = [200, 150, 230, 120], phase = 0, phaseT = 0;
+  var W = 0, H = 0, particles = [], targets = [], t = 0, N = 2200;
+  var SC = 0.0016, SPEED = 1.05 * dpr;
+  // phases: NOISE(0), FORM(1), HOLD(2), DISSOLVE(3)
+  var DUR = [120, 150, 180, 110], phase = 0, phaseT = 0, wordIndex = 0;
 
-  function readFade() {
-    var bg = getComputedStyle(document.documentElement).getPropertyValue("--bg").trim() || "#17130f";
-    var h = bg.replace("#", "");
-    if (h.length === 3) h = h[0] + h[0] + h[1] + h[1] + h[2] + h[2];
-    var n = parseInt(h, 16);
-    fade = isNaN(n) ? "rgba(20,16,12,0.09)" : "rgba(" + ((n >> 16) & 255) + "," + ((n >> 8) & 255) + "," + (n & 255) + ",0.09)";
-  }
-
-  function computeTargets() {
+  function computeTargets(word) {
     var off = document.createElement("canvas"); off.width = W; off.height = H;
     var o = off.getContext("2d");
     o.fillStyle = "#fff"; o.textAlign = "center"; o.textBaseline = "middle";
-    var fs = Math.min(W * 0.155, H * 0.30);
+    var fs = Math.min(W / Math.max(4, word.length) * 1.55, H * 0.5);
     o.font = "700 " + fs + "px 'Space Grotesk', system-ui, sans-serif";
-    var lh = fs * 1.02, startY = H / 2 - (TEXT.length - 1) * lh / 2;
-    TEXT.forEach(function (line, i) { o.fillText(line, W / 2, startY + i * lh); });
+    o.fillText(word, W / 2, H / 2);
     var img;
     try { img = o.getImageData(0, 0, W, H).data; } catch (e) { targets = [{ x: W / 2, y: H / 2 }]; return; }
     targets = [];
@@ -57,21 +49,18 @@
     for (var y = 0; y < H; y += gap) for (var x = 0; x < W; x += gap) { if (img[(y * W + x) * 4 + 3] > 130) targets.push({ x: x, y: y }); }
     if (!targets.length) targets.push({ x: W / 2, y: H / 2 });
   }
+  function assignTargets() { for (var i = 0; i < particles.length; i++) { var tg = targets[i % targets.length]; particles[i].tx = tg.x; particles[i].ty = tg.y; } }
 
   function size() {
     var cw = canvas.clientWidth, ch = canvas.clientHeight;
     if (!cw || !ch) return;
     W = Math.round(cw * dpr); H = Math.round(ch * dpr);
     canvas.width = W; canvas.height = H;
-    computeTargets();
-    var N = Math.min(Math.max(targets.length, 600), cw < 700 ? 1300 : 2800);
+    N = cw < 700 ? 1300 : 2400;
+    computeTargets(WORDS[wordIndex]);
     particles = [];
-    for (var i = 0; i < N; i++) {
-      var tg = targets[i % targets.length];
-      particles.push({ x: Math.random() * W, y: Math.random() * H, tx: tg.x, ty: tg.y, c: COLORS[i % COLORS.length] });
-    }
-    readFade();
-    ctx.fillStyle = fade.replace("0.09", "1"); ctx.fillRect(0, 0, W, H);
+    for (var i = 0; i < N; i++) { var tg = targets[i % targets.length]; particles.push({ x: Math.random() * W, y: Math.random() * H, tx: tg.x, ty: tg.y, c: COLORS[i % COLORS.length] }); }
+    ctx.clearRect(0, 0, W, H);
   }
 
   function formAmount() {
@@ -80,20 +69,29 @@
     if (phase === 2) return 1;
     return 1 - ease(phaseT / DUR[3]);
   }
-  function advance() { phaseT++; if (phaseT >= DUR[phase]) { phaseT = 0; phase = (phase + 1) % 4; } }
+  function advance() {
+    phaseT++;
+    if (phaseT >= DUR[phase]) {
+      phaseT = 0; var prev = phase; phase = (phase + 1) % 4;
+      if (prev === 3) { wordIndex = (wordIndex + 1) % WORDS.length; computeTargets(WORDS[wordIndex]); assignTargets(); }
+    }
+  }
 
   function step() {
-    ctx.fillStyle = fade; ctx.fillRect(0, 0, W, H);
+    // Fade existing trails toward transparent so the page background shows through.
+    ctx.globalCompositeOperation = "destination-out";
+    ctx.fillStyle = "rgba(0,0,0,0.09)";
+    ctx.fillRect(0, 0, W, H);
+    ctx.globalCompositeOperation = "source-over";
     ctx.lineWidth = Math.max(1, dpr);
     var fa = formAmount(), inv = 1 - fa;
     for (var i = 0; i < particles.length; i++) {
       var p = particles[i];
       var ang = noise(p.x * SC + t * 0.04, p.y * SC) * Math.PI * 4;
-      var vx = Math.cos(ang) * SPEED * inv + (p.tx - p.x) * 0.16 * fa;
-      var vy = Math.sin(ang) * SPEED * inv + (p.ty - p.y) * 0.16 * fa;
-      var nx = p.x + vx, ny = p.y + vy;
+      var nx = p.x + Math.cos(ang) * SPEED * inv + (p.tx - p.x) * 0.16 * fa;
+      var ny = p.y + Math.sin(ang) * SPEED * inv + (p.ty - p.y) * 0.16 * fa;
       ctx.strokeStyle = p.c;
-      ctx.globalAlpha = 0.35 + 0.4 * fa;
+      ctx.globalAlpha = 0.4 + 0.5 * fa;
       ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(nx, ny); ctx.stroke();
       p.x = nx; p.y = ny;
       if (fa < 0.25 && (p.x < 0 || p.x > W || p.y < 0 || p.y > H || Math.random() < 0.0015)) { p.x = Math.random() * W; p.y = Math.random() * H; }
@@ -104,14 +102,12 @@
   var raf = null, onScreen = true;
   function paused() { return document.documentElement.classList.contains("motion-paused"); }
   function frame() { raf = requestAnimationFrame(frame); if (!onScreen || paused() || document.hidden) return; step(); }
-  function staticFormed() { phase = 2; phaseT = 0; for (var k = 0; k < 120; k++) step(); }
+  function staticFormed() { phase = 1; phaseT = DUR[1]; for (var k = 0; k < 120; k++) { phase = 2; step(); } }
 
-  readFade();
   size();
   if (prefersReduced) staticFormed();
   else raf = requestAnimationFrame(frame);
 
   window.addEventListener("resize", function () { clearTimeout(window.__flowr); window.__flowr = setTimeout(function () { phase = 0; phaseT = 0; size(); if (prefersReduced) staticFormed(); }, 200); }, { passive: true });
-  if (window.MutationObserver) new MutationObserver(function () { readFade(); }).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
   if ("IntersectionObserver" in window) new IntersectionObserver(function (es) { es.forEach(function (e) { onScreen = e.isIntersecting; }); }, { rootMargin: "120px" }).observe(canvas);
 })();
