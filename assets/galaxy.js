@@ -54,7 +54,7 @@
   }
   function embed(ex, text) { return ex(text, { pooling: "mean", normalize: true }).then(function (o) { return Array.prototype.slice.call(o.data); }); }
 
-  var graph = null, nodes = [], started = false, panelEl = null;
+  var graph = null, nodes = [], started = false, panelEl = null, labelWrap = null;
 
   function setLoading(txt) { var l = panelEl && panelEl.querySelector(".gx-loading"); if (l) { l.textContent = txt || ""; l.style.display = txt ? "flex" : "none"; } }
   function caption(html) { var c = panelEl && panelEl.parentNode.querySelector(".gx-caption"); if (c) c.innerHTML = html || ""; }
@@ -68,6 +68,36 @@
     var hc = hotColor();
     graph.nodeColor(function (n) { return n.hot ? hc : n.color; })
       .nodeVal(function (n) { return n.hot ? 14 : n.val; });
+    syncLabels();
+  }
+
+  // Retrieved points get floating name tags so you can see WHAT got matched.
+  function syncLabels() {
+    if (!panelEl) return;
+    if (!labelWrap) {
+      labelWrap = document.createElement("div");
+      labelWrap.className = "viz-labels";
+      panelEl.appendChild(labelWrap);
+      (function loop() {
+        requestAnimationFrame(loop);
+        if (document.hidden || !graph || !labelWrap || !graph.graph2ScreenCoords) return;
+        for (var i = 0; i < labelWrap.children.length; i++) {
+          var el = labelWrap.children[i], n = el.__n;
+          if (!n || n.x == null) continue;
+          var c = graph.graph2ScreenCoords(n.x, n.y, n.z || 0);
+          el.style.transform = "translate(-50%,-50%) translate(" + c.x.toFixed(1) + "px," + (c.y - 18).toFixed(1) + "px)";
+        }
+      })();
+    }
+    labelWrap.innerHTML = "";
+    nodes.forEach(function (n) {
+      if (!n.hot) return;
+      var el = document.createElement("span");
+      el.className = "viz-label gx-hot";
+      el.textContent = n.topic;
+      el.__n = n;
+      labelWrap.appendChild(el);
+    });
   }
 
   function highlight(topics) {

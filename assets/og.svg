@@ -1,0 +1,35 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="name" x1="0" y1="0" x2="1" y2="0.4">
+      <stop offset="0" stop-color="#f0a866"/>
+      <stop offset="0.55" stop-color="#e07a5c"/>
+      <stop offset="1" stop-color="#d56f7a"/>
+    </linearGradient>
+    <radialGradient id="glow1" cx="0.82" cy="0.1" r="0.7">
+      <stop offset="0" stop-color="#e07a5c" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#e07a5c" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow2" cx="0.1" cy="0.95" r="0.8">
+      <stop offset="0" stop-color="#f0a866" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#f0a866" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="#17130f"/>
+  <rect width="1200" height="630" fill="url(#glow1)"/>
+  <rect width="1200" height="630" fill="url(#glow2)"/>
+  <g fill="none" stroke="#f0a866" stroke-opacity="0.18" stroke-width="2">
+    <path d="M 860 470 C 940 470 940 410 1020 410"/>
+    <path d="M 860 470 C 940 470 940 530 1020 530"/>
+    <path d="M 700 470 L 852 470"/>
+  </g>
+  <circle cx="700" cy="470" r="10" fill="#f0a866"/>
+  <circle cx="860" cy="470" r="13" fill="#e07a5c"/>
+  <circle cx="1020" cy="410" r="9" fill="#5fb0a8"/>
+  <circle cx="1020" cy="530" r="9" fill="#d56f7a"/>
+  <rect x="96" y="88" width="58" height="58" rx="14" fill="url(#name)"/>
+  <text x="125" y="127" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700" fill="#ffffff" text-anchor="middle">PL</text>
+  <text x="96" y="305" font-family="Arial, Helvetica, sans-serif" font-size="92" font-weight="700" fill="url(#name)" letter-spacing="-2">Pierce Lonergan</text>
+  <text x="96" y="370" font-family="Arial, Helvetica, sans-serif" font-size="34" fill="#f2ece1">Software Engineer III · JPMorganChase</text>
+  <text x="96" y="425" font-family="Arial, Helvetica, sans-serif" font-size="26" fill="#c6bdac">Streaming &amp; lakehouse data platforms · applied ML &amp; retrieval</text>
+  <text x="96" y="540" font-family="Courier New, monospace" font-size="22" fill="#8c8474">pierce-lonergan.github.io · in-browser AI · live data visualizations</text>
+</svg>

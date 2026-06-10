@@ -117,6 +117,35 @@
     }
   }
 
+  // Always-visible node labels: project graph coordinates to screen space each
+  // frame and position DOM elements. Crisp theme-native text, no extra 3D deps.
+  function labelOverlay(graph, panel, pick) {
+    var wrap = document.createElement("div");
+    wrap.className = "viz-labels";
+    panel.appendChild(wrap);
+    var els = {};
+    function frame() {
+      requestAnimationFrame(frame);
+      if (document.hidden || !graph.graph2ScreenCoords) return;
+      var nodes;
+      try { nodes = pick() || []; } catch (e) { return; }
+      for (var i = 0; i < nodes.length; i++) {
+        var n = nodes[i];
+        if (n.x == null) continue;
+        var el = els[n.id];
+        if (!el) {
+          el = els[n.id] = document.createElement("span");
+          el.className = "viz-label";
+          el.textContent = n.name;
+          wrap.appendChild(el);
+        }
+        var c = graph.graph2ScreenCoords(n.x, n.y, n.z || 0);
+        el.style.transform = "translate(-50%,-50%) translate(" + c.x.toFixed(1) + "px," + (c.y + (n.labelDy || 20)).toFixed(1) + "px)";
+      }
+    }
+    requestAnimationFrame(frame);
+  }
+
   /* ----------------------------------------------- Hero: data-flow pipeline */
   function pipelineData() {
     var C = { src: "#f0a866", kafka: "#5fb0a8", spark: "#e07a5c", schema: "#fbbf24", ice: "#34d399", snow: "#cc9a80", ml: "#d56f7a" };
@@ -160,6 +189,7 @@
     graph.onEngineStop(function () { try { graph.zoomToFit(700, 18); } catch (e) {} });
     wireVisibility(graph, canvas, "sway");
     panel.classList.add("viz-live");
+    labelOverlay(graph, panel, function () { return data.nodes; });
     pipelineExtras(panel, graph, data);
     return graph;
   }
@@ -251,9 +281,12 @@
     panel.classList.add("viz-on"); // panel must be laid out before the canvas can be sized
     var canvas = panel.querySelector(".viz-canvas");
     var graph = makeGraph(FG, canvas, { interactive: true, particles: 0, nodeRelSize: 5, linkWidth: 1.1 });
+    var cdata = constellationData();
     graph
       .linkColor(function () { return "rgba(150,124,98,0.32)"; })
-      .graphData(constellationData());
+      .graphData(cdata);
+    var hubs = cdata.nodes.filter(function (n) { return n.hub || n.core; });
+    labelOverlay(graph, panel, function () { return hubs; });
     try {
       graph.d3Force("charge").strength(-95);
       graph.d3Force("link").distance(function (l) { return (l.source && l.source.core) ? 70 : 26; });

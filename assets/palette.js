@@ -42,6 +42,7 @@
     if (document.getElementById("themeToggle")) {
       c.push({ title: "Toggle dark / light theme", keywords: "theme dark light mode appearance", icon: ICON.theme, run: function () { document.getElementById("themeToggle").click(); } });
     }
+    c.push({ title: "How this site works", keywords: "colophon tech stack source webllm rag webgl shader architecture", icon: ICON.doc, run: showColophon });
     c.push({ title: "Open GitHub", keywords: "github code repositories source", icon: ICON.ext, run: function () { window.open("https://github.com/pierce-lonergan", "_blank", "noopener"); } });
     c.push({ title: "Open LinkedIn", keywords: "linkedin connect contact hire", icon: ICON.ext, run: function () { window.open("https://www.linkedin.com/in/pierce-lonergan-84034422a/", "_blank", "noopener"); } });
     return c;
@@ -63,6 +64,41 @@
     }
     if (title.indexOf(q) >= 0) s += 4;
     return s;
+  }
+
+  /* --------------------------------------------------------- colophon */
+  var colophonEl = null;
+  function hideColophon() {
+    if (!colophonEl) return;
+    colophonEl.classList.remove("on");
+    setTimeout(function () { if (colophonEl) colophonEl.hidden = true; }, 180);
+  }
+  function showColophon() {
+    if (!colophonEl) {
+      colophonEl = document.createElement("div");
+      colophonEl.className = "cmdk";
+      colophonEl.innerHTML =
+        '<div class="cmdk-backdrop" data-close="1"></div>' +
+        '<div class="cmdk-box colophon-box" role="dialog" aria-modal="true" aria-label="How this site works">' +
+          '<div class="colophon">' +
+            "<h3>How this site works</h3>" +
+            "<p>Hand-built with vanilla HTML, CSS, and JavaScript. No framework, no build step, no backend, no tracking.</p>" +
+            "<ul>" +
+              "<li><b>Ask AI</b> runs a language model entirely in your browser (WebLLM on WebGPU), grounded by client-side retrieval: the résumé is embedded with a sentence-transformer via Transformers.js, cosine-searched in plain JavaScript, and the matched sections are shown as chips. Nothing you type leaves your device.</li>" +
+              "<li><b>The hero backdrop</b> is a hand-written GLSL simplex-noise shader on a low-resolution canvas, and the name condenses from roughly sixteen thousand canvas particles.</li>" +
+              "<li><b>The platform diagram</b> is a force-directed DAG (3d-force-graph / Three.js) with live telemetry and a chaos injection you can fire yourself.</li>" +
+              "<li><b>The lakehouse flow</b> is d3-sankey with throughput-weighted ribbons, and <b>the embedding map</b> places résumé chunks by their real cosine geometry.</li>" +
+              "<li>Everything honors prefers-reduced-motion, degrades without WebGL or WebGPU, and ships from GitHub Pages as static files.</li>" +
+            "</ul>" +
+            '<p class="colophon-foot">Read the source on <a href="https://github.com/pierce-lonergan/pierce-lonergan.github.io" target="_blank" rel="noopener">GitHub</a>.</p>' +
+          "</div>" +
+        "</div>";
+      document.body.appendChild(colophonEl);
+      colophonEl.addEventListener("click", function (e) { if (e.target.getAttribute("data-close")) hideColophon(); });
+      document.addEventListener("keydown", function (e) { if (e.key === "Escape") hideColophon(); });
+    }
+    colophonEl.hidden = false;
+    requestAnimationFrame(function () { colophonEl.classList.add("on"); });
   }
 
   var ui = {}, commands = [], filtered = [], sel = 0, open = false;
@@ -158,6 +194,9 @@
     });
     Array.prototype.forEach.call(document.querySelectorAll(".js-palette"), function (b) {
       b.addEventListener("click", function (e) { e.preventDefault(); show(); });
+    });
+    Array.prototype.forEach.call(document.querySelectorAll(".js-colophon"), function (b) {
+      b.addEventListener("click", function (e) { e.preventDefault(); showColophon(); });
     });
     if (!/Mac|iP(hone|ad)/.test(navigator.platform || "")) {
       var k = document.querySelector(".cmdk-trigger-k");
