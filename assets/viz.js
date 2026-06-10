@@ -143,7 +143,7 @@
         }
         el.style.display = "";
         var c = graph.graph2ScreenCoords(n.x, n.y, n.z || 0);
-        el.style.transform = "translate(-50%,-50%) translate(" + c.x.toFixed(1) + "px," + (c.y + (n.labelDy || 20)).toFixed(1) + "px)";
+        el.style.transform = "translate(-50%,-50%) translate(" + (c.x + (n.labelDx || 0)).toFixed(1) + "px," + (c.y + (n.labelDy != null ? n.labelDy : 20)).toFixed(1) + "px)";
       }
       for (var k in els) { if (!seen[k]) els[k].style.display = "none"; }
     }
@@ -194,6 +194,8 @@
     graph.onEngineStop(function () { try { graph.zoomToFit(700, 18); } catch (e) {} });
     wireVisibility(graph, canvas, "sway");
     panel.classList.add("viz-live");
+    // Portrait layout: labels sit beside the vertical spine instead of under nodes.
+    if (!wide) data.nodes.forEach(function (n) { n.labelDx = 52; n.labelDy = 0; });
     labelOverlay(graph, panel, function () { return data.nodes; });
 
     // Boot sequence: stages come online in flow order the first time the panel is seen.
