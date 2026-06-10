@@ -91,7 +91,11 @@
     var rate = speed || 0.0016;
 
     function tick() {
-      if (visible && autorotate && scene) scene.rotation.y += rate;
+      if (visible && autorotate && scene) {
+        // "sway" oscillates gently (right for directional layouts); anything else spins.
+        if (autorotate === "sway") scene.rotation.y = Math.sin(performance.now() * 0.00022) * 0.16;
+        else scene.rotation.y += rate;
+      }
       rafId = requestAnimationFrame(tick);
     }
     function start() { if (rafId == null) tick(); }
@@ -142,17 +146,19 @@
   function initPipeline(FG, panel) {
     var canvas = panel.querySelector(".viz-canvas");
     var data = pipelineData();
-    var graph = makeGraph(FG, canvas, { interactive: false, particles: 3, particleSpeed: 0.012, particleWidth: 2.6, nodeRelSize: 5 });
+    // Wide panels read left-to-right (fills the aspect ratio); narrow ones top-down.
+    var wide = (canvas.clientWidth || panel.clientWidth || 0) > 620;
+    var graph = makeGraph(FG, canvas, { interactive: false, particles: 4, particleSpeed: 0.013, particleWidth: 3.4, nodeRelSize: 7 });
     graph
-      .dagMode("td")
-      .dagLevelDistance(34)
-      .nodeColor(function (n) { return n.degraded ? "#ff5a5a" : n.color; })
-      .linkColor(function (l) { return degraded(l) ? "rgba(255,90,90,0.55)" : "rgba(148,163,184,0.26)"; })
-      .linkDirectionalParticleSpeed(function (l) { return degraded(l) ? 0.0028 : 0.012; })
+      .dagMode(wide ? "lr" : "td")
+      .dagLevelDistance(wide ? 56 : 34)
+      .linkColor(function (l) { return degraded(l) ? "rgba(224,82,82,0.6)" : "rgba(150,124,98,0.3)"; })
+      .nodeColor(function (n) { return n.degraded ? "#e04545" : n.color; })
+      .linkDirectionalParticleSpeed(function (l) { return degraded(l) ? 0.0028 : 0.013; })
       .linkDirectionalParticleColor(function (l) { var s = l.source; return (s && s.degraded) ? "#ff8a8a" : ((s && s.color) || "#f0b58a"); })
       .graphData(data);
-    graph.onEngineStop(function () { try { graph.zoomToFit(700, 26); } catch (e) {} });
-    wireVisibility(graph, canvas, true, 0.0018);
+    graph.onEngineStop(function () { try { graph.zoomToFit(700, 18); } catch (e) {} });
+    wireVisibility(graph, canvas, "sway");
     panel.classList.add("viz-live");
     pipelineExtras(panel, graph, data);
     return graph;
@@ -173,9 +179,9 @@
 
     // Re-applying the accessors with fresh closures forces 3d-force-graph to repaint.
     function restyle() {
-      graph.nodeColor(function (n) { return n.degraded ? "#ff5a5a" : n.color; });
-      graph.linkColor(function (l) { return degraded(l) ? "rgba(255,90,90,0.55)" : "rgba(148,163,184,0.26)"; });
-      graph.linkDirectionalParticleSpeed(function (l) { return degraded(l) ? 0.0028 : 0.012; });
+      graph.nodeColor(function (n) { return n.degraded ? "#e04545" : n.color; });
+      graph.linkColor(function (l) { return degraded(l) ? "rgba(224,82,82,0.6)" : "rgba(150,124,98,0.3)"; });
+      graph.linkDirectionalParticleSpeed(function (l) { return degraded(l) ? 0.0028 : 0.013; });
       graph.linkDirectionalParticleColor(function (l) { var s = l.source; return (s && s.degraded) ? "#ff8a8a" : ((s && s.color) || "#f0b58a"); });
     }
     function status(text, kind) {
@@ -187,9 +193,10 @@
       if (document.hidden) return;
       var j = function (s) { return 1 + (Math.random() - 0.5) * s; };
       var h = Math.max(health, 0.12);
-      if (vtThr) vtThr.textContent = fmt(12600 * health * j(0.12));
-      if (vtLag) vtLag.textContent = Math.round((health > 0.85 ? 38 : 38 / h) * j(0.2)) + " ms";
-      if (vtP99) vtP99.textContent = Math.round((health > 0.85 ? 172 : 172 / h) * j(0.15)) + " ms";
+      var bad = health < 0.9;
+      if (vtThr) { vtThr.textContent = fmt(12600 * health * j(0.12)); vtThr.classList.toggle("vt-bad", bad); }
+      if (vtLag) { vtLag.textContent = Math.round((health > 0.85 ? 38 : 38 / h) * j(0.2)) + " ms"; vtLag.classList.toggle("vt-bad", bad); }
+      if (vtP99) { vtP99.textContent = Math.round((health > 0.85 ? 172 : 172 / h) * j(0.15)) + " ms"; vtP99.classList.toggle("vt-bad", bad); }
     }
     tick();
     setInterval(tick, 820);
@@ -201,14 +208,16 @@
       target.degraded = true; restyle();
       health = 0.16;
       panel.classList.add("viz-alert");
-      status("Backpressure on " + target.name + ". Consumer lag climbing.", "warn");
-      setTimeout(function () { status("Draining the backlog. Recovering.", "warn"); health = 0.5; }, 2300);
+      status("Poison pill hit " + target.name + ". Backpressure building, consumer lag climbing.", "warn");
+      setTimeout(function () { status("Dead-lettered the poison pill. Draining the backlog.", "warn"); health = 0.45; }, 4200);
       setTimeout(function () {
         target.degraded = false; restyle();
         health = 1; panel.classList.remove("viz-alert");
         status("Pipeline healthy. Exactly-once preserved.", "ok");
-        setTimeout(function () { status(""); chaosActive = false; }, 2400);
-      }, 4800);
+        // a celebratory surge of particles down every edge as it recovers
+        try { data.links.forEach(function (l) { graph.emitParticle(l); setTimeout(function () { graph.emitParticle(l); }, 240); }); } catch (e) {}
+        setTimeout(function () { status(""); chaosActive = false; }, 3000);
+      }, 9000);
     }
     if (chaosBtn) chaosBtn.addEventListener("click", chaos);
     window.PL_injectChaos = chaos;
@@ -222,9 +231,9 @@
       { id: "cloud", name: "Cloud", color: "#f0a866", skills: ["S3", "EMR", "MSK", "Glue", "Kinesis", "Lambda", "Docker", "CI/CD", "Hexagonal arch"] },
       { id: "ml", name: "ML & Retrieval", color: "#d56f7a", skills: ["RAG", "Hybrid retrieval", "ColBERT", "Cross-encoder", "Embeddings (BGE)", "Qdrant", "LLM apps", "INT8"] },
       { id: "gov", name: "Governance", color: "#fbbf24", skills: ["Canonical catalogs", "Semantic schema matching", "Entity resolution", "Lineage", "Data quality"] },
-      { id: "lang", name: "Languages", color: "#fb7185", skills: ["Python", "Java", "Scala", "Groovy", "Bash", "SQL"] }
+      { id: "lang", name: "Languages", color: "#b07e9e", skills: ["Python", "Java", "Scala", "Groovy", "Bash", "SQL"] }
     ];
-    var nodes = [{ id: "core", name: "Stack", label: "The stack", color: "#e8eef9", val: 14, core: true }];
+    var nodes = [{ id: "core", name: "Stack", label: "The stack", color: "#e07a5c", val: 14, core: true }];
     var links = [];
     domains.forEach(function (d) {
       nodes.push({ id: d.id, name: d.name, label: d.name, color: d.color, val: 9, hub: true });
@@ -241,9 +250,9 @@
   function initConstellation(FG, panel) {
     panel.classList.add("viz-on"); // panel must be laid out before the canvas can be sized
     var canvas = panel.querySelector(".viz-canvas");
-    var graph = makeGraph(FG, canvas, { interactive: true, particles: 0, nodeRelSize: 4, linkWidth: 0.7 });
+    var graph = makeGraph(FG, canvas, { interactive: true, particles: 0, nodeRelSize: 5, linkWidth: 1.1 });
     graph
-      .linkColor(function () { return "rgba(148,163,184,0.16)"; })
+      .linkColor(function () { return "rgba(150,124,98,0.32)"; })
       .graphData(constellationData());
     try {
       graph.d3Force("charge").strength(-95);

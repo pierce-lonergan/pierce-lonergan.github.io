@@ -45,16 +45,16 @@
 
 /* ---- Light theme ---- */
 [data-theme="light"] {
-  --bg: #f6f8fc;
-  --bg-2: #eef2f9;
-  --surface: rgba(15, 23, 42, 0.025);
-  --surface-2: rgba(15, 23, 42, 0.05);
-  --border: rgba(15, 23, 42, 0.1);
-  --border-strong: rgba(15, 23, 42, 0.18);
-  --text: #0f1b2d;
-  --text-soft: #3c4a5e;
-  --text-mute: #6b7689;
-  --shadow: 0 24px 50px -24px rgba(31, 45, 77, 0.35);
+  --bg: #faf5ef;
+  --bg-2: #f3ebe0;
+  --surface: rgba(72, 50, 28, 0.03);
+  --surface-2: rgba(72, 50, 28, 0.055);
+  --border: rgba(72, 50, 28, 0.11);
+  --border-strong: rgba(72, 50, 28, 0.19);
+  --text: #241a12;
+  --text-soft: #564636;
+  --text-mute: #8a7a66;
+  --shadow: 0 24px 50px -24px rgba(89, 60, 35, 0.3);
   --aurora-opacity: 0.4;
   color-scheme: light;
 }
@@ -175,15 +175,11 @@ a { color: inherit; text-decoration: none; }
   transition: color 0.2s, background 0.2s;
 }
 .nav-links a:hover { color: var(--text); background: var(--surface-2); }
+.nav-links { position: relative; }
 .nav-links a.active { color: var(--text); }
-.nav-links a.active::after {
-  content: "";
-  position: absolute;
-  left: 0.8rem; right: 0.8rem; bottom: 0.15rem;
-  height: 2px;
-  border-radius: 2px;
-  background: var(--gradient);
-}
+/* One indicator bar that glides between active links */
+.nav-ind { position: absolute; bottom: 0.15rem; left: 0; height: 2px; border-radius: 2px; background: var(--gradient); width: 0; opacity: 0; transition: transform 0.4s var(--spring), width 0.4s var(--ease), opacity 0.25s; pointer-events: none; }
+@media (max-width: 820px) { .nav-ind { display: none; } }
 
 .nav-actions { display: flex; align-items: center; gap: 0.6rem; }
 .icon-btn {
@@ -365,7 +361,8 @@ a { color: inherit; text-decoration: none; }
 
 /* =========================== 3D viz panels ============================= */
 @media (min-width: 901px) {
-  .hero-copy { max-width: 64ch; }
+  /* Center the copy block so wide screens balance instead of leaving the right half empty */
+  .hero-copy, .hero-stats { max-width: 66ch; margin-inline: auto; }
 }
 
 .hero-viz {
@@ -426,9 +423,6 @@ a { color: inherit; text-decoration: none; }
 #sankey path:hover { stroke-opacity: 0.62 !important; }
 @media (max-width: 560px) { #sankey .sankey-labels text { font-size: 9px; } }
 
-/* =========================== Particle flow field ====================== */
-.flow-wrap { position: relative; width: 100%; height: clamp(400px, 58vh, 560px); }
-#flowCanvas { display: block; width: 100%; height: 100%; }
 
 .viz-canvas { position: absolute; inset: 0; pointer-events: none; }
 .viz-live .viz-canvas { pointer-events: auto; }
@@ -614,8 +608,15 @@ a { color: inherit; text-decoration: none; }
 .footer-links a:hover { color: var(--g1); }
 
 /* =========================== Reveal animation ========================== */
-.reveal { opacity: 0; transform: translateY(26px); transition: opacity 0.7s var(--ease), transform 0.7s var(--ease); }
-.reveal.in { opacity: 1; transform: none; }
+.reveal { opacity: 0; transform: translateY(24px) scale(0.992); filter: blur(7px); transition: opacity 0.85s var(--ease), transform 0.85s var(--ease), filter 0.85s var(--ease); }
+.reveal.in { opacity: 1; transform: none; filter: none; }
+/* Keep heavy canvas panels and word-cascade titles blur-free (blur is per-word / too costly there) */
+.hero-viz.reveal, .skills-viz.reveal, .galaxy-viz.reveal, #sankey.reveal, .section-title.reveal { filter: none; }
+
+/* Section titles cascade in word by word */
+.section-title .w { display: inline-block; opacity: 0; transform: translateY(0.55em) rotate(1.2deg); transition: opacity 0.6s var(--ease), transform 0.6s var(--ease); transition-delay: calc(var(--wi) * 60ms); }
+.section-title.in .w, .section-title:not(.reveal) .w { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { .section-title .w { opacity: 1 !important; transform: none !important; } }
 
 /* =========================== Responsive ================================ */
 @media (max-width: 820px) {
@@ -763,6 +764,36 @@ a { color: inherit; text-decoration: none; }
 
 /* =========================== Motion pause control ====================== */
 .motion-toggle .i-pause, .motion-toggle .i-play { width: 18px; height: 18px; }
+
+/* =========================== Craft: micro-interactions ================= */
+/* Cursor-tracking glow on cards (set via --mx/--my from micro.js) */
+.has-glow { position: relative; }
+.has-glow::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; opacity: 0; transition: opacity 0.35s var(--ease); background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--g1) 13%, transparent), transparent 65%); }
+.has-glow:hover::after { opacity: 1; }
+
+/* Theme toggle: circular reveal via the View Transitions API */
+::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+::view-transition-old(root) { z-index: 1; }
+::view-transition-new(root) { z-index: 2; }
+
+/* Sankey: ribbons carry a slow stream of moving dashes */
+.sk-flow { animation: skflow 1.5s linear infinite; }
+@keyframes skflow { to { stroke-dashoffset: -23; } }
+.motion-paused .sk-flow { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) { .sk-flow { animation: none; } }
+#sankey .sankey-labels text { paint-order: stroke; stroke: var(--bg); stroke-width: 3px; stroke-linejoin: round; }
+
+/* Pipeline chaos: pulsing alert + red telemetry */
+.hero-viz.viz-alert { animation: alertPulse 1.5s ease-in-out infinite; }
+@keyframes alertPulse {
+  0%, 100% { box-shadow: 0 0 0 1px rgba(224, 82, 82, 0.35), 0 24px 60px -18px rgba(224, 82, 82, 0.3); }
+  50% { box-shadow: 0 0 0 2px rgba(224, 82, 82, 0.6), 0 26px 70px -14px rgba(224, 82, 82, 0.5); }
+}
+.vt-metric b.vt-bad { color: #e05252; }
+@media (prefers-reduced-motion: reduce) { .hero-viz.viz-alert { animation: none; } }
+
+/* Hero name replay (hover re-scatter): hide the heading quickly during the cycle */
+.js-name.name-replay .hero-name { opacity: 0; transition-duration: 0.12s; }
 .motion-toggle .i-play { display: none; }
 .motion-paused .motion-toggle .i-pause { display: none; }
 .motion-paused .motion-toggle .i-play { display: block; }

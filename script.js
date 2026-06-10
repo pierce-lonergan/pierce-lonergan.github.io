@@ -17,11 +17,25 @@
     var saved = localStorage.getItem("pl-theme");
     if (saved) root.setAttribute("data-theme", saved);
   } catch (e) {}
+  function applyTheme(next) {
+    root.setAttribute("data-theme", next);
+    try { localStorage.setItem("pl-theme", next); } catch (e) {}
+  }
   if (themeToggle) {
     themeToggle.addEventListener("click", function () {
       var next = root.getAttribute("data-theme") === "light" ? "dark" : "light";
-      root.setAttribute("data-theme", next);
-      try { localStorage.setItem("pl-theme", next); } catch (e) {}
+      // Circular reveal from the toggle button where the browser supports it.
+      if (!document.startViewTransition || prefersReduced) { applyTheme(next); return; }
+      var r = themeToggle.getBoundingClientRect();
+      var x = r.left + r.width / 2, y = r.top + r.height / 2;
+      var maxR = Math.hypot(Math.max(x, window.innerWidth - x), Math.max(y, window.innerHeight - y));
+      var vt = document.startViewTransition(function () { applyTheme(next); });
+      vt.ready.then(function () {
+        document.documentElement.animate(
+          { clipPath: ["circle(0px at " + x + "px " + y + "px)", "circle(" + maxR + "px at " + x + "px " + y + "px)"] },
+          { duration: 500, easing: "ease-in-out", pseudoElement: "::view-transition-new(root)" }
+        );
+      }).catch(function () {});
     });
   }
 
@@ -76,17 +90,47 @@
     if (id) navMap[id] = a;
   });
   var sections = $$("section[id]").filter(function (s) { return navMap[s.id]; });
+
+  /* Sliding indicator that glides between active nav links */
+  var navLinksWrap = $(".nav-links");
+  var navInd = null;
+  if (navLinksWrap) {
+    navInd = document.createElement("span");
+    navInd.className = "nav-ind";
+    navInd.setAttribute("aria-hidden", "true");
+    navLinksWrap.appendChild(navInd);
+  }
+  function moveInd() {
+    if (!navInd) return;
+    var a = $(".nav-links a.active");
+    if (!a) { navInd.style.opacity = "0"; return; }
+    navInd.style.opacity = "1";
+    navInd.style.width = Math.max(0, a.offsetWidth - 26) + "px";
+    navInd.style.transform = "translateX(" + (a.offsetLeft + 13) + "px)";
+  }
+  window.addEventListener("resize", function () { moveInd(); }, { passive: true });
+
   if ("IntersectionObserver" in window && sections.length) {
     var spy = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) {
         if (en.isIntersecting) {
           $$(".nav-links a").forEach(function (a) { a.classList.remove("active"); });
           if (navMap[en.target.id]) navMap[en.target.id].classList.add("active");
+          moveInd();
         }
       });
     }, { rootMargin: "-45% 0px -50% 0px" });
     sections.forEach(function (s) { spy.observe(s); });
   }
+
+  /* ------------------------------------------------ Title word cascade */
+  $$(".section-title").forEach(function (t) {
+    var txt = t.textContent;
+    t.setAttribute("aria-label", txt);
+    t.innerHTML = txt.split(/\s+/).map(function (w, i) {
+      return '<span class="w" aria-hidden="true" style="--wi:' + i + '">' + esc(w) + "</span>";
+    }).join(" ");
+  });
 
   /* ------------------------------------------------------- Reveal on scroll */
   var revealEls = $$(".reveal");
@@ -97,7 +141,7 @@
       entries.forEach(function (en, i) {
         if (en.isIntersecting) {
           // small natural stagger for groups entering together
-          var delay = Math.min(i * 70, 280);
+          var delay = Math.min(i * 90, 430);
           setTimeout(function () { en.target.classList.add("in"); }, delay);
           obs.unobserve(en.target);
         }

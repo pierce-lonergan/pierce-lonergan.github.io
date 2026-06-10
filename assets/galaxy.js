@@ -59,10 +59,15 @@
   function setLoading(txt) { var l = panelEl && panelEl.querySelector(".gx-loading"); if (l) { l.textContent = txt || ""; l.style.display = txt ? "flex" : "none"; } }
   function caption(html) { var c = panelEl && panelEl.parentNode.querySelector(".gx-caption"); if (c) c.innerHTML = html || ""; }
 
+  // Retrieval highlight uses the theme's ink color: maximum contrast on light AND dark.
+  function hotColor() {
+    return getComputedStyle(document.documentElement).getPropertyValue("--text").trim() || "#241a12";
+  }
   function restyle() {
     if (!graph) return;
-    graph.nodeColor(function (n) { return n.hot ? "#ffffff" : n.color; })
-      .nodeVal(function (n) { return n.hot ? 9 : n.val; });
+    var hc = hotColor();
+    graph.nodeColor(function (n) { return n.hot ? hc : n.color; })
+      .nodeVal(function (n) { return n.hot ? 14 : n.val; });
   }
 
   function highlight(topics) {
@@ -82,7 +87,7 @@
         seq = seq.then(function () {
           return embed(ex, item.text).then(function (v) {
             var cat = categoryOf(item.topic);
-            nodes.push({ id: i, topic: item.topic, cat: cat, color: CATS[cat], vec: v, val: 3 });
+            nodes.push({ id: i, topic: item.topic, cat: cat, color: CATS[cat], vec: v, val: 4.5 });
           });
         });
       });
@@ -97,16 +102,20 @@
       }
       graph = FG()(canvas)
         .backgroundColor("rgba(0,0,0,0)").showNavInfo(false)
-        .nodeColor(function (n) { return n.hot ? "#ffffff" : n.color; })
-        .nodeVal(function (n) { return n.hot ? 9 : n.val; })
-        .nodeOpacity(0.9)
+        .nodeRelSize(5)
+        .nodeColor(function (n) { return n.hot ? hotColor() : n.color; })
+        .nodeVal(function (n) { return n.hot ? 14 : n.val; })
+        .nodeOpacity(0.92)
         .nodeLabel(function (n) { return n.topic; })
-        .linkColor(function () { return "rgba(148,163,184,0.14)"; })
-        .linkWidth(0.6)
+        .linkColor(function () { return "rgba(150,124,98,0.3)"; })
+        .linkWidth(0.9)
         .graphData({ nodes: nodes, links: links });
       try { graph.d3Force("charge").strength(-65); } catch (e) {}
       setupGraph(canvas);
-      graph.onEngineStop(function () { try { graph.zoomToFit(700, 44); } catch (e) {} });
+      graph.onEngineStop(function () { try { graph.zoomToFit(700, 36); } catch (e) {} });
+      // The simulation keeps settling after the first fit; re-frame a couple of times.
+      setTimeout(function () { try { graph.zoomToFit(600, 36); } catch (e) {} }, 2600);
+      setTimeout(function () { try { graph.zoomToFit(600, 36); } catch (e) {} }, 5200);
       setLoading("");
       panel.classList.add("viz-live");
       wireVisibility(canvas);

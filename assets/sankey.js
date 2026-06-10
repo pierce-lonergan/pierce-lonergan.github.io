@@ -39,7 +39,7 @@
       var W = Math.max(360, host.clientWidth), H = Math.max(320, host.clientHeight || 440);
       var nodes = NODES.map(function (n, i) { return { name: n, c: COLORS[i] }; });
       var links = LINKS.map(function (l) { return { source: l[0], target: l[1], value: l[2] }; });
-      var sankey = d3.sankey().nodeWidth(11).nodePadding(20).extent([[4, 14], [W - 4, H - 14]]);
+      var sankey = d3.sankey().nodeWidth(11).nodePadding(24).extent([[4, 14], [W - 4, H - 14]]);
       var g = sankey({ nodes: nodes, links: links });
 
       host.innerHTML = "";
@@ -60,9 +60,19 @@
       var link = svg.append("g").attr("fill", "none").selectAll("path").data(g.links).join("path")
         .attr("d", d3.sankeyLinkHorizontal())
         .attr("stroke", function (d, i) { return "url(#plg" + i + ")"; })
-        .attr("stroke-opacity", 0.5)
+        .attr("stroke-opacity", 0.38)
         .attr("stroke-width", function (d) { return Math.max(1, d.width); });
       link.append("title").text(function (d) { return d.source.name + "  to  " + d.target.name + " : " + d.value; });
+
+      // A second pass of dashed strokes streams along every ribbon (CSS animates the offset).
+      var flow = svg.append("g").attr("fill", "none").attr("pointer-events", "none")
+        .selectAll("path").data(g.links).join("path")
+        .attr("class", "sk-flow")
+        .attr("d", d3.sankeyLinkHorizontal())
+        .attr("stroke", "currentColor")
+        .attr("stroke-opacity", 0.16)
+        .attr("stroke-width", function (d) { return Math.max(1, d.width); })
+        .attr("stroke-dasharray", "5 18");
 
       var node = svg.append("g").selectAll("rect").data(g.nodes).join("rect")
         .attr("x", function (d) { return d.x0; }).attr("y", function (d) { return d.y0; })
@@ -70,6 +80,15 @@
         .attr("height", function (d) { return Math.max(2, d.y1 - d.y0); })
         .attr("rx", 2).attr("fill", function (d) { return d.c; });
       node.append("title").text(function (d) { return d.name; });
+
+      // Hovering a node spotlights its flows and dims the rest.
+      node.on("pointerenter", function (e, d) {
+        link.attr("stroke-opacity", function (l) { return l.source === d || l.target === d ? 0.72 : 0.07; });
+        flow.attr("stroke-opacity", function (l) { return l.source === d || l.target === d ? 0.3 : 0.04; });
+      }).on("pointerleave", function () {
+        link.attr("stroke-opacity", 0.38);
+        flow.attr("stroke-opacity", 0.16);
+      });
 
       svg.append("g").attr("class", "sankey-labels").selectAll("text").data(g.nodes).join("text")
         .attr("x", function (d) { return d.x0 < W / 2 ? d.x1 + 8 : d.x0 - 8; })
@@ -79,7 +98,7 @@
         .text(function (d) { return d.name; });
 
       if (!prefersReduced) {
-        link.attr("stroke-opacity", 0).transition().delay(function (d, i) { return i * 60; }).duration(800).attr("stroke-opacity", 0.5);
+        link.attr("stroke-opacity", 0).transition().delay(function (d, i) { return i * 60; }).duration(800).attr("stroke-opacity", 0.38);
         node.attr("opacity", 0).transition().duration(550).attr("opacity", 1);
       }
       built = true;

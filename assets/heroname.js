@@ -56,7 +56,7 @@
     var total = pts.length / 2, cap = 16000, stride = total > cap ? Math.ceil(total / cap) : 1;
     particles = [];
     for (var i = 0; i < total; i += stride) {
-      particles.push({ x: Math.random() * W, y: Math.random() * H, tx: pts[i * 2], ty: pts[i * 2 + 1], v: 0.06 + Math.random() * 0.07 });
+      particles.push({ x: Math.random() * W, y: Math.random() * H, tx: pts[i * 2], ty: pts[i * 2 + 1], v: 0.06 + Math.random() * 0.07, vx: 0, vy: 0 });
     }
     return true;
   }
@@ -83,6 +83,56 @@
     show();
     canvas.style.transition = "opacity 0.7s ease"; canvas.style.opacity = "0";
     setTimeout(function () { if (raf) cancelAnimationFrame(raf); ctx.clearRect(0, 0, W, H); }, 800);
+  }
+
+  /* Hover delight: the settled name scatters apart and re-condenses (fine pointers, cooldown) */
+  var replaying = false, lastReplay = 0, rT = 0, rphase = 0;
+  function replayStep() {
+    ctx.clearRect(0, 0, W, H);
+    ctx.fillStyle = color;
+    var s = Math.max(1, 1.25 * dpr);
+    ctx.globalAlpha = 0.9;
+    rT++;
+    if (rphase === 0 && rT > 22) { rphase = 1; rT = 0; }
+    var fa = rphase === 0 ? 0 : ease(Math.min(1, rT / 50));
+    for (var i = 0; i < particles.length; i++) {
+      var p = particles[i];
+      p.vx *= 0.9; p.vy *= 0.9;
+      p.x += p.vx + (p.tx - p.x) * 0.2 * fa;
+      p.y += p.vy + (p.ty - p.y) * 0.2 * fa;
+      ctx.fillRect(p.x - s / 2, p.y - s / 2, s, s);
+    }
+    ctx.globalAlpha = 1;
+    if (rphase === 1 && rT >= 56) { finishReplay(); return; }
+    raf = requestAnimationFrame(replayStep);
+  }
+  function startReplay() {
+    if (!done || replaying) return;
+    var now = Date.now();
+    if (now - lastReplay < 4000) return;
+    lastReplay = now;
+    replaying = true;
+    document.documentElement.classList.add("name-replay");
+    document.documentElement.classList.remove("name-shown");
+    canvas.style.transition = "none";
+    canvas.style.opacity = "1";
+    for (var i = 0; i < particles.length; i++) {
+      var p = particles[i], a = Math.random() * Math.PI * 2, m = (1.5 + Math.random() * 7) * dpr;
+      p.x = p.tx; p.y = p.ty;
+      p.vx = Math.cos(a) * m; p.vy = Math.sin(a) * m;
+    }
+    rphase = 0; rT = 0;
+    raf = requestAnimationFrame(replayStep);
+  }
+  function finishReplay() {
+    replaying = false;
+    document.documentElement.classList.remove("name-replay");
+    show();
+    canvas.style.transition = "opacity 0.5s ease";
+    canvas.style.opacity = "0";
+  }
+  if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+    h1.addEventListener("pointerenter", startReplay);
   }
 
   function run() { readColor(); if (!setup()) { show(); return; } raf = requestAnimationFrame(step); }
