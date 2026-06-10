@@ -51,7 +51,16 @@
     });
   }
   wireCards();
+
+  /* Normalize icon strokes so they can draw themselves on card hover */
+  function prepIcons(scope) {
+    Array.prototype.forEach.call((scope || document).querySelectorAll(".skill-ico, .pc-icon, .edu-icon svg"), function (svg) {
+      Array.prototype.forEach.call(svg.querySelectorAll("path, circle, ellipse"), function (p) { p.setAttribute("pathLength", "1"); });
+    });
+  }
+  prepIcons();
+
   // Project cards are injected by script.js; catch them once they exist.
   var grid = document.getElementById("projectsGrid");
-  if (grid && window.MutationObserver) new MutationObserver(wireCards).observe(grid, { childList: true });
+  if (grid && window.MutationObserver) new MutationObserver(function () { wireCards(); prepIcons(grid); }).observe(grid, { childList: true });
 })();

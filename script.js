@@ -181,6 +181,27 @@
     }
   }
 
+  /* ------------------------------------------- Timeline draws in on scroll */
+  var tl = $("#experience .timeline");
+  if (tl) {
+    if (prefersReduced) {
+      tl.style.setProperty("--tlp", "1");
+    } else {
+      var tlQueued = false;
+      var tlUpdate = function () {
+        tlQueued = false;
+        var r = tl.getBoundingClientRect();
+        if (r.bottom < -80 || r.top > window.innerHeight + 80) return;
+        var p = (window.innerHeight * 0.62 - r.top) / r.height;
+        tl.style.setProperty("--tlp", Math.max(0, Math.min(1, p)).toFixed(3));
+      };
+      window.addEventListener("scroll", function () {
+        if (!tlQueued) { tlQueued = true; requestAnimationFrame(tlUpdate); }
+      }, { passive: true });
+      tlUpdate();
+    }
+  }
+
   /* ------------------------------------------------------- Hero role rotator */
   var rotator = $("#roleRotator");
   if (rotator && !prefersReduced) {
@@ -309,8 +330,14 @@
         $$(".pc-stars", grid).forEach(function (el) {
           var data = byName[el.getAttribute("data-repo")];
           if (data && typeof data.stargazers_count === "number" && data.stargazers_count > 0) {
-            $(".star-count", el).textContent = data.stargazers_count;
             el.hidden = false;
+            var sc = $(".star-count", el), target = data.stargazers_count, st = 0;
+            if (prefersReduced || target < 2) { sc.textContent = target; }
+            else (function stepStar() {
+              st++;
+              sc.textContent = Math.round(target * st / 10);
+              if (st < 10) setTimeout(stepStar, 55);
+            })();
           }
         });
       })

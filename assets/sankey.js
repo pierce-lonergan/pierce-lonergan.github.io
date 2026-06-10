@@ -32,7 +32,7 @@
     [7, 8, 24], [7, 10, 10], [7, 11, 16]  // Gold fans out
   ];
 
-  var built = false;
+  var built = false, entranceDone = false;
   function build() {
     var d3 = window.d3;
     try {
@@ -90,16 +90,32 @@
         flow.attr("stroke-opacity", 0.16);
       });
 
-      svg.append("g").attr("class", "sankey-labels").selectAll("text").data(g.nodes).join("text")
+      var labelSel = svg.append("g").attr("class", "sankey-labels").selectAll("text").data(g.nodes).join("text")
         .attr("x", function (d) { return d.x0 < W / 2 ? d.x1 + 8 : d.x0 - 8; })
         .attr("y", function (d) { return (d.y0 + d.y1) / 2; })
         .attr("dy", "0.34em")
         .attr("text-anchor", function (d) { return d.x0 < W / 2 ? "start" : "end"; })
         .text(function (d) { return d.name; });
 
-      if (!prefersReduced) {
-        link.attr("stroke-opacity", 0).transition().delay(function (d, i) { return i * 60; }).duration(800).attr("stroke-opacity", 0.38);
-        node.attr("opacity", 0).transition().duration(550).attr("opacity", 1);
+      if (!prefersReduced && !entranceDone) {
+        // Entrance: ribbons grow left-to-right in column order, then the stream fades in.
+        entranceDone = true;
+        flow.attr("stroke-opacity", 0);
+        link.each(function (d, i) {
+          var L = this.getTotalLength();
+          d3.select(this)
+            .attr("stroke-dasharray", L + " " + L)
+            .attr("stroke-dashoffset", L)
+            .transition()
+            .delay(d.source.depth * 180 + i * 30)
+            .duration(720)
+            .ease(d3.easeCubicOut)
+            .attr("stroke-dashoffset", 0)
+            .on("end", function () { d3.select(this).attr("stroke-dasharray", null).attr("stroke-dashoffset", null); });
+        });
+        node.attr("opacity", 0).transition().delay(function (d) { return d.depth * 180; }).duration(500).attr("opacity", 1);
+        labelSel.attr("opacity", 0).transition().delay(function (d) { return 240 + d.depth * 180; }).duration(500).attr("opacity", 1);
+        setTimeout(function () { flow.transition().duration(600).attr("stroke-opacity", 0.16); }, 1900);
       }
       built = true;
     } catch (e) { host.classList.add("sankey-failed"); }

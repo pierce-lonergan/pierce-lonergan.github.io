@@ -100,11 +100,36 @@
     });
   }
 
+  // Retrieval lands with a heartbeat: hot points pulse twice and the camera pans toward them.
+  var pulseTimer = null;
+  function afterHighlight() {
+    if (prefersReduced || !graph) return;
+    var hot = nodes.filter(function (n) { return n.hot; });
+    if (!hot.length) return;
+    var hc = hotColor(), k = 0;
+    clearInterval(pulseTimer);
+    pulseTimer = setInterval(function () {
+      k++;
+      var f = 1 + 0.5 * Math.abs(Math.sin(k * 0.52));
+      graph.nodeColor(function (n) { return n.hot ? hc : n.color; })
+        .nodeVal(function (n) { return n.hot ? 14 * f : n.val; });
+      if (k > 12) { clearInterval(pulseTimer); restyle(); }
+    }, 70);
+    try {
+      var cx = 0, cy = 0, cz = 0;
+      hot.forEach(function (n) { cx += n.x || 0; cy += n.y || 0; cz += n.z || 0; });
+      cx /= hot.length; cy /= hot.length; cz /= hot.length;
+      var p = graph.cameraPosition();
+      graph.cameraPosition({ x: p.x, y: p.y, z: p.z }, { x: cx, y: cy, z: cz }, 900);
+    } catch (e) {}
+  }
+
   function highlight(topics) {
     if (!graph || !nodes.length) return;
     var set = {}; (topics || []).forEach(function (t) { set[(t || "").toLowerCase()] = 1; });
     nodes.forEach(function (n) { n.hot = !!set[n.topic.toLowerCase()]; });
     restyle();
+    afterHighlight();
   }
 
   function build(panel) {
@@ -194,6 +219,7 @@
       top.forEach(function (x) { set[x.n.id] = 1; });
       nodes.forEach(function (n) { n.hot = !!set[n.id]; });
       restyle();
+      afterHighlight();
       caption("Closest matches: " + top.map(function (x) { return "<b>" + esc(x.n.topic) + "</b> " + Math.round(x.s * 100) + "%"; }).join("  ·  "));
     }).catch(function () { caption(""); });
   }

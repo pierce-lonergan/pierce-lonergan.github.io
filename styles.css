@@ -810,6 +810,43 @@ a { color: inherit; text-decoration: none; }
 .colophon-foot a { color: var(--g1); text-decoration: underline; }
 .footer-links button.js-colophon { background: none; border: none; padding: 0; cursor: pointer; color: var(--text-soft); font-size: 0.85rem; font-family: var(--font-sans); transition: color 0.2s; }
 .footer-links button.js-colophon:hover { color: var(--g1); }
+
+/* =========================== Animation wave ============================ */
+/* Pipeline telemetry sparkline */
+.vt-spark { display: block; width: 84px; height: 22px; margin-top: 3px; opacity: 0.9; }
+
+/* Timeline: the spine draws in with scroll; markers pop with a spring */
+.timeline::before { transform: scaleY(var(--tlp, 0)); transform-origin: top; }
+.tl-marker { transform: scale(0); transition: transform 0.55s var(--spring) 0.18s; }
+.tl-item.in .tl-marker { transform: scale(1); }
+.tl-item.in .tl-badge { animation: badgeIn 0.5s var(--spring) 0.55s both; }
+@keyframes badgeIn { from { transform: scale(0.4); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+/* Icons redraw themselves when their card is hovered */
+.skill-ico :is(path, circle, ellipse), .pc-icon :is(path, circle, ellipse), .edu-icon svg :is(path, circle, ellipse) { stroke-dasharray: 1; stroke-dashoffset: 0; }
+.skill-card:hover .skill-ico :is(path, circle, ellipse),
+.project-card:hover .pc-icon :is(path, circle, ellipse),
+.edu-card:hover .edu-icon svg :is(path, circle, ellipse) { animation: iconDraw 0.85s var(--ease) both; }
+@keyframes iconDraw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+
+/* Chat: retrieval chips cascade in; streamed replies carry a caret */
+.cb-rag-chip { opacity: 0; transform: translateY(5px); animation: chipIn 0.4s var(--ease) calc(var(--ci, 0) * 75ms) both; }
+@keyframes chipIn { to { opacity: 1; transform: none; } }
+.cb-streaming::after { content: "▍"; color: var(--g1); margin-left: 2px; animation: caretBlink 0.9s steps(2) infinite; }
+@keyframes caretBlink { 50% { opacity: 0; } }
+.cb-launcher.cb-nudge { animation: nudge 0.8s var(--spring) 2; }
+@keyframes nudge { 0%, 100% { transform: translateY(0); } 38% { transform: translateY(-7px); } 70% { transform: translateY(2px); } }
+
+/* Command palette: items cascade on open only */
+.cmdk.fresh .cmdk-item { animation: cmdkIn 0.3s var(--ease) calc(var(--pi, 0) * 22ms) both; }
+@keyframes cmdkIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: none; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .timeline::before { transform: none; }
+  .tl-marker { transform: none; }
+  .cb-rag-chip { opacity: 1; transform: none; animation: none; }
+  .cb-streaming::after { content: none; }
+}
 .motion-toggle .i-play { display: none; }
 .motion-paused .motion-toggle .i-pause { display: none; }
 .motion-paused .motion-toggle .i-play { display: block; }

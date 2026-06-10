@@ -136,7 +136,7 @@
     sel = 0;
     ui.list.innerHTML = filtered.length
       ? filtered.map(function (c, i) {
-          return '<li class="cmdk-item' + (i === sel ? " sel" : "") + '" role="option" data-i="' + i + '">' +
+          return '<li class="cmdk-item' + (i === sel ? " sel" : "") + '" role="option" data-i="' + i + '" style="--pi:' + Math.min(i, 12) + '">' +
             '<span class="cmdk-ico">' + svg(c.icon) + '</span>' + escapeHtml(c.title) + '</li>';
         }).join("")
       : '<li class="cmdk-empty">No matches</li>';
@@ -175,6 +175,8 @@
     commands = buildCommands();
     ui.root.hidden = false;
     render("");
+    ui.root.classList.add("fresh");
+    setTimeout(function () { ui.root.classList.remove("fresh"); }, 450);
     requestAnimationFrame(function () { ui.root.classList.add("on"); });
     ui.input.value = "";
     setTimeout(function () { ui.input.focus(); }, 40);

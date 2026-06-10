@@ -129,9 +129,11 @@
       if (document.hidden || !graph.graph2ScreenCoords) return;
       var nodes;
       try { nodes = pick() || []; } catch (e) { return; }
+      var seen = {};
       for (var i = 0; i < nodes.length; i++) {
         var n = nodes[i];
         if (n.x == null) continue;
+        seen[n.id] = 1;
         var el = els[n.id];
         if (!el) {
           el = els[n.id] = document.createElement("span");
@@ -139,9 +141,11 @@
           el.textContent = n.name;
           wrap.appendChild(el);
         }
+        el.style.display = "";
         var c = graph.graph2ScreenCoords(n.x, n.y, n.z || 0);
         el.style.transform = "translate(-50%,-50%) translate(" + c.x.toFixed(1) + "px," + (c.y + (n.labelDy || 20)).toFixed(1) + "px)";
       }
+      for (var k in els) { if (!seen[k]) els[k].style.display = "none"; }
     }
     requestAnimationFrame(frame);
   }
@@ -182,7 +186,8 @@
       .dagMode(wide ? "lr" : "td")
       .dagLevelDistance(wide ? 56 : 34)
       .linkColor(function (l) { return degraded(l) ? "rgba(224,82,82,0.6)" : "rgba(150,124,98,0.3)"; })
-      .nodeColor(function (n) { return n.degraded ? "#e04545" : n.color; })
+      .nodeColor(function (n) { return n.booted === false ? "#8a7a68" : (n.degraded ? "#e04545" : n.color); })
+      .nodeVal(function (n) { return n.booted === false ? 0.7 : (n.val || 1); })
       .linkDirectionalParticleSpeed(function (l) { return degraded(l) ? 0.0028 : 0.013; })
       .linkDirectionalParticleColor(function (l) { var s = l.source; return (s && s.degraded) ? "#ff8a8a" : ((s && s.color) || "#f0b58a"); })
       .graphData(data);
@@ -190,6 +195,36 @@
     wireVisibility(graph, canvas, "sway");
     panel.classList.add("viz-live");
     labelOverlay(graph, panel, function () { return data.nodes; });
+
+    // Boot sequence: stages come online in flow order the first time the panel is seen.
+    if (!prefersReduced && "IntersectionObserver" in window) {
+      data.nodes.forEach(function (n) { n.booted = false; });
+      graph.linkDirectionalParticles(0);
+      var bootOrder = ["src", "schema", "kafka", "spark", "iceberg", "snow", "ml"], bi = 0, bootStarted = false;
+      var reapply = function () {
+        graph.nodeColor(function (n) { return n.booted === false ? "#8a7a68" : (n.degraded ? "#e04545" : n.color); });
+        graph.nodeVal(function (n) { return n.booted === false ? 0.7 : (n.val || 1); });
+      };
+      var bootIO = new IntersectionObserver(function (es) {
+        es.forEach(function (en) {
+          if (!en.isIntersecting || bootStarted) return;
+          bootStarted = true;
+          bootIO.disconnect();
+          var t = setInterval(function () {
+            var id = bootOrder[bi++];
+            data.nodes.forEach(function (n) { if (n.id === id) n.booted = true; });
+            reapply();
+            if (bi >= bootOrder.length) {
+              clearInterval(t);
+              graph.linkDirectionalParticles(4);
+              try { data.links.forEach(function (l) { graph.emitParticle(l); }); } catch (e) {}
+            }
+          }, 220);
+        });
+      }, { threshold: 0.25 });
+      bootIO.observe(panel);
+    }
+
     pipelineExtras(panel, graph, data);
     return graph;
   }
@@ -206,6 +241,32 @@
 
     var health = 1, chaosActive = false;
     function fmt(n) { return n >= 1000 ? (n / 1000).toFixed(1) + "k" : Math.round(n) + ""; }
+
+    // A small live sparkline under the throughput number.
+    var spark = null, sctx = null, hist = [];
+    if (vtThr && vtThr.parentNode) {
+      spark = document.createElement("canvas");
+      spark.className = "vt-spark";
+      var sdpr = Math.min(window.devicePixelRatio || 1, 2);
+      spark.width = Math.round(84 * sdpr); spark.height = Math.round(22 * sdpr);
+      vtThr.parentNode.appendChild(spark);
+      sctx = spark.getContext("2d");
+      if (sctx) sctx.scale(sdpr, sdpr);
+    }
+    function drawSpark(v, bad) {
+      if (!sctx) return;
+      hist.push(v);
+      if (hist.length > 42) hist.shift();
+      sctx.clearRect(0, 0, 84, 22);
+      sctx.beginPath();
+      for (var i = 0; i < hist.length; i++) {
+        var x = (i / 41) * 84, y = 21 - Math.min(1, hist[i] / 14000) * 19;
+        if (i) sctx.lineTo(x, y); else sctx.moveTo(x, y);
+      }
+      sctx.strokeStyle = bad ? "#e05252" : "#f0a866";
+      sctx.lineWidth = 1.6;
+      sctx.stroke();
+    }
 
     // Re-applying the accessors with fresh closures forces 3d-force-graph to repaint.
     function restyle() {
@@ -224,7 +285,9 @@
       var j = function (s) { return 1 + (Math.random() - 0.5) * s; };
       var h = Math.max(health, 0.12);
       var bad = health < 0.9;
-      if (vtThr) { vtThr.textContent = fmt(12600 * health * j(0.12)); vtThr.classList.toggle("vt-bad", bad); }
+      var tv = 12600 * health * j(0.12);
+      drawSpark(tv, bad);
+      if (vtThr) { vtThr.textContent = fmt(tv); vtThr.classList.toggle("vt-bad", bad); }
       if (vtLag) { vtLag.textContent = Math.round((health > 0.85 ? 38 : 38 / h) * j(0.2)) + " ms"; vtLag.classList.toggle("vt-bad", bad); }
       if (vtP99) { vtP99.textContent = Math.round((health > 0.85 ? 172 : 172 / h) * j(0.15)) + " ms"; vtP99.classList.toggle("vt-bad", bad); }
     }
@@ -233,6 +296,7 @@
 
     function chaos() {
       if (chaosActive) return;
+      if (data.nodes.some(function (n) { return n.booted === false; })) return; // let the boot finish first
       chaosActive = true;
       var target = nodeById.spark || data.nodes[Math.min(3, data.nodes.length - 1)];
       target.degraded = true; restyle();
@@ -251,6 +315,23 @@
     }
     if (chaosBtn) chaosBtn.addEventListener("click", chaos);
     window.PL_injectChaos = chaos;
+
+    // Click a stage to see what it does, with a little particle burst on its edges.
+    try {
+      graph.onNodeClick(function (n) {
+        if (!n || n.booted === false || chaosActive) return;
+        status(n.label || n.name, "");
+        try {
+          data.links.forEach(function (l) {
+            var s = l.source && l.source.id !== undefined ? l.source.id : l.source;
+            var t = l.target && l.target.id !== undefined ? l.target.id : l.target;
+            if (s === n.id || t === n.id) graph.emitParticle(l);
+          });
+        } catch (e) {}
+        clearTimeout(window.__plNodeStatus);
+        window.__plNodeStatus = setTimeout(function () { if (!chaosActive) status(""); }, 2800);
+      });
+    } catch (e) {}
   }
 
   /* ------------------------------------------ Skills: force-directed graph */
@@ -286,7 +367,16 @@
       .linkColor(function () { return "rgba(150,124,98,0.32)"; })
       .graphData(cdata);
     var hubs = cdata.nodes.filter(function (n) { return n.hub || n.core; });
-    labelOverlay(graph, panel, function () { return hubs; });
+    // Labels for the domain hubs, plus any skill node currently flared from the cards below.
+    labelOverlay(graph, panel, function () {
+      return hubs.concat(cdata.nodes.filter(function (n) { return n.hot && !n.hub && !n.core; }));
+    });
+    function ink() { return getComputedStyle(document.documentElement).getPropertyValue("--text").trim() || "#241a12"; }
+    function reapply() {
+      var hc = ink();
+      graph.nodeColor(function (n) { return n.hot ? hc : (n.color || "#e07a5c"); });
+      graph.nodeVal(function (n) { return n.hot ? (n.val || 1) * 4 : (n.val || 1); });
+    }
     try {
       graph.d3Force("charge").strength(-95);
       graph.d3Force("link").distance(function (l) { return (l.source && l.source.core) ? 70 : 26; });
@@ -294,6 +384,20 @@
     graph.onEngineStop(function () { try { graph.zoomToFit(700, 40); } catch (e) {} });
     wireVisibility(graph, canvas, true, 0.0011);
     panel.classList.add("viz-live");
+
+    // Cross-link: hovering a skill chip in the cards flares its node in the constellation.
+    var leaves = cdata.nodes.filter(function (n) { return !n.hub && !n.core; });
+    Array.prototype.forEach.call(document.querySelectorAll("#skills .chips li"), function (li) {
+      var t = (li.textContent || "").toLowerCase();
+      var match = null;
+      for (var i = 0; i < leaves.length; i++) {
+        var k = leaves[i].name.toLowerCase();
+        if (t.indexOf(k) >= 0 || k.indexOf(t) >= 0) { match = leaves[i]; break; }
+      }
+      if (!match) return;
+      li.addEventListener("pointerenter", function () { match.hot = true; reapply(); });
+      li.addEventListener("pointerleave", function () { match.hot = false; reapply(); });
+    });
     return graph;
   }
 

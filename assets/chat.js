@@ -209,10 +209,10 @@
   // Visible RAG: surface which resume sections the semantic search retrieved.
   function renderRag(b, contexts) {
     if (!contexts || !contexts.length || !b || !b.wrap) return;
-    var chips = contexts.slice(0, 4).map(function (c) {
+    var chips = contexts.slice(0, 4).map(function (c, i) {
       var topic = (c.item && c.item.topic) || "résumé";
       var pct = (c.score != null && c.score <= 1 && c.score > 0) ? Math.round(c.score * 100) + "%" : "";
-      return '<span class="cb-rag-chip"' + (pct ? ' title="cosine similarity ' + pct + '"' : "") + ">" + esc(topic) + "</span>";
+      return '<span class="cb-rag-chip" style="--ci:' + i + '"' + (pct ? ' title="cosine similarity ' + pct + '"' : "") + ">" + esc(topic) + "</span>";
     }).join("");
     var el = document.createElement("div");
     el.className = "cb-rag";
@@ -277,13 +277,16 @@
         }
         setStatus(b, "");
         setBody(b, typingDots());
+        b.body.classList.add("cb-streaming");
         var answer = await streamInto(state.engine, buildMessages(query, contexts), function (partial) { setBody(b, renderText(partial)); });
+        b.body.classList.remove("cb-streaming");
         if (!answer.trim()) setBody(b, renderText(extractiveAnswer(query, contexts)));
       } else {
         setStatus(b, "");
         setBody(b, renderText(extractiveAnswer(query, contexts)));
       }
     } catch (err) {
+      if (b && b.body) b.body.classList.remove("cb-streaming");
       try {
         var ctx2 = await retrieve(query);
         setStatus(b, "");
@@ -299,7 +302,21 @@
   }
 
   /* ---------------------------------------------------------- bootstrap */
-  function init() { if (!KB.length) return; buildUI(); }
+  function init() {
+    if (!KB.length) return;
+    buildUI();
+    // One gentle nudge per session if the assistant goes unnoticed.
+    try {
+      if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches && !sessionStorage.getItem("pl-nudged")) {
+        setTimeout(function () {
+          if (state.open || !ui.launcher) return;
+          sessionStorage.setItem("pl-nudged", "1");
+          ui.launcher.classList.add("cb-nudge");
+          setTimeout(function () { ui.launcher.classList.remove("cb-nudge"); }, 1600);
+        }, 12000);
+      }
+    } catch (e) {}
+  }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
   else init();
 })();
