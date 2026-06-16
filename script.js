@@ -227,6 +227,15 @@
   var LANG_COLORS = { Python: "#3776AB", Java: "#E76F00", "Java / Groovy": "#E76F00", HTML: "#E34C26", Groovy: "#4298B8" };
   var PROJECTS = [
     {
+      name: "NexusPay",
+      icon: '<svg class="pc-icon" viewBox="0 0 24 24" fill="none" stroke="url(#iconGrad)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="5.5" width="19" height="13" rx="2"/><path d="M2.5 9.5h19"/><path d="M6 14.5h5"/></svg>',
+      title: "NexusPay",
+      desc: "A personal R&D build: an enterprise payment-operations platform on HyperSwitch. A 17-module Spring Modulith (Java 21, hexagonal) — double-entry ledger on serializable transactions, transactional-outbox → Kafka via Debezium CDC, a fraud rules engine, FX & cross-border, a dispute state machine, subscription billing, Keycloak SSO + maker-checker approvals, Temporal, Vault (PCI), and full Prometheus/Grafana observability.",
+      lang: "Java",
+      tags: ["Spring Modulith", "Double-entry ledger", "Kafka · CDC", "Temporal"],
+      repo: "https://github.com/pierce-lonergan/NexusPay"
+    },
+    {
       name: "nexus_matcher",
       icon: '<svg class="pc-icon" viewBox="0 0 24 24" fill="none" stroke="url(#iconGrad)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="6" r="1.5"/><circle cx="5" cy="12" r="1.5"/><circle cx="5" cy="18" r="1.5"/><circle cx="19" cy="6" r="1.5"/><circle cx="19" cy="12" r="1.5"/><circle cx="19" cy="18" r="1.5"/><path d="M6.5 6h11M6.5 12l11 6M6.5 18l11-6"/></svg>',
       title: "NexusMatcher",

@@ -40,6 +40,9 @@ window.PL_KB = [
   { topic: "Languages",
     text: "Pierce programs primarily in Python, Java, and Scala, and also uses Groovy, Bash, and SQL." },
 
+  { topic: "NexusPay project",
+    text: "NexusPay is Pierce's personal R&D project: an enterprise payment-operations platform layered on HyperSwitch. It is a 17-module Spring Modulith built in Java 21 and Spring Boot 3.2 with hexagonal architecture, featuring a double-entry ledger with serializable transactions, a transactional outbox streamed to Kafka via Debezium change-data-capture, a fraud rules engine, FX and cross-border payments, a dispute state machine, subscription billing, Keycloak single sign-on with maker-checker approval workflows, Temporal workflows, HashiCorp Vault for PCI card storage, and full Prometheus and Grafana observability. It spans roughly 845 Java files and 51 database migrations. It is the most substantial of his personal projects, and it is a personal project, not JPMorganChase work." },
+
   { topic: "NexusMatcher project",
     text: "NexusMatcher is Pierce's personal R&D project: an enterprise-grade semantic schema-matching system using multi-stage retrieval, neural reranking, and learned type projections. It reaches 100 percent Precision at 1, sub-4-millisecond rerank latency, and has 433 passing tests. It is a personal project, not JPMorganChase work." },
 

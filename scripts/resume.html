@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<!-- Source for assets/Pierce-Lonergan-Resume.pdf. Regenerate with:
+     chrome --headless --disable-gpu --no-pdf-header-footer \
+       --print-to-pdf="../assets/Pierce-Lonergan-Resume.pdf" resume.html -->
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Pierce Lonergan — Résumé</title>
+<style>
+  @page { size: Letter; margin: 0.42in 0.5in; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; color: #1c1c1c; font-size: 9.4pt; line-height: 1.26; }
+  .name { font-size: 21pt; font-weight: 700; letter-spacing: -0.4px; color: #b8502e; }
+  .tagline { font-size: 10pt; color: #444; margin-top: 1px; font-weight: 500; }
+  .contact { font-size: 8.8pt; color: #555; margin-top: 3px; }
+  .contact a { color: #555; text-decoration: none; }
+  .contact span { color: #b8502e; margin: 0 5px; }
+  h2 { font-size: 9.2pt; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #b8502e; border-bottom: 1.2px solid #e3b8a6; padding-bottom: 1.5px; margin: 9px 0 4.5px; }
+  .row { display: flex; justify-content: space-between; align-items: baseline; }
+  .role-title { font-weight: 700; font-size: 9.6pt; }
+  .role-meta { font-size: 8.7pt; color: #555; }
+  .sub { font-size: 8.7pt; color: #555; margin-bottom: 2.5px; }
+  .skills p { margin-bottom: 2px; }
+  .skills b { color: #2a2a2a; }
+  ul { list-style: none; margin-top: 1.5px; }
+  li { position: relative; padding-left: 11px; margin-bottom: 2.5px; font-size: 9.1pt; }
+  li::before { content: ""; position: absolute; left: 1px; top: 5.5px; width: 3.5px; height: 3.5px; border-radius: 50%; background: #c87a5c; }
+  .proj { margin-bottom: 4px; }
+  .proj .row { margin-bottom: 1px; }
+  .proj li { margin-bottom: 2px; }
+  .stack { font-size: 8.4pt; color: #6a6a6a; }
+</style>
+</head>
+<body>
+  <div class="name">Pierce Lonergan</div>
+  <div class="tagline">Software Engineer III &nbsp;·&nbsp; Data &amp; Applied ML &nbsp;·&nbsp; Platform</div>
+  <div class="contact">Columbus, OH <span>·</span> linkedin.com/in/pierce-lonergan <span>·</span> github.com/pierce-lonergan</div>
+
+  <h2>Professional Summary</h2>
+  <p>Software Engineer III at JPMorganChase specializing in large-scale streaming and batch data infrastructure, with hands-on applied-ML and retrieval work. Designs reusable data platforms on Apache Kafka, Spark, Iceberg, Snowflake, and AWS, and builds Retrieval-Augmented Generation and semantic schema-matching systems using hybrid lexical and dense retrieval with ColBERT reranking. Builds production-grade systems end to end on the side, including a 17-module enterprise payments platform on Spring Modulith. Three promotions in four years. Scientific foundation (B.S. Biochemistry and B.S. Computer Science) with a bias toward measurement and honest evaluation. Open to applied ML, data engineering, and platform roles.</p>
+
+  <h2>Technical Skills</h2>
+  <div class="skills">
+    <p><b>Streaming &amp; Big Data:</b> Apache Kafka, Apache Spark (Structured Streaming), Apache Iceberg, Apache Avro, Project Reactor, Cassandra, schema evolution, CDC (Debezium), exactly-once processing</p>
+    <p><b>Lakehouse &amp; Warehouse:</b> Snowflake, Iceberg lakehouse, Parquet, partitioning, data modeling, incremental sync</p>
+    <p><b>Applied ML &amp; Retrieval:</b> RAG, hybrid retrieval (BM25 + dense), ColBERT / late-interaction reranking, cross-encoder reranking, BGE embeddings, Qdrant, LLM application development, INT8 quantization</p>
+    <p><b>Cloud, Platform &amp; Infra:</b> AWS (S3, EMR, MSK, Glue, Kinesis, Lambda), Docker, CI/CD, hexagonal architecture, microservices, Spring Boot / Spring Modulith, Temporal, Keycloak, PostgreSQL</p>
+    <p><b>Data Governance:</b> Canonical catalogs, semantic schema matching, entity resolution, lineage, data-quality validation</p>
+    <p><b>Languages:</b> Python, Java, Scala, Groovy, Bash, SQL</p>
+  </div>
+
+  <h2>Professional Experience</h2>
+  <div class="row"><span class="role-title">JPMorganChase &nbsp;|&nbsp; Consumer &amp; Community Banking, Data Engineering</span><span class="role-meta">Columbus, OH</span></div>
+  <div class="sub">Software Engineer III (Feb 2026 – Present) · Associate Software Engineer (Jan 2024 – Feb 2026) · Software Engineer (Apr 2022 – Jan 2024)</div>
+  <ul>
+    <li>Architected reusable streaming-pipeline infrastructure with declarative source/sink/transform factories, forward-compatible schema evolution, and generic recursive flattening for nested data, lifting the team from roughly 2 to 30 production pipelines per month.</li>
+    <li>Standardized pipeline lifecycle concerns once and reused them across every pipeline: checkpointing, error handling, and graceful shutdown.</li>
+    <li>Shipped data-governance automation that cut weeks from data-approval cycles and became a production internal product; drove schema-evolution standards, semantic schema matching, and entity resolution against a canonical catalog.</li>
+    <li>Built high-performance Spark ETL with asynchronous processing and parallelization, and integrated Kafka for near-real-time distributed streaming, reducing latency and improving reliability and scalability.</li>
+    <li>Modernized big-data systems with reactive paradigms (Project Reactor), pairing Kafka messaging with Cassandra reconciliation and Spark ETL, and migrated high-throughput systems to federated AWS.</li>
+    <li>Led a hackathon team to 4th place globally; architects projected the platform would save roughly 80 engineer-hours per month.</li>
+  </ul>
+
+  <h2>Selected Projects</h2>
+  <div class="proj">
+    <div class="row"><span class="role-title">NexusPay &nbsp;|&nbsp; Enterprise payment-operations platform</span><span class="role-meta">Personal project · Java</span></div>
+    <ul>
+      <li>17-module Spring Modulith (Java 21, hexagonal) layered on HyperSwitch: double-entry ledger on serializable transactions, transactional-outbox → Kafka via Debezium CDC, a fraud rules engine, FX / cross-border, a dispute state machine, subscription billing, Keycloak SSO with maker-checker approval workflows, Temporal, HashiCorp Vault (PCI), and full Prometheus / Grafana observability. <span class="stack">~845 Java files across 51 database migrations.</span></li>
+    </ul>
+  </div>
+  <div class="proj">
+    <div class="row"><span class="role-title">NexusMatcher &nbsp;|&nbsp; Semantic schema-matching system</span><span class="role-meta">Personal project · Python</span></div>
+    <ul>
+      <li>Enterprise-grade multi-stage retrieval, neural reranking, and learned type projections (hybrid BM25 + dense, ColBERT reranking, Qdrant). 100% Precision@1, sub-4ms rerank latency, 433 passing tests.</li>
+    </ul>
+  </div>
+  <div class="proj">
+    <div class="row"><span class="role-title">MOMENTUM-X &nbsp;|&nbsp; LLM-driven algorithmic trading system</span><span class="role-meta">Personal project · Python</span></div>
+    <ul>
+      <li>End-to-end intraday trading system on the Alpaca API (phase-based stop-loss, live daemon, full observability). Designed and rigorously evaluated a multi-agent LLM ensemble, surfacing that ensemble consensus was anti-predictive and redirecting toward a validated execution edge; built mx-arena, a local exchange simulator for backtesting.</li>
+    </ul>
+  </div>
+
+  <h2>Education</h2>
+  <div class="row"><span class="role-title">The Ohio State University &nbsp;|&nbsp; B.S. Biochemistry and B.S. Computer Science &amp; Engineering</span><span class="role-meta">Aug 2016 – Dec 2021</span></div>
+  <div class="sub">Best Data Visualization, ASA DataFest 2021 &nbsp;·&nbsp; Coursework: machine learning, distributed computing, multithreading, database systems.</div>
+</body>
+</html>
