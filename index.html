@@ -48,7 +48,7 @@
         "@type": "ProfilePage",
         "@id": "https://pierce-lonergan.github.io/#profilepage",
         "url": "https://pierce-lonergan.github.io/",
-        "name": "Pierce Lonergan — Software Engineer III @ JPMorganChase",
+        "name": "Pierce Lonergan · Software Engineer III @ JPMorganChase",
         "about": { "@id": "https://pierce-lonergan.github.io/#pierce" },
         "mainEntity": { "@id": "https://pierce-lonergan.github.io/#pierce" }
       },
@@ -203,7 +203,7 @@
               <button class="trace-play" id="tracePlay" type="button">▶ Play</button>
             </div>
           </div>
-          <p class="trace-sub">One event's journey through the platform, as a distributed trace. The slow path stalls on a p99 model-inference span — scrub the timeline, or toggle the mitigation to see the fix. Each active span pulses the matching stage in the diagram above.</p>
+          <p class="trace-sub">One event's journey through the platform, as a distributed trace. The slow path stalls on a p99 model-inference span. Scrub the timeline, or toggle the mitigation to see the fix. Each active span pulses the matching stage in the diagram above.</p>
           <div class="trace-chart" id="traceChart" role="img" aria-label="Distributed-trace waterfall of one event flowing through the pipeline stages, with per-span durations."></div>
           <input class="trace-scrub" id="traceScrub" type="range" min="0" max="1000" value="0" aria-label="Scrub the trace timeline" />
           <p class="trace-readout" id="traceReadout"></p>
@@ -377,7 +377,7 @@
       <div class="container">
         <p class="section-kicker reveal">04 · Data flow</p>
         <h2 class="section-title reveal">The lakehouse, by volume.</h2>
-        <p class="section-sub reveal">The same platform as a flow diagram: width tracks throughput as data moves from sources through Kafka and Spark into the Bronze, Silver, and Gold medallion layers, then out to the warehouse, ML features, and reverse ETL — with malformed and deduplicated records peeled off to a dead-letter sink at each stage. Throughput conserves at every node. Hover any path for its volume.</p>
+        <p class="section-sub reveal">The same platform as a flow diagram: width tracks throughput as data moves from sources through Kafka and Spark into the Bronze, Silver, and Gold medallion layers, then out to the warehouse, ML features, and reverse ETL, with malformed and deduplicated records peeled off to a dead-letter sink at each stage. Throughput conserves at every node. Hover any path for its volume.</p>
         <div id="sankey" class="reveal" role="img" aria-label="Sankey diagram of the data platform: throughput flows from sources through Kafka, Spark, and the Bronze, Silver, and Gold layers out to Snowflake, ML features, and reverse ETL."></div>
       </div>
     </section>
@@ -449,7 +449,7 @@
       <div class="container">
         <p class="section-kicker reveal">08 · Fit check</p>
         <h2 class="section-title reveal">Hiring for a specific role?</h2>
-        <p class="section-sub reveal">Paste a job description. It is embedded against Pierce's résumé entirely in your browser — cosine similarity, not a hiring decision — and you get a requirement-by-requirement evidence map with gaps shown honestly. Nothing you paste leaves your device.</p>
+        <p class="section-sub reveal">Paste a job description below and I'll match it against my résumé, right here in your browser. It's cosine similarity, not a hiring decision: you get a requirement-by-requirement evidence map, with the gaps shown honestly. Nothing you paste ever leaves your device.</p>
         <form class="fit-form reveal" id="fitForm">
           <textarea id="fitJD" rows="5" placeholder="Paste a job description, or a few key requirements…" aria-label="Job description"></textarea>
           <div class="fit-actions">

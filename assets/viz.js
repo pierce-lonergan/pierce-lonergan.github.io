@@ -363,7 +363,7 @@
       // Backpressure cascades downstream through the medallion, then heals upstream-first.
       degrade("spark", true); health = 0.2;
       status("Poison pill hit Spark. Backpressure building, consumer lag climbing.", "warn");
-      setTimeout(function () { degrade("bronze", true); health = 0.13; status("Backpressure propagating to Bronze — Iceberg commits stalling.", "warn"); }, 2200);
+      setTimeout(function () { degrade("bronze", true); health = 0.13; status("Backpressure propagating to Bronze. Iceberg commits stalling.", "warn"); }, 2200);
       setTimeout(function () { degrade("silver", true); health = 0.1; status("Silver dedup starved. Consumer lag at 6× threshold.", "warn"); }, 4000);
       setTimeout(function () { status("Dead-lettered the poison pill. Circuit breaker tripped, draining the backlog.", "warn"); health = 0.4; }, 6000);
       setTimeout(function () { degrade("spark", false); health = 0.6; }, 7600);

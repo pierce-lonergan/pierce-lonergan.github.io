@@ -1,5 +1,5 @@
 /* =========================================================================
-   Pierce Lonergan — portfolio interactions
+   Pierce Lonergan · portfolio interactions
    Vanilla JS, no dependencies. Everything degrades gracefully.
    ========================================================================= */
 (function () {
@@ -10,10 +10,10 @@
   var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
 
   /* ----------------------------------------------- Designed view-source */
-  // For the curious who open DevTools — every claim here is inspectable.
+  // For the curious who open DevTools: every claim here is inspectable.
   try {
     console.log("%cPierce Lonergan", "font:700 26px 'Space Grotesk',system-ui,sans-serif;color:#e07a5c;text-shadow:0 1px 0 rgba(0,0,0,.15)");
-    console.log("%cHand-written vanilla HTML / CSS / JS — no framework, no build step, no backend, no tracking.", "color:#c0744f;font:13px ui-monospace,monospace");
+    console.log("%cHand-written vanilla HTML / CSS / JS. No framework, no build step, no backend, no tracking.", "color:#c0744f;font:13px ui-monospace,monospace");
     console.log("%cThe hero is a GLSL shader · the name is ~16k canvas particles · Ask-AI runs a local LLM (WebLLM) over client-side RAG, nothing leaves your device.", "color:#8a8474;font:12px ui-monospace,monospace");
     console.log("%cSource → github.com/pierce-lonergan/pierce-lonergan.github.io   ·   type pl() for the stack.", "color:#5fb0a8;font:12px ui-monospace,monospace");
     window.pl = function () {
@@ -244,7 +244,7 @@
       name: "NexusPay",
       icon: '<svg class="pc-icon" viewBox="0 0 24 24" fill="none" stroke="url(#iconGrad)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="5.5" width="19" height="13" rx="2"/><path d="M2.5 9.5h19"/><path d="M6 14.5h5"/></svg>',
       title: "NexusPay",
-      desc: "A personal R&D build: an enterprise payment-operations platform on HyperSwitch. A 17-module Spring Modulith (Java 21, hexagonal) — double-entry ledger on serializable transactions, transactional-outbox → Kafka via Debezium CDC, a fraud rules engine, FX & cross-border, a dispute state machine, subscription billing, Keycloak SSO + maker-checker approvals, Temporal, Vault (PCI), and full Prometheus/Grafana observability.",
+      desc: "A personal R&D build: an enterprise payment-operations platform on HyperSwitch. A 17-module Spring Modulith (Java 21, hexagonal): double-entry ledger on serializable transactions, transactional-outbox → Kafka via Debezium CDC, a fraud rules engine, FX & cross-border, a dispute state machine, subscription billing, Keycloak SSO + maker-checker approvals, Temporal, Vault (PCI), and full Prometheus/Grafana observability.",
       lang: "Java",
       tags: ["Spring Modulith", "Double-entry ledger", "Kafka · CDC", "Temporal"],
       repo: "https://github.com/pierce-lonergan/NexusPay",
@@ -322,7 +322,7 @@
         '<div class="pc-bottom">' +
           '<span class="pc-lang"><span class="lang-dot" style="background:' + color + '"></span>' + esc(p.lang) + '</span>' +
           '<span class="pc-links">' + demo +
-            (p.proof ? '<a class="pc-proof" href="' + esc(p.proof.url) + '" target="_blank" rel="noopener" title="proof of work — see for yourself">' + esc(p.proof.label) + '</a>' : '') +
+            (p.proof ? '<a class="pc-proof" href="' + esc(p.proof.url) + '" target="_blank" rel="noopener" title="proof of work, see for yourself">' + esc(p.proof.label) + '</a>' : '') +
             '<a href="' + esc(p.repo) + '" target="_blank" rel="noopener">Code ↗</a>' +
           '</span>' +
         '</div>' +
@@ -367,6 +367,6 @@
           }
         });
       })
-      .catch(function () { /* offline or rate-limited — static cards stand on their own */ });
+      .catch(function () { /* offline or rate-limited; static cards stand on their own */ });
   }
 })();

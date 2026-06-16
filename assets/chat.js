@@ -231,7 +231,7 @@
     if (!b || !b.wrap) return;
     var topStr = (t.mode === "semantic") ? (Math.round(t.top * 100) + "% cosine") : (t.top + " keyword hits");
     var gen = kind === "llm" ? ("Llama-3.2-1B q4f16 · " + t.generateMs + " ms")
-      : kind === "refused" ? "skipped — low confidence"
+      : kind === "refused" ? "skipped (low confidence)"
       : "extractive (no WebGPU)";
     var d = document.createElement("details");
     d.className = "cb-trace";
@@ -299,7 +299,7 @@
       // Honest refusal: when the best semantic match is weak, don't ask the model to invent.
       if (trace.mode === "semantic" && trace.top < REFUSE_AT) {
         setStatus(b, "");
-        setBody(b, renderText("That's outside what's in Pierce's résumé here, so I won't guess. You can ask him directly on LinkedIn — or try his data-engineering work, his projects (NexusPay, NexusMatcher), or his ML and retrieval experience."));
+        setBody(b, renderText("That's outside what's in Pierce's résumé here, so I won't guess. You can ask him directly on LinkedIn, or try his data-engineering work, his projects (NexusPay, NexusMatcher), or his ML and retrieval experience."));
         renderTrace(b, trace, "refused");
         return;
       }

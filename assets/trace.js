@@ -75,7 +75,7 @@
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]; }); }
   function showTip(s, bar) {
     if (!tip) return;
-    tip.innerHTML = "<b>" + esc(s.name) + "</b><br>" + (s.kind || "span") + " · " + s.node + "<br>T+" + s.start + "–" + (s.start + s.dur) + " ms (" + s.dur + " ms)" + (s.hot ? '<br><span class="tt-hot">p99 stall — see mitigation</span>' : "");
+    tip.innerHTML = "<b>" + esc(s.name) + "</b><br>" + (s.kind || "span") + " · " + s.node + "<br>T+" + s.start + "–" + (s.start + s.dur) + " ms (" + s.dur + " ms)" + (s.hot ? '<br><span class="tt-hot">p99 stall (see mitigation)</span>' : "");
     var br = bar.getBoundingClientRect(), hr = host.getBoundingClientRect();
     tip.style.left = (br.left - hr.left + br.width / 2) + "px";
     tip.style.top = (br.top - hr.top - 8) + "px";
@@ -97,7 +97,7 @@
       if (active >= 0 && window.PL_pipelinePulse) { try { window.PL_pipelinePulse(data[active].node); } catch (e) {} }
     }
     if (scrub && document.activeElement !== scrub) scrub.value = Math.round(total ? t / total * 1000 : 0);
-    if (readout) readout.textContent = "T+" + Math.round(t) + " / " + total + " ms · " + ((fix && fix.checked) ? "mitigated" : "slow path") + "  ·  bottleneck " + (crit ? crit.name + " " + crit.dur + "ms" : "—") + (a ? "  →  " + a.name + (a.hot ? " (stall)" : "") : "");
+    if (readout) readout.textContent = "T+" + Math.round(t) + " / " + total + " ms · " + ((fix && fix.checked) ? "mitigated" : "slow path") + "  ·  bottleneck " + (crit ? crit.name + " " + crit.dur + "ms" : "n/a") + (a ? "  →  " + a.name + (a.hot ? " (stall)" : "") : "");
   }
 
   var raf = null, playing = false, t0 = null, startT = 0;

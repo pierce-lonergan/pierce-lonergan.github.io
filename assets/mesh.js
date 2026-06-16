@@ -151,7 +151,7 @@
   }
 
   // Degrade gracefully if the GPU context is lost: drop the canvas so the CSS
-  // aurora carries the hero — never a black rectangle.
+  // aurora carries the hero, never a black rectangle.
   if (window.PL_guardCanvas) window.PL_guardCanvas(canvas, {
     restore: false,
     onLost: function () { if (raf) { cancelAnimationFrame(raf); raf = null; } canvas.style.opacity = "0"; }

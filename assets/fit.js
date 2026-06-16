@@ -78,7 +78,7 @@
         return p.then(function () { render(scored); });
       });
     }).catch(function () {
-      statusEl.textContent = "The on-device model couldn't load here — but the résumé, projects, and skills above cover the same ground.";
+      statusEl.textContent = "The on-device model couldn't load here, but my résumé, projects, and skills above cover the same ground.";
     }).then(function () { busy = false; });
   }
 
@@ -98,7 +98,7 @@
     }).join("");
     resultsEl.innerHTML =
       '<p class="fit-summary"><b>' + strong + '</b> strong · <b>' + partial + '</b> partial · <b>' + gap + '</b> gap, across ' + scored.length + ' requirements. ' +
-      '<span class="fit-disc">Cosine similarity over Pierce\'s résumé — evidence, not a verdict. Hover a row to find it on the map above.</span></p>' +
+      '<span class="fit-disc">Cosine similarity over my résumé. Evidence, not a verdict. Hover a row to find it on the map above.</span></p>' +
       '<ul class="fit-list">' + rows + '</ul>';
     Array.prototype.forEach.call(resultsEl.querySelectorAll(".fit-row"), function (li) {
       li.addEventListener("mouseenter", function () {

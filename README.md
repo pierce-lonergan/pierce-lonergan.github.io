@@ -17,7 +17,7 @@ accessibility and SEO.
 **The platform, live.** My streaming/lakehouse architecture as a force-directed DAG
 (3d-force-graph / Three.js): stages boot in flow order, particles stream along the edges, every
 node is labeled and clickable, telemetry ticks with a live sparkline, and an "inject chaos"
-button runs a nine-second poison-pill incident — backpressure, red telemetry, a pulsing alert —
+button runs a nine-second poison-pill incident (backpressure, red telemetry, a pulsing alert)
 that heals with a particle surge.
 
 **Skill constellation.** A draggable 3D force graph of the stack, clustered by domain. Hovering
@@ -34,7 +34,7 @@ appear as chips before the streamed answer. No server, no keys; falls back to ex
 retrieval without WebGPU.
 
 **Retrieval, visualized.** Every résumé chunk plotted in embedding space (real cosine geometry,
-not a mock). Type a query — or ask the assistant — and the matched points pulse, get name tags,
+not a mock). Type a query, or ask the assistant, and the matched points pulse, get name tags,
 and the camera pans toward them.
 
 **Product craft.** Command palette (Ctrl/Cmd+K), circular view-transition theme toggle, magnetic
