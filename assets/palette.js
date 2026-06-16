@@ -75,6 +75,7 @@
   }
   function showColophon() {
     if (!colophonEl) {
+      var cap = window.PL_CAP || {};
       colophonEl = document.createElement("div");
       colophonEl.className = "cmdk";
       colophonEl.innerHTML =
@@ -88,6 +89,7 @@
               "<li><b>The hero backdrop</b> is a hand-written GLSL simplex-noise shader on a low-resolution canvas, and the name condenses from roughly sixteen thousand canvas particles.</li>" +
               "<li><b>The platform diagram</b> is a force-directed DAG (3d-force-graph / Three.js) with live telemetry and a chaos injection you can fire yourself.</li>" +
               "<li><b>The lakehouse flow</b> is d3-sankey with throughput-weighted ribbons, and <b>the embedding map</b> places résumé chunks by their real cosine geometry.</li>" +
+              "<li><b>Adaptive rendering</b> — this device was profiled (" + (cap.webgpu ? "WebGPU" : "no WebGPU") + ", " + (cap.webgl2 ? "WebGL2" : "no WebGL2") + ") and the page runs at its <b>" + (cap.tier || "high") + "</b> render tier. If the GPU context is lost, the hero falls back to its CSS aurora rather than a black canvas.</li>" +
               "<li>Everything honors prefers-reduced-motion, degrades without WebGL or WebGPU, and ships from GitHub Pages as static files.</li>" +
             "</ul>" +
             '<p class="colophon-foot">Read the source on <a href="https://github.com/pierce-lonergan/pierce-lonergan.github.io" target="_blank" rel="noopener">GitHub</a>.</p>' +
