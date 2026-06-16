@@ -15,7 +15,7 @@
   var playBtn = document.getElementById("tracePlay");
   var fix = document.getElementById("traceFix");
   var readout = document.getElementById("traceReadout");
-  var COLORS = { src: "#f0a866", kafka: "#5fb0a8", schema: "#fbbf24", spark: "#e07a5c", iceberg: "#34d399", ml: "#d56f7a" };
+  var COLORS = { api: "#f0a866", kafka: "#5fb0a8", schema: "#fbbf24", spark: "#e07a5c", silver: "#bcae93", mlf: "#b07e9e" };
 
   function spans(m) {
     var inf = m ? 12 : 95; // the p99 inference stall, fixed by the mitigation
@@ -25,10 +25,10 @@
       { name: "schema validate · Avro", node: "schema", start: 13, dur: 6, child: 1 },
       { name: "spark · streaming", node: "spark", start: 19, dur: 22 },
       { name: "dedup + watermark", node: "spark", start: 23, dur: 9, child: 1 },
-      { name: "iceberg write", node: "iceberg", start: 41, dur: 14 },
-      { name: "feature lookup", node: "ml", start: 55, dur: 7, child: 1 },
-      { name: "model inference", node: "ml", start: 62, dur: inf, hot: !m },
-      { name: "sink · serve", node: "ml", start: 62 + inf, dur: 6 }
+      { name: "iceberg write · bronze→silver", node: "silver", start: 41, dur: 14 },
+      { name: "feature lookup", node: "mlf", start: 55, dur: 7, child: 1 },
+      { name: "model inference", node: "mlf", start: 62, dur: inf, hot: !m },
+      { name: "sink · serve", node: "mlf", start: 62 + inf, dur: 6 }
     ];
   }
 

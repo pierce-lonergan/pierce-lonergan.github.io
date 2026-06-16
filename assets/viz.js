@@ -155,24 +155,44 @@
 
   /* ----------------------------------------------- Hero: data-flow pipeline */
   function pipelineData() {
-    var C = { src: "#f0a866", kafka: "#5fb0a8", spark: "#e07a5c", schema: "#fbbf24", ice: "#34d399", snow: "#cc9a80", ml: "#d56f7a" };
+    var C = {
+      api: "#f0a866", cdc: "#ef9a73", files: "#e09a62", kafka: "#5fb0a8", schema: "#fbbf24",
+      spark: "#e07a5c", bronze: "#c98a5c", silver: "#bcae93", gold: "#f0b429",
+      snow: "#d56f7a", mlf: "#b07e9e", retl: "#8a9a8a", dash: "#e8956a", dlq: "#9a7d74"
+    };
     var nodes = [
-      { id: "src",     name: "Sources",         label: "Sources: APIs, CDC, files",                         color: C.src,    val: 6 },
-      { id: "kafka",   name: "Kafka",            label: "Kafka: streaming backbone",                         color: C.kafka,  val: 9 },
-      { id: "schema",  name: "Schema Registry",  label: "Schema registry: Avro, forward-compatible evolution", color: C.schema, val: 5 },
-      { id: "spark",   name: "Spark",            label: "Spark: Structured Streaming + ETL",                 color: C.spark,  val: 11 },
-      { id: "iceberg", name: "Iceberg",          label: "Apache Iceberg: lakehouse tables",                  color: C.ice,    val: 7 },
-      { id: "snow",    name: "Snowflake",        label: "Snowflake: warehouse",                              color: C.snow,   val: 7 },
-      { id: "ml",      name: "ML / Serving",     label: "ML / serving: features and models",                 color: C.ml,     val: 8 }
+      { id: "api",    name: "API events", label: "API events: REST + webhooks",               color: C.api,    val: 5 },
+      { id: "cdc",    name: "CDC",        label: "CDC: Debezium change streams",              color: C.cdc,    val: 5 },
+      { id: "files",  name: "Files",      label: "File drops: batch loads",                   color: C.files,  val: 4 },
+      { id: "kafka",  name: "Kafka",      label: "Kafka: streaming backbone (KRaft)",         color: C.kafka,  val: 12 },
+      { id: "schema", name: "Schema",     label: "Schema registry: Avro, forward-compatible", color: C.schema, val: 5 },
+      { id: "spark",  name: "Spark",      label: "Spark: Structured Streaming + ETL",         color: C.spark,  val: 13 },
+      { id: "bronze", name: "Bronze",     label: "Bronze: raw, append-only (Iceberg)",        color: C.bronze, val: 11 },
+      { id: "silver", name: "Silver",     label: "Silver: cleaned + deduplicated",            color: C.silver, val: 11 },
+      { id: "gold",   name: "Gold",       label: "Gold: curated marts",                       color: C.gold,   val: 9 },
+      { id: "snow",   name: "Snowflake",  label: "Snowflake: warehouse + BI",                 color: C.snow,   val: 6 },
+      { id: "mlf",    name: "ML feat",    label: "ML features + model serving",               color: C.mlf,    val: 7 },
+      { id: "retl",   name: "Rev ETL",    label: "Reverse ETL: operational sync",             color: C.retl,   val: 4 },
+      { id: "dash",   name: "Dash",       label: "Dashboards + BI",                           color: C.dash,   val: 5 },
+      { id: "dlq",    name: "DLQ",        label: "Dead-letter: filtered + malformed records", color: C.dlq,    val: 3 }
     ];
     var links = [
-      { source: "src", target: "kafka" },
-      { source: "kafka", target: "spark" },
-      { source: "schema", target: "spark" },
-      { source: "spark", target: "iceberg" },
-      { source: "spark", target: "snow" },
-      { source: "iceberg", target: "ml" },
-      { source: "snow", target: "ml" }
+      { source: "api", target: "kafka", value: 40 },
+      { source: "cdc", target: "kafka", value: 26 },
+      { source: "files", target: "spark", value: 16 },
+      { source: "kafka", target: "spark", value: 52 },
+      { source: "kafka", target: "bronze", value: 14 },
+      { source: "schema", target: "spark", value: 8 },
+      { source: "spark", target: "bronze", value: 62 },
+      { source: "spark", target: "dlq", value: 6 },
+      { source: "bronze", target: "silver", value: 70 },
+      { source: "bronze", target: "dlq", value: 6 },
+      { source: "silver", target: "gold", value: 48 },
+      { source: "silver", target: "mlf", value: 20 },
+      { source: "silver", target: "dlq", value: 2 },
+      { source: "gold", target: "snow", value: 24 },
+      { source: "gold", target: "retl", value: 10 },
+      { source: "gold", target: "dash", value: 14 }
     ];
     return { nodes: nodes, links: links };
   }
@@ -184,14 +204,19 @@
     var data = pipelineData();
     // Wide panels read left-to-right (fills the aspect ratio); narrow ones top-down.
     var wide = (canvas.clientWidth || panel.clientWidth || 0) > 620;
-    var graph = makeGraph(FG, canvas, { interactive: false, particles: 4, particleSpeed: 0.013, particleWidth: 3.4, nodeRelSize: 7 });
+    // Particles per edge scale with throughput, so busy paths visibly carry more.
+    var partCount = function (l) { return Math.max(1, Math.round((l.value || 12) / 14)); };
+    var graph = makeGraph(FG, canvas, { interactive: false, particles: 0, particleSpeed: 0.012, particleWidth: 3, nodeRelSize: 6 });
     graph
       .dagMode(wide ? "lr" : "td")
-      .dagLevelDistance(wide ? 56 : 34)
-      .linkColor(function (l) { return degraded(l) ? "rgba(224,82,82,0.6)" : "rgba(150,124,98,0.3)"; })
+      .dagLevelDistance(wide ? 46 : 28)
+      .linkColor(function (l) { return degraded(l) ? "rgba(224,82,82,0.6)" : "rgba(150,124,98,0.26)"; })
+      .linkWidth(function (l) { return Math.max(0.6, (l.value || 12) / 22); })
       .nodeColor(function (n) { return n.booted === false ? "#8a7a68" : (n.degraded ? "#e04545" : n.color); })
       .nodeVal(function (n) { return n.booted === false ? 0.7 : (n.val || 1); })
-      .linkDirectionalParticleSpeed(function (l) { return degraded(l) ? 0.0028 : 0.013; })
+      .linkDirectionalParticles(partCount)
+      .linkDirectionalParticleWidth(function (l) { return Math.max(1.6, Math.min(4.6, (l.value || 12) / 15)); })
+      .linkDirectionalParticleSpeed(function (l) { return degraded(l) ? 0.0026 : 0.011; })
       .linkDirectionalParticleColor(function (l) { var s = l.source; return (s && s.degraded) ? "#ff8a8a" : ((s && s.color) || "#f0b58a"); })
       .graphData(data);
     graph.onEngineStop(function () { try { graph.zoomToFit(700, 18); } catch (e) {} });
@@ -205,7 +230,7 @@
     if (!prefersReduced && "IntersectionObserver" in window) {
       data.nodes.forEach(function (n) { n.booted = false; });
       graph.linkDirectionalParticles(0);
-      var bootOrder = ["src", "schema", "kafka", "spark", "iceberg", "snow", "ml"], bi = 0, bootStarted = false;
+      var bootOrder = ["api", "cdc", "files", "schema", "kafka", "spark", "bronze", "silver", "gold", "snow", "mlf", "retl", "dash", "dlq"], bi = 0, bootStarted = false;
       var reapply = function () {
         graph.nodeColor(function (n) { return n.booted === false ? "#8a7a68" : (n.degraded ? "#e04545" : n.color); });
         graph.nodeVal(function (n) { return n.booted === false ? 0.7 : (n.val || 1); });
@@ -221,10 +246,10 @@
             reapply();
             if (bi >= bootOrder.length) {
               clearInterval(t);
-              graph.linkDirectionalParticles(4);
+              graph.linkDirectionalParticles(partCount);
               try { data.links.forEach(function (l) { graph.emitParticle(l); }); } catch (e) {}
             }
-          }, 220);
+          }, 160);
         });
       }, { threshold: 0.25 });
       bootIO.observe(panel);
