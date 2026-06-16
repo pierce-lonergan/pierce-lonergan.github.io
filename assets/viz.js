@@ -249,11 +249,40 @@
               clearInterval(t);
               graph.linkDirectionalParticles(partCount);
               try { data.links.forEach(function (l) { graph.emitParticle(l); }); } catch (e) {}
+              setTimeout(runTour, 1500);
             }
           }, 160);
         });
       }, { threshold: 0.25 });
       bootIO.observe(panel);
+    }
+
+    // One-shot guided scan across the backbone after the graph settles. Pans the lookAt
+    // only (the camera never relocates, so it can't land on a broken frame). Interruptible;
+    // honors prefers-reduced-motion and the global motion-pause.
+    function runTour() {
+      if (prefersReduced || !wide) return;
+      if (document.documentElement.classList.contains("motion-paused")) return;
+      var byId = {}; data.nodes.forEach(function (n) { byId[n.id] = n; });
+      var cam; try { cam = graph.cameraPosition(); } catch (e) { return; }
+      if (!cam || !byId.spark || byId.spark.x == null) return;
+      var order = ["api", "kafka", "spark", "bronze", "silver", "gold", "mlf"], i = 0, cancelled = false;
+      var center = { x: 0, y: 0, z: 0 };
+      var cv = panel.querySelector(".viz-canvas");
+      function home(ms) { try { graph.cameraPosition(cam, center, ms || 700); } catch (e) {} }
+      function cancel() { if (!cancelled) { cancelled = true; home(500); } }
+      if (cv) { cv.addEventListener("pointerdown", cancel, { passive: true }); cv.addEventListener("wheel", cancel, { passive: true }); }
+      function step() {
+        if (cancelled || document.documentElement.classList.contains("motion-paused")) { home(500); return; }
+        if (i >= order.length) { home(900); return; }
+        var n = byId[order[i++]];
+        if (n && n.x != null) {
+          try { graph.cameraPosition(cam, { x: n.x, y: n.y, z: n.z || 0 }, 700); } catch (e) {}
+          try { data.links.forEach(function (l) { var s = (l.source && l.source.id !== undefined) ? l.source.id : l.source; if (s === n.id) graph.emitParticle(l); }); } catch (e) {}
+        }
+        setTimeout(step, 880);
+      }
+      setTimeout(step, 400);
     }
 
     pipelineExtras(panel, graph, data);
