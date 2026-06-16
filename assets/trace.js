@@ -32,11 +32,13 @@
     ];
   }
 
-  var data, total, rows, lastActive = -1, tip = null;
+  var data, total, rows, lastActive = -1, tip = null, crit = null, engaged = false;
 
   function build() {
     data = spans(fix && fix.checked);
     total = data.reduce(function (mx, s) { return Math.max(mx, s.start + s.dur); }, 0);
+    crit = null; data.forEach(function (s) { if (!s.child && (!crit || s.dur > crit.dur)) crit = s; }); // critical-path bottleneck
+    engaged = false;
     host.innerHTML = "";
     // Time axis with ms tick labels (gridlines are drawn on every track via CSS).
     var axis = document.createElement("div"); axis.className = "trace-row trace-axis";
@@ -59,8 +61,8 @@
       var bar = document.createElement("div"); bar.className = "trace-bar" + (s.hot ? " trace-hot" : "");
       bar.style.left = (s.start / total * 100).toFixed(2) + "%";
       bar.style.width = Math.max(1.5, s.dur / total * 100).toFixed(2) + "%";
-      bar.style.background = COLORS[s.node] || "#e07a5c";
-      bar.style.color = COLORS[s.node] || "#e07a5c"; // currentColor drives the active glow
+      bar.style.color = COLORS[s.node] || "#e07a5c"; // currentColor drives the gradient fill + glow
+      bar.style.setProperty("--fill", "100%");
       bar.addEventListener("mouseenter", function () { showTip(s, bar); });
       bar.addEventListener("mouseleave", function () { if (tip) tip.classList.remove("on"); });
       track.appendChild(bar); row.appendChild(label); row.appendChild(track); host.appendChild(row);
@@ -83,17 +85,19 @@
   function setT(t) {
     var active = -1, a = null;
     rows.forEach(function (r) {
-      var on = (t >= r.s.start && t <= r.s.start + r.s.dur);
+      var s = r.s, on = (t >= s.start && t <= s.start + s.dur);
       r.bar.classList.toggle("trace-on", on);
-      r.bar.classList.toggle("trace-done", t > r.s.start + r.s.dur);
-      if (on) { active = data.indexOf(r.s); a = r.s; }
+      r.bar.classList.toggle("trace-done", t > s.start + s.dur);
+      if (engaged) { var f = t <= s.start ? 0 : (t >= s.start + s.dur ? 100 : (t - s.start) / s.dur * 100); r.bar.style.setProperty("--fill", f.toFixed(1) + "%"); }
+      else r.bar.style.setProperty("--fill", "100%");
+      if (on) { active = data.indexOf(s); a = s; }
     });
     if (active !== lastActive) {
       lastActive = active;
       if (active >= 0 && window.PL_pipelinePulse) { try { window.PL_pipelinePulse(data[active].node); } catch (e) {} }
     }
     if (scrub && document.activeElement !== scrub) scrub.value = Math.round(total ? t / total * 1000 : 0);
-    if (readout) readout.textContent = "T+" + Math.round(t) + " / " + total + " ms · " + ((fix && fix.checked) ? "mitigated" : "slow path") + (a ? "  →  " + a.name + (a.hot ? " (stall)" : "") : "");
+    if (readout) readout.textContent = "T+" + Math.round(t) + " / " + total + " ms · " + ((fix && fix.checked) ? "mitigated" : "slow path") + "  ·  bottleneck " + (crit ? crit.name + " " + crit.dur + "ms" : "—") + (a ? "  →  " + a.name + (a.hot ? " (stall)" : "") : "");
   }
 
   var raf = null, playing = false, t0 = null, startT = 0;
@@ -109,6 +113,7 @@
   }
   function play() {
     if (playing) return;
+    engaged = true;
     startT = scrub ? (scrub.value / 1000 * total) : 0;
     if (startT >= total - 0.5) startT = 0;
     playing = true; t0 = null; lastActive = -1;
@@ -117,7 +122,7 @@
   }
   function stop() { playing = false; if (raf) cancelAnimationFrame(raf); if (playBtn) playBtn.textContent = "▶ Play"; }
 
-  if (scrub) scrub.addEventListener("input", function () { stop(); setT(scrub.value / 1000 * total); });
+  if (scrub) scrub.addEventListener("input", function () { engaged = true; stop(); setT(scrub.value / 1000 * total); });
   if (playBtn) playBtn.addEventListener("click", function () { playing ? stop() : play(); });
   if (fix) fix.addEventListener("change", function () { stop(); build(); });
   build();

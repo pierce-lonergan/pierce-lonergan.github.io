@@ -890,7 +890,7 @@ a { color: inherit; text-decoration: none; }
 .trace-tooltip.on { opacity: 1; }
 .trace-tooltip b { color: var(--text); }
 .trace-tooltip .tt-hot { color: #e05252; }
-.trace-bar { cursor: pointer; }
+.trace-bar { cursor: pointer; background: linear-gradient(90deg, currentColor, currentColor var(--fill, 100%), color-mix(in srgb, currentColor 26%, transparent) var(--fill, 100%)); }
 @media (max-width: 560px) { .trace-row { grid-template-columns: 92px 1fr; } .trace-label { font-size: 0.6rem; } }
 
 /* Fit check — paste-a-JD client-side cosine fit map */

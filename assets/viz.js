@@ -87,14 +87,15 @@
     return graph;
   }
 
-  // Pause rendering offscreen; gently auto-rotate while visible.
+  // Pause rendering offscreen OR when the user pauses motion; gently auto-rotate while visible.
   function wireVisibility(graph, canvas, autorotate, speed) {
     var visible = false, rafId = null, scene = null;
     try { scene = graph.scene(); } catch (e) {}
     var rate = speed || 0.0016;
+    function paused() { return document.documentElement.classList.contains("motion-paused"); }
 
     function tick() {
-      if (visible && autorotate && scene) {
+      if (visible && autorotate && scene && !paused()) {
         // "sway" oscillates gently (right for directional layouts); anything else spins.
         if (autorotate === "sway") scene.rotation.y = Math.sin(performance.now() * 0.00022) * 0.16;
         else scene.rotation.y += rate;
@@ -103,20 +104,20 @@
     }
     function start() { if (rafId == null) tick(); }
     function stop() { if (rafId != null) { cancelAnimationFrame(rafId); rafId = null; } }
+    function apply() {
+      if (visible && !paused()) { try { graph.resumeAnimation(); } catch (e) {} start(); }
+      else { try { graph.pauseAnimation(); } catch (e) {} stop(); }
+    }
 
     if ("IntersectionObserver" in window) {
       var io = new IntersectionObserver(function (entries) {
-        entries.forEach(function (en) {
-          visible = en.isIntersecting;
-          if (visible) { try { graph.resumeAnimation(); } catch (e) {} start(); }
-          else { try { graph.pauseAnimation(); } catch (e) {} stop(); }
-        });
+        entries.forEach(function (en) { visible = en.isIntersecting; apply(); });
       }, { threshold: 0.05 });
       io.observe(canvas);
-    } else {
-      visible = true;
-      try { graph.resumeAnimation(); } catch (e) {}
-      start();
+    } else { visible = true; apply(); }
+    // Honor the global motion-pause control (WCAG 2.2.2), like every other module.
+    if (window.MutationObserver) {
+      new MutationObserver(apply).observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
     }
   }
 
