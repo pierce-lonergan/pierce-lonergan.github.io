@@ -1,5 +1,5 @@
 /* =========================================================================
-   Pierce Lonergan — portfolio
+   Pierce Lonergan · portfolio
    Vanilla CSS. Theming via custom properties + [data-theme].
    ========================================================================= */
 
@@ -848,14 +848,14 @@ a { color: inherit; text-decoration: none; }
 .cb-trace-body b { color: var(--text-soft); font-weight: 500; text-align: right; }
 .pc-proof { color: var(--g2) !important; }
 
-/* Mobile: the skills 3D panel is disabled <720px — show a tidy domain key, not an empty box */
+/* Mobile: the skills 3D panel is disabled <720px; show a tidy domain key, not an empty box */
 @media (max-width: 719px) {
   #skillsViz { min-height: 0 !important; height: auto; padding: 0; border: 0; background: none; box-shadow: none; }
   #skillsViz .viz-canvas, #skillsViz .viz-tag { display: none; }
   #skillsViz .viz-legend { position: static; display: flex; flex-wrap: wrap; gap: 0.45rem 1.1rem; justify-content: center; margin: 0 0 0.4rem; }
 }
 
-/* Trace One Event — scrubbable distributed-trace waterfall */
+/* Trace One Event: scrubbable distributed-trace waterfall */
 .trace { margin-top: 2.6rem; }
 .trace-head { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
 .trace-head h3 { font-family: var(--font-display); font-size: 1.12rem; letter-spacing: -0.01em; }
@@ -893,7 +893,7 @@ a { color: inherit; text-decoration: none; }
 .trace-bar { cursor: pointer; background: linear-gradient(90deg, currentColor, currentColor var(--fill, 100%), color-mix(in srgb, currentColor 26%, transparent) var(--fill, 100%)); }
 @media (max-width: 560px) { .trace-row { grid-template-columns: 92px 1fr; } .trace-label { font-size: 0.6rem; } }
 
-/* Fit check — paste-a-JD client-side cosine fit map */
+/* Fit check: paste-a-JD client-side cosine fit map */
 .fit-form textarea { width: 100%; min-height: 118px; resize: vertical; padding: 14px 16px; border-radius: 12px; border: 1px solid var(--border-strong); background: var(--surface); color: var(--text); font-family: var(--font-sans); font-size: 0.95rem; line-height: 1.5; }
 .fit-form textarea:focus { outline: none; border-color: var(--g2); }
 .fit-actions { display: flex; align-items: center; gap: 0.9rem; margin-top: 0.9rem; flex-wrap: wrap; }

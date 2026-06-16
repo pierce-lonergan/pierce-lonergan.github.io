@@ -3,7 +3,7 @@
    Paste a job description; it is embedded against the résumé knowledge base
    entirely in the browser (Transformers.js, same model as the assistant) and
    scored requirement-by-requirement with cosine similarity. Evidence, not a
-   verdict — gaps are shown honestly, and each row brushes the embedding map.
+   verdict, with gaps shown honestly, and each row brushes the embedding map.
    No LLM and no WebGPU required; nothing typed leaves the device.
    ========================================================================= */
 (function () {
