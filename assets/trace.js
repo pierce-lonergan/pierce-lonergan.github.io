@@ -20,40 +20,64 @@
   function spans(m) {
     var inf = m ? 12 : 95; // the p99 inference stall, fixed by the mitigation
     return [
-      { name: "ingest · API event", node: "src", start: 0, dur: 8 },
-      { name: "kafka append", node: "kafka", start: 8, dur: 5 },
-      { name: "schema validate · Avro", node: "schema", start: 13, dur: 6, child: 1 },
-      { name: "spark · streaming", node: "spark", start: 19, dur: 22 },
-      { name: "dedup + watermark", node: "spark", start: 23, dur: 9, child: 1 },
-      { name: "iceberg write · bronze→silver", node: "silver", start: 41, dur: 14 },
-      { name: "feature lookup", node: "mlf", start: 55, dur: 7, child: 1 },
-      { name: "model inference", node: "mlf", start: 62, dur: inf, hot: !m },
-      { name: "sink · serve", node: "mlf", start: 62 + inf, dur: 6 }
+      { name: "ingest · API event", node: "api", start: 0, dur: 8, kind: "network" },
+      { name: "kafka append", node: "kafka", start: 8, dur: 5, kind: "queue" },
+      { name: "schema validate · Avro", node: "schema", start: 13, dur: 6, child: 1, kind: "compute" },
+      { name: "spark · streaming", node: "spark", start: 19, dur: 22, kind: "compute" },
+      { name: "dedup + watermark", node: "spark", start: 23, dur: 9, child: 1, kind: "compute" },
+      { name: "iceberg write · bronze→silver", node: "silver", start: 41, dur: 14, kind: "storage" },
+      { name: "feature lookup", node: "mlf", start: 55, dur: 7, child: 1, kind: "cache" },
+      { name: "model inference", node: "mlf", start: 62, dur: inf, hot: !m, kind: "model" },
+      { name: "sink · serve", node: "mlf", start: 62 + inf, dur: 6, kind: "network" }
     ];
   }
 
-  var data, total, rows, lastActive = -1;
+  var data, total, rows, lastActive = -1, tip = null;
 
   function build() {
     data = spans(fix && fix.checked);
     total = data.reduce(function (mx, s) { return Math.max(mx, s.start + s.dur); }, 0);
     host.innerHTML = "";
+    // Time axis with ms tick labels (gridlines are drawn on every track via CSS).
+    var axis = document.createElement("div"); axis.className = "trace-row trace-axis";
+    var axLabel = document.createElement("span"); axLabel.className = "trace-label"; axLabel.textContent = "service / span";
+    var axTrack = document.createElement("div"); axTrack.className = "trace-track trace-axis-track";
+    [0, 0.25, 0.5, 0.75, 1].forEach(function (f) {
+      var tk = document.createElement("span"); tk.className = "trace-tick";
+      tk.style.left = (f * 100) + "%"; tk.textContent = Math.round(f * total) + (f === 1 ? " ms" : "");
+      axTrack.appendChild(tk);
+    });
+    axis.appendChild(axLabel); axis.appendChild(axTrack); host.appendChild(axis);
+    tip = document.createElement("div"); tip.className = "trace-tooltip"; host.appendChild(tip);
+
     rows = data.map(function (s) {
       var row = document.createElement("div"); row.className = "trace-row";
       var label = document.createElement("span");
       label.className = "trace-label" + (s.child ? " is-child" : "");
-      label.textContent = s.name + " · " + s.dur + "ms" + (s.hot ? "  ⚠" : "");
+      label.innerHTML = '<span class="trace-kind k-' + (s.kind || "") + '"></span>' + esc(s.name) + " · " + s.dur + "ms" + (s.hot ? "  ⚠" : "");
       var track = document.createElement("div"); track.className = "trace-track";
       var bar = document.createElement("div"); bar.className = "trace-bar" + (s.hot ? " trace-hot" : "");
       bar.style.left = (s.start / total * 100).toFixed(2) + "%";
       bar.style.width = Math.max(1.5, s.dur / total * 100).toFixed(2) + "%";
       bar.style.background = COLORS[s.node] || "#e07a5c";
       bar.style.color = COLORS[s.node] || "#e07a5c"; // currentColor drives the active glow
+      bar.addEventListener("mouseenter", function () { showTip(s, bar); });
+      bar.addEventListener("mouseleave", function () { if (tip) tip.classList.remove("on"); });
       track.appendChild(bar); row.appendChild(label); row.appendChild(track); host.appendChild(row);
       return { s: s, bar: bar };
     });
     lastActive = -1;
     setT(0);
+  }
+
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]; }); }
+  function showTip(s, bar) {
+    if (!tip) return;
+    tip.innerHTML = "<b>" + esc(s.name) + "</b><br>" + (s.kind || "span") + " · " + s.node + "<br>T+" + s.start + "–" + (s.start + s.dur) + " ms (" + s.dur + " ms)" + (s.hot ? '<br><span class="tt-hot">p99 stall — see mitigation</span>' : "");
+    var br = bar.getBoundingClientRect(), hr = host.getBoundingClientRect();
+    tip.style.left = (br.left - hr.left + br.width / 2) + "px";
+    tip.style.top = (br.top - hr.top - 8) + "px";
+    tip.classList.add("on");
   }
 
   function setT(t) {

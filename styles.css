@@ -876,6 +876,21 @@ a { color: inherit; text-decoration: none; }
 .trace-bar.trace-hot { outline: 1.5px dashed rgba(224, 82, 82, 0.7); outline-offset: 1px; }
 .trace-scrub { width: 100%; margin-top: 12px; accent-color: var(--g2); cursor: pointer; }
 .trace-readout { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-soft); margin-top: 7px; }
+.trace-chart { position: relative; }
+.trace-track { background-image: repeating-linear-gradient(90deg, transparent, transparent calc(25% - 0.5px), color-mix(in srgb, var(--text) 7%, transparent) calc(25% - 0.5px), color-mix(in srgb, var(--text) 7%, transparent) 25%); }
+.trace-axis { height: 15px; }
+.trace-axis .trace-track { background: none; }
+.trace-axis-track { position: relative; }
+.trace-tick { position: absolute; top: 0; transform: translateX(-50%); font-family: var(--font-mono); font-size: 0.58rem; color: var(--text-mute); white-space: nowrap; }
+.trace-tick:first-child { transform: none; }
+.trace-kind { display: inline-block; width: 6px; height: 6px; border-radius: 2px; margin-right: 6px; vertical-align: middle; background: var(--text-mute); }
+.k-network { background: #5fb0a8; } .k-queue { background: #f0a866; } .k-compute { background: #e07a5c; }
+.k-storage { background: #c98a5c; } .k-cache { background: #b07e9e; } .k-model { background: #d56f7a; }
+.trace-tooltip { position: absolute; z-index: 6; pointer-events: none; transform: translate(-50%, -100%); background: var(--bg-2); border: 1px solid var(--border-strong); border-radius: 8px; padding: 7px 10px; font-family: var(--font-mono); font-size: 0.63rem; line-height: 1.55; color: var(--text-soft); box-shadow: var(--shadow); opacity: 0; transition: opacity 0.14s; max-width: 240px; }
+.trace-tooltip.on { opacity: 1; }
+.trace-tooltip b { color: var(--text); }
+.trace-tooltip .tt-hot { color: #e05252; }
+.trace-bar { cursor: pointer; }
 @media (max-width: 560px) { .trace-row { grid-template-columns: 92px 1fr; } .trace-label { font-size: 0.6rem; } }
 
 /* Fit check — paste-a-JD client-side cosine fit map */
