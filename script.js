@@ -247,7 +247,8 @@
       desc: "A personal R&D build: an enterprise payment-operations platform on HyperSwitch. A 17-module Spring Modulith (Java 21, hexagonal) — double-entry ledger on serializable transactions, transactional-outbox → Kafka via Debezium CDC, a fraud rules engine, FX & cross-border, a dispute state machine, subscription billing, Keycloak SSO + maker-checker approvals, Temporal, Vault (PCI), and full Prometheus/Grafana observability.",
       lang: "Java",
       tags: ["Spring Modulith", "Double-entry ledger", "Kafka · CDC", "Temporal"],
-      repo: "https://github.com/pierce-lonergan/NexusPay"
+      repo: "https://github.com/pierce-lonergan/NexusPay",
+      proof: { url: "https://github.com/pierce-lonergan/NexusPay/tree/main/ledger", label: "Ledger module ↗" }
     },
     {
       name: "nexus_matcher",
@@ -256,7 +257,8 @@
       desc: "A personal R&D project: an enterprise-grade semantic schema-matching system. Multi-stage retrieval → neural reranking → learned type projections. 100% Precision@1, sub-4ms rerank latency, 433 passing tests.",
       lang: "Python",
       tags: ["RAG", "BM25 + dense", "ColBERT", "Qdrant"],
-      repo: "https://github.com/pierce-lonergan/nexus_matcher"
+      repo: "https://github.com/pierce-lonergan/nexus_matcher",
+      proof: { url: "https://github.com/pierce-lonergan/nexus_matcher/tree/main/tests", label: "433 tests ↗" }
     },
     {
       name: "NexusPiercer",
@@ -320,6 +322,7 @@
         '<div class="pc-bottom">' +
           '<span class="pc-lang"><span class="lang-dot" style="background:' + color + '"></span>' + esc(p.lang) + '</span>' +
           '<span class="pc-links">' + demo +
+            (p.proof ? '<a class="pc-proof" href="' + esc(p.proof.url) + '" target="_blank" rel="noopener" title="proof of work — see for yourself">' + esc(p.proof.label) + '</a>' : '') +
             '<a href="' + esc(p.repo) + '" target="_blank" rel="noopener">Code ↗</a>' +
           '</span>' +
         '</div>' +

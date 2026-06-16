@@ -14,11 +14,12 @@
 (function () {
   "use strict";
 
-  var EMBED_CDN = "https://cdn.jsdelivr.net/npm/@huggingface/transformers@3";
+  var EMBED_CDN = "https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.8.1";
   var EMBED_MODEL = "Xenova/all-MiniLM-L6-v2";
-  var WEBLLM_CDN = "https://esm.run/@mlc-ai/web-llm";
+  var WEBLLM_CDN = "https://esm.run/@mlc-ai/web-llm@0.2.84";
   var LLM_MODEL = "Llama-3.2-1B-Instruct-q4f16_1-MLC";
   var TOP_K = 4;
+  var REFUSE_AT = 0.26; // below this top cosine, refuse honestly rather than let the model invent
   var LI = "https://www.linkedin.com/in/pierce-lonergan-84034422a/";
 
   var KB = window.PL_KB || [];
@@ -87,7 +88,10 @@
     return scored.filter(function (x) { return x.score > 0; }).slice(0, TOP_K);
   }
 
-  function retrieve(query) { return retrieveSemantic(query).catch(function () { return retrieveKeyword(query); }); }
+  function retrieve(query) {
+    return retrieveSemantic(query).then(function (r) { state.lastMode = "semantic"; return r; })
+      .catch(function () { return retrieveKeyword(query).then(function (r) { state.lastMode = "keyword"; return r; }); });
+  }
 
   /* ---------------------------------------------------------- generation */
   function ensureEngine(onProgress) {
@@ -222,6 +226,27 @@
     if (window.PL_galaxyHighlight) { try { window.PL_galaxyHighlight(contexts.map(function (c) { return c.item && c.item.topic; })); } catch (e) {} }
   }
 
+  // Instrumented RAG: an honest trace of the retrieval+generation under each answer.
+  function renderTrace(b, t, kind) {
+    if (!b || !b.wrap) return;
+    var topStr = (t.mode === "semantic") ? (Math.round(t.top * 100) + "% cosine") : (t.top + " keyword hits");
+    var gen = kind === "llm" ? ("Llama-3.2-1B q4f16 · " + t.generateMs + " ms")
+      : kind === "refused" ? "skipped — low confidence"
+      : "extractive (no WebGPU)";
+    var d = document.createElement("details");
+    d.className = "cb-trace";
+    d.innerHTML = "<summary>trace</summary>" +
+      '<div class="cb-trace-body">' +
+        "<span>retrieve</span><b>" + t.retrieveMs + " ms · " + (t.mode === "semantic" ? "embed + cosine" : "keyword") + "</b>" +
+        "<span>top match</span><b>" + esc(topStr) + "</b>" +
+        "<span>generate</span><b>" + esc(gen) + "</b>" +
+        "<span>index</span><b>" + KB.length + " chunks · MiniLM-L6-v2 384-d</b>" +
+        "<span>privacy</span><b>100% on-device</b>" +
+      "</div>";
+    b.wrap.appendChild(d);
+    ui.msgs.scrollTop = ui.msgs.scrollHeight;
+  }
+
   function greet() {
     if (state.greeted) return;
     state.greeted = true;
@@ -260,10 +285,24 @@
     addMsg("user", renderText(query));
     var b = addMsg("assistant", typingDots());
 
+    var trace = { mode: "", retrieveMs: 0, generateMs: 0, top: 0 };
+    function now() { return (window.performance && performance.now) ? performance.now() : Date.now(); }
     try {
       setStatus(b, '<span class="cb-load">Searching Pierce\'s résumé...</span>');
+      var t0 = now();
       var contexts = await retrieve(query);
+      trace.retrieveMs = Math.round(now() - t0);
+      trace.mode = state.lastMode || "semantic";
+      trace.top = contexts[0] ? (contexts[0].score || 0) : 0;
       renderRag(b, contexts);
+
+      // Honest refusal: when the best semantic match is weak, don't ask the model to invent.
+      if (trace.mode === "semantic" && trace.top < REFUSE_AT) {
+        setStatus(b, "");
+        setBody(b, renderText("That's outside what's in Pierce's résumé here, so I won't guess. You can ask him directly on LinkedIn — or try his data-engineering work, his projects (NexusPay, NexusMatcher), or his ML and retrieval experience."));
+        renderTrace(b, trace, "refused");
+        return;
+      }
 
       if (state.webgpu && !state.llmFailed) {
         if (!state.engineReady) {
@@ -278,12 +317,16 @@
         setStatus(b, "");
         setBody(b, typingDots());
         b.body.classList.add("cb-streaming");
+        var tg = now();
         var answer = await streamInto(state.engine, buildMessages(query, contexts), function (partial) { setBody(b, renderText(partial)); });
+        trace.generateMs = Math.round(now() - tg);
         b.body.classList.remove("cb-streaming");
         if (!answer.trim()) setBody(b, renderText(extractiveAnswer(query, contexts)));
+        renderTrace(b, trace, "llm");
       } else {
         setStatus(b, "");
         setBody(b, renderText(extractiveAnswer(query, contexts)));
+        renderTrace(b, trace, "extractive");
       }
     } catch (err) {
       if (b && b.body) b.body.classList.remove("cb-streaming");

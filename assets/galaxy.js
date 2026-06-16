@@ -12,9 +12,10 @@
   "use strict";
 
   var prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var EMBED_CDN = "https://cdn.jsdelivr.net/npm/@huggingface/transformers@3";
+  var EMBED_CDN = "https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.8.1";
   var EMBED_MODEL = "Xenova/all-MiniLM-L6-v2";
-  var FG_SRC = "https://cdn.jsdelivr.net/npm/3d-force-graph@1/dist/3d-force-graph.min.js";
+  var FG_SRC = "https://cdn.jsdelivr.net/npm/3d-force-graph@1.80.0/dist/3d-force-graph.min.js";
+  var FG_SRI = "sha384-Y7bC2PBKu8ujxtvo5+Z61OeGdSVRzFsYWBK4i5dnL/U6aFDTodk61qOUkTfInaxS";
   var KB = window.PL_KB || [];
 
   var CATS = {
@@ -24,7 +25,7 @@
     var t = (topic || "").toLowerCase();
     if (/role|platform|reliability|governance automation|career|earlier/.test(t)) return "exp";
     if (/skill|languages/.test(t)) return "skills";
-    if (/nexusmatcher|nexuspiercer|mammal|entropy|series 65/.test(t)) return "projects";
+    if (/nexuspay|nexusmatcher|nexuspiercer|mammal|entropy|series 65/.test(t)) return "projects";
     return "background";
   }
 
@@ -40,7 +41,7 @@
     if (window.ForceGraph3D) return Promise.resolve(window.ForceGraph3D);
     if (fgPromise) return fgPromise;
     fgPromise = new Promise(function (res, rej) {
-      var s = document.createElement("script"); s.src = FG_SRC; s.async = true;
+      var s = document.createElement("script"); s.src = FG_SRC; s.async = true; s.crossOrigin = "anonymous"; s.integrity = FG_SRI;
       s.onload = function () { window.ForceGraph3D ? res(window.ForceGraph3D) : rej(); };
       s.onerror = rej; document.head.appendChild(s);
     });

@@ -837,6 +837,17 @@ a { color: inherit; text-decoration: none; }
 .cb-launcher.cb-nudge { animation: nudge 0.8s var(--spring) 2; }
 @keyframes nudge { 0%, 100% { transform: translateY(0); } 38% { transform: translateY(-7px); } 70% { transform: translateY(2px); } }
 
+/* Instrumented-RAG trace under each assistant answer */
+.cb-trace { margin-top: 7px; font-family: var(--font-mono); }
+.cb-trace > summary { cursor: pointer; color: var(--text-mute); letter-spacing: 0.07em; text-transform: uppercase; list-style: none; user-select: none; display: inline-block; font-size: 0.66rem; }
+.cb-trace > summary::-webkit-details-marker { display: none; }
+.cb-trace > summary::before { content: "▸ retrieval trace"; }
+.cb-trace[open] > summary::before { content: "▾ retrieval trace"; }
+.cb-trace-body { display: grid; grid-template-columns: auto 1fr; gap: 2px 12px; margin-top: 6px; padding: 8px 10px; border: 1px solid var(--border); border-radius: 9px; background: var(--surface); font-size: 0.66rem; }
+.cb-trace-body span { color: var(--text-mute); }
+.cb-trace-body b { color: var(--text-soft); font-weight: 500; text-align: right; }
+.pc-proof { color: var(--g2) !important; }
+
 /* Command palette: items cascade on open only */
 .cmdk.fresh .cmdk-item { animation: cmdkIn 0.3s var(--ease) calc(var(--pi, 0) * 22ms) both; }
 @keyframes cmdkIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: none; } }

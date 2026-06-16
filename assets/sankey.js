@@ -13,11 +13,11 @@
   var host = document.getElementById("sankey");
   if (!host) return;
 
-  function load(src) { return new Promise(function (res, rej) { var s = document.createElement("script"); s.src = src; s.async = true; s.onload = res; s.onerror = rej; document.head.appendChild(s); }); }
+  function load(src, integ) { return new Promise(function (res, rej) { var s = document.createElement("script"); s.src = src; s.async = true; s.crossOrigin = "anonymous"; if (integ) s.integrity = integ; s.onload = res; s.onerror = rej; document.head.appendChild(s); }); }
   function ensure() {
     if (window.d3 && window.d3.sankey) return Promise.resolve();
-    return load("https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js")
-      .then(function () { return load("https://cdn.jsdelivr.net/npm/d3-sankey@0.12/dist/d3-sankey.min.js"); });
+    return load("https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js", "sha384-CjloA8y00+1SDAUkjs099PVfnY2KmDC2BZnws9kh8D/lX1s46w6EPhpXdqMfjK6i")
+      .then(function () { return load("https://cdn.jsdelivr.net/npm/d3-sankey@0.12.3/dist/d3-sankey.min.js", "sha384-SM54CE5h+qdDI046d2Y5ym7wq1kq4uxcQ1cqGq5/+5jrE5tPLeDJSq711Q8sIska"); });
   }
 
   var NODES = ["API events", "CDC streams", "File drops", "Kafka", "Spark", "Bronze", "Silver", "Gold", "Snowflake", "ML features", "Reverse ETL", "Dashboards", "Filtered / DLQ"];
