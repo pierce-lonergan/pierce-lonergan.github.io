@@ -192,6 +192,21 @@
             <li><span class="flow-dot" style="--c:#d56f7a"></span><b>ML / Serving</b><em>features + models</em></li>
           </ol>
         </div>
+
+        <!-- TRACE ONE EVENT (scrubbable distributed trace; pulses the DAG above) -->
+        <div class="trace reveal" id="traceOne">
+          <div class="trace-head">
+            <h3>Trace one event</h3>
+            <div class="trace-ctl">
+              <label class="trace-fix"><input type="checkbox" id="traceFix" /> apply mitigation</label>
+              <button class="trace-play" id="tracePlay" type="button">▶ Play</button>
+            </div>
+          </div>
+          <p class="trace-sub">One event's journey through the platform, as a distributed trace. The slow path stalls on a p99 model-inference span — scrub the timeline, or toggle the mitigation to see the fix. Each active span pulses the matching stage in the diagram above.</p>
+          <div class="trace-chart" id="traceChart" role="img" aria-label="Distributed-trace waterfall of one event flowing through the pipeline stages, with per-span durations."></div>
+          <input class="trace-scrub" id="traceScrub" type="range" min="0" max="1000" value="0" aria-label="Scrub the trace timeline" />
+          <p class="trace-readout" id="traceReadout"></p>
+        </div>
       </div>
     </section>
 
@@ -458,6 +473,7 @@
   <script src="script.js" defer></script>
   <script src="assets/mesh.js" defer></script>
   <script src="assets/viz.js" defer></script>
+  <script src="assets/trace.js" defer></script>
   <script src="assets/knowledge.js" defer></script>
   <script src="assets/chat.js" defer></script>
   <script src="assets/palette.js" defer></script>

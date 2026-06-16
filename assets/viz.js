@@ -321,6 +321,11 @@
     if (chaosBtn) chaosBtn.addEventListener("click", chaos);
     window.PL_injectChaos = chaos;
 
+    // Pulse a stage by id (the trace waterfall calls this to sync the DAG): particle burst on its outgoing edges.
+    window.PL_pipelinePulse = function (id) {
+      try { data.links.forEach(function (l) { var s = (l.source && l.source.id !== undefined) ? l.source.id : l.source; if (s === id) graph.emitParticle(l); }); } catch (e) {}
+    };
+
     // Click a stage to see what it does, with a little particle burst on its edges.
     try {
       graph.onNodeClick(function (n) {
