@@ -22,6 +22,42 @@
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
   <link rel="canonical" href="https://pierce-lonergan.github.io/" />
 
+  <!-- Structured data: Person + ProfilePage + projects (machine-readable for search & recruiter tools) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Person",
+        "@id": "https://pierce-lonergan.github.io/#pierce",
+        "name": "Pierce Lonergan",
+        "givenName": "Pierce",
+        "familyName": "Lonergan",
+        "jobTitle": "Software Engineer III",
+        "worksFor": { "@type": "Organization", "name": "JPMorganChase" },
+        "alumniOf": { "@type": "CollegeOrUniversity", "name": "The Ohio State University" },
+        "address": { "@type": "PostalAddress", "addressLocality": "Columbus", "addressRegion": "OH", "addressCountry": "US" },
+        "knowsAbout": ["Data Engineering", "Apache Kafka", "Apache Spark", "Apache Iceberg", "Snowflake", "AWS", "Retrieval-Augmented Generation", "Semantic Search", "Applied Machine Learning", "Distributed Systems", "Spring Modulith", "Java", "Python", "Scala"],
+        "url": "https://pierce-lonergan.github.io/",
+        "sameAs": [
+          "https://www.linkedin.com/in/pierce-lonergan-84034422a/",
+          "https://github.com/pierce-lonergan"
+        ]
+      },
+      {
+        "@type": "ProfilePage",
+        "@id": "https://pierce-lonergan.github.io/#profilepage",
+        "url": "https://pierce-lonergan.github.io/",
+        "name": "Pierce Lonergan — Software Engineer III @ JPMorganChase",
+        "about": { "@id": "https://pierce-lonergan.github.io/#pierce" },
+        "mainEntity": { "@id": "https://pierce-lonergan.github.io/#pierce" }
+      },
+      { "@type": "SoftwareSourceCode", "name": "NexusPay", "codeRepository": "https://github.com/pierce-lonergan/NexusPay", "programmingLanguage": "Java", "author": { "@id": "https://pierce-lonergan.github.io/#pierce" }, "abstract": "Enterprise payment-operations platform: a 17-module Spring Modulith with a double-entry ledger, Kafka CDC, fraud prevention, FX, Temporal, and full observability." },
+      { "@type": "SoftwareSourceCode", "name": "NexusMatcher", "codeRepository": "https://github.com/pierce-lonergan/nexus_matcher", "programmingLanguage": "Python", "author": { "@id": "https://pierce-lonergan.github.io/#pierce" }, "abstract": "Enterprise-grade semantic schema-matching system: multi-stage retrieval, neural reranking, and learned type projections." }
+    ]
+  }
+  </script>
+
   <!-- Fonts (progressive enhancement; system fonts are the fallback) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -325,7 +361,7 @@
       <div class="container">
         <p class="section-kicker reveal">04 · Data flow</p>
         <h2 class="section-title reveal">The lakehouse, by volume.</h2>
-        <p class="section-sub reveal">The same platform as a flow diagram: width tracks throughput as data moves from sources through Kafka and Spark into the Bronze, Silver, and Gold medallion layers, then out to the warehouse, ML features, and reverse ETL. Hover any path for its volume.</p>
+        <p class="section-sub reveal">The same platform as a flow diagram: width tracks throughput as data moves from sources through Kafka and Spark into the Bronze, Silver, and Gold medallion layers, then out to the warehouse, ML features, and reverse ETL — with malformed and deduplicated records peeled off to a dead-letter sink at each stage. Throughput conserves at every node. Hover any path for its volume.</p>
         <div id="sankey" class="reveal" role="img" aria-label="Sankey diagram of the data platform: throughput flows from sources through Kafka, Spark, and the Bronze, Silver, and Gold layers out to Snowflake, ML features, and reverse ETL."></div>
       </div>
     </section>

@@ -20,16 +20,18 @@
       .then(function () { return load("https://cdn.jsdelivr.net/npm/d3-sankey@0.12/dist/d3-sankey.min.js"); });
   }
 
-  var NODES = ["API events", "CDC streams", "File drops", "Kafka", "Spark", "Bronze", "Silver", "Gold", "Snowflake", "ML features", "Reverse ETL", "Dashboards"];
-  var COLORS = ["#f0a866", "#ef9a73", "#e09a62", "#5fb0a8", "#e07a5c", "#c98a5c", "#bcae93", "#f0b429", "#d56f7a", "#b07e9e", "#8a9a8a", "#e8956a"];
+  var NODES = ["API events", "CDC streams", "File drops", "Kafka", "Spark", "Bronze", "Silver", "Gold", "Snowflake", "ML features", "Reverse ETL", "Dashboards", "Filtered / DLQ"];
+  var COLORS = ["#f0a866", "#ef9a73", "#e09a62", "#5fb0a8", "#e07a5c", "#c98a5c", "#bcae93", "#f0b429", "#d56f7a", "#b07e9e", "#8a9a8a", "#e8956a", "#9a7d74"];
+  // Throughput conserves at every stage (inflow === outflow). Records shed by
+  // validation, dedup, and filtering are routed honestly to a dead-letter sink.
   var LINKS = [
-    [0, 3, 40], [1, 3, 26],   // sources into Kafka
-    [2, 4, 16],               // files straight into Spark
-    [3, 4, 52], [3, 5, 14],   // Kafka into Spark, and a raw branch into Bronze
-    [4, 5, 62],               // Spark into Bronze
-    [5, 6, 70],               // Bronze into Silver
-    [6, 7, 48], [6, 9, 20],   // Silver into Gold, and features straight from Silver
-    [7, 8, 24], [7, 10, 10], [7, 11, 16]  // Gold fans out
+    [0, 3, 40], [1, 3, 26],                   // sources -> Kafka (in 66 / out 66)
+    [2, 4, 16],                               // files -> Spark
+    [3, 4, 52], [3, 5, 14],                   // Kafka 66 -> Spark 52 + Bronze 14
+    [4, 5, 62], [4, 12, 6],                   // Spark 68 -> Bronze 62 + 6 malformed -> DLQ
+    [5, 6, 70], [5, 12, 6],                   // Bronze 76 -> Silver 70 + 6 deduped/filtered -> DLQ
+    [6, 7, 48], [6, 9, 20], [6, 12, 2],       // Silver 70 -> Gold 48 + ML features 20 + 2 -> DLQ
+    [7, 8, 24], [7, 10, 10], [7, 11, 14]      // Gold 48 -> Snowflake 24 + Reverse ETL 10 + Dashboards 14
   ];
 
   var built = false, entranceDone = false;

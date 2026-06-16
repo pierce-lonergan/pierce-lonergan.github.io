@@ -9,6 +9,20 @@
   var $ = function (s, c) { return (c || document).querySelector(s); };
   var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
 
+  /* ----------------------------------------------- Designed view-source */
+  // For the curious who open DevTools — every claim here is inspectable.
+  try {
+    console.log("%cPierce Lonergan", "font:700 26px 'Space Grotesk',system-ui,sans-serif;color:#e07a5c;text-shadow:0 1px 0 rgba(0,0,0,.15)");
+    console.log("%cHand-written vanilla HTML / CSS / JS — no framework, no build step, no backend, no tracking.", "color:#c0744f;font:13px ui-monospace,monospace");
+    console.log("%cThe hero is a GLSL shader · the name is ~16k canvas particles · Ask-AI runs a local LLM (WebLLM) over client-side RAG, nothing leaves your device.", "color:#8a8474;font:12px ui-monospace,monospace");
+    console.log("%cSource → github.com/pierce-lonergan/pierce-lonergan.github.io   ·   type pl() for the stack.", "color:#5fb0a8;font:12px ui-monospace,monospace");
+    window.pl = function () {
+      console.log("%cStack", "font:700 14px ui-monospace,monospace;color:#e07a5c");
+      console.log("• Hero backdrop: hand-written GLSL simplex-noise fragment shader (WebGL)\n• Platform & skills graphs: 3d-force-graph (Three.js)\n• Data-flow: d3-sankey (conserves at every node)\n• Ask-AI: WebLLM (WebGPU) + Transformers.js client-side RAG, cosine retrieval\n• No build · no bundler · ships as static files on GitHub Pages\n• Honors prefers-reduced-motion; a nav control pauses all motion (WCAG 2.2.2)");
+      return "github.com/pierce-lonergan/pierce-lonergan.github.io";
+    };
+  } catch (e) {}
+
   /* ---------------------------------------------------------------- Theme */
   var root = document.documentElement;
   var themeToggle = $("#themeToggle");
