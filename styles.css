@@ -878,6 +878,26 @@ a { color: inherit; text-decoration: none; }
 .trace-readout { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-soft); margin-top: 7px; }
 @media (max-width: 560px) { .trace-row { grid-template-columns: 92px 1fr; } .trace-label { font-size: 0.6rem; } }
 
+/* Fit check — paste-a-JD client-side cosine fit map */
+.fit-form textarea { width: 100%; min-height: 118px; resize: vertical; padding: 14px 16px; border-radius: 12px; border: 1px solid var(--border-strong); background: var(--surface); color: var(--text); font-family: var(--font-sans); font-size: 0.95rem; line-height: 1.5; }
+.fit-form textarea:focus { outline: none; border-color: var(--g2); }
+.fit-actions { display: flex; align-items: center; gap: 0.9rem; margin-top: 0.9rem; flex-wrap: wrap; }
+.fit-status { font-family: var(--font-mono); font-size: 0.74rem; color: var(--text-mute); }
+.fit-results { margin-top: 1.5rem; }
+.fit-summary { font-size: 0.9rem; color: var(--text-soft); margin-bottom: 0.9rem; }
+.fit-summary b { color: var(--text); }
+.fit-disc { color: var(--text-mute); }
+.fit-list { display: grid; gap: 7px; list-style: none; }
+.fit-row { display: grid; grid-template-columns: 74px 1fr auto; gap: 12px; align-items: center; padding: 9px 12px; border: 1px solid var(--border); border-radius: 10px; background: var(--surface); transition: border-color 0.2s; }
+.fit-row:hover { border-color: var(--border-strong); }
+.fit-badge { font-family: var(--font-mono); font-size: 0.64rem; text-transform: uppercase; letter-spacing: 0.05em; text-align: center; padding: 3px 0; border-radius: 6px; font-weight: 600; }
+.fit-strong .fit-badge { background: rgba(52, 211, 153, 0.16); color: #2c9e72; }
+.fit-partial .fit-badge { background: rgba(240, 168, 102, 0.18); color: #c2722f; }
+.fit-gap .fit-badge { background: rgba(150, 124, 98, 0.14); color: var(--text-mute); }
+.fit-req { font-size: 0.88rem; color: var(--text); }
+.fit-ev { font-family: var(--font-mono); font-size: 0.67rem; color: var(--text-mute); white-space: nowrap; }
+@media (max-width: 560px) { .fit-row { grid-template-columns: 64px 1fr; } .fit-ev { grid-column: 2; } }
+
 /* Command palette: items cascade on open only */
 .cmdk.fresh .cmdk-item { animation: cmdkIn 0.3s var(--ease) calc(var(--pi, 0) * 22ms) both; }
 @keyframes cmdkIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: none; } }

@@ -443,6 +443,24 @@
       </div>
     </section>
 
+    <!-- FIT CHECK (paste a JD -> client-side cosine fit map) -->
+    <section class="section" id="fit">
+      <div class="container">
+        <p class="section-kicker reveal">08 · Fit check</p>
+        <h2 class="section-title reveal">Hiring for a specific role?</h2>
+        <p class="section-sub reveal">Paste a job description. It is embedded against Pierce's résumé entirely in your browser — cosine similarity, not a hiring decision — and you get a requirement-by-requirement evidence map with gaps shown honestly. Nothing you paste leaves your device.</p>
+        <form class="fit-form reveal" id="fitForm">
+          <textarea id="fitJD" rows="5" placeholder="Paste a job description, or a few key requirements…" aria-label="Job description"></textarea>
+          <div class="fit-actions">
+            <button type="submit" class="btn btn-primary">Analyze fit</button>
+            <button type="button" class="btn btn-ghost" id="fitSample">Try a sample</button>
+            <span class="fit-status" id="fitStatus" aria-live="polite"></span>
+          </div>
+        </form>
+        <div class="fit-results" id="fitResults" aria-live="polite"></div>
+      </div>
+    </section>
+
     <!-- CONTACT -->
     <section class="section contact" id="contact">
       <div class="container contact-inner reveal">
@@ -481,5 +499,6 @@
   <script src="assets/sankey.js" defer></script>
   <script src="assets/heroname.js" defer></script>
   <script src="assets/micro.js" defer></script>
+  <script src="assets/fit.js" defer></script>
 </body>
 </html>
