@@ -59,7 +59,7 @@ window.PL_KB = [
     text: "Series 65 Learning Lab is an interactive, single-file study system for the NASAA Series 65 exam, with 402 flashcards, a 320-plus concept hyperlinked glossary, 20-plus interactive graphics, and a timed exam simulator. It is pure HTML, CSS, and JavaScript with zero build step." },
 
   { topic: "Education",
-    text: "Pierce earned a dual Bachelor of Science in Biochemistry and a Bachelor of Science in Computer Science and Engineering from The Ohio State University, from August 2016 to December 2021. Coursework spanned machine learning, distributed computing, multithreading, and database systems." },
+    text: "Pierce earned a Bachelor of Science in Biochemistry with a minor in Computer and Information Science from The Ohio State University, from August 2016 to December 2021. Coursework spanned machine learning, distributed computing, multithreading, and database systems." },
 
   { topic: "Recognition",
     text: "Pierce won Best Data Visualization at ASA DataFest 2021, awarded by the American Statistical Association at The Ohio State University, for visual analysis of the U.S. 2019 Non-Medical Use of Prescription Drugs survey using Python, R, and ArcGIS." },
