@@ -244,10 +244,11 @@
       name: "NexusPay",
       icon: '<svg class="pc-icon" viewBox="0 0 24 24" fill="none" stroke="url(#iconGrad)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="5.5" width="19" height="13" rx="2"/><path d="M2.5 9.5h19"/><path d="M6 14.5h5"/></svg>',
       title: "NexusPay",
-      desc: "A personal R&D build: an enterprise payment-operations platform on HyperSwitch. A 17-module Spring Modulith (Java 21, hexagonal): double-entry ledger on serializable transactions, transactional-outbox → Kafka via Debezium CDC, a fraud rules engine, FX & cross-border, a dispute state machine, subscription billing, Keycloak SSO + maker-checker approvals, Temporal, Vault (PCI), and full Prometheus/Grafana observability.",
+      desc: "A personal R&D build: a security-first payment-orchestration platform on HyperSwitch. A Spring Modulith (Java 21, hexagonal) with zero-trust multi-tenancy, a double-entry ledger, transactional-outbox → Kafka via Debezium CDC, HMAC-signed webhooks, a fraud & sanctions engine, disputes, subscription billing, Temporal, and Vault-backed PCI-safe card handling — plus a Stripe-grade test-mode sandbox (forced outcomes, test clocks, sandbox reset) and three published @nexus-pay npm SDKs + a CLI.",
       lang: "Java",
-      tags: ["Spring Modulith", "Double-entry ledger", "Kafka · CDC", "Temporal"],
+      tags: ["Spring Modulith", "Double-entry ledger", "Zero-trust multi-tenant", "Published SDKs"],
       repo: "https://github.com/pierce-lonergan/NexusPay",
+      demo: "https://pierce-lonergan.github.io/NexusPay/",
       proof: { url: "https://github.com/pierce-lonergan/NexusPay/tree/main/ledger", label: "Ledger module ↗" }
     },
     {
