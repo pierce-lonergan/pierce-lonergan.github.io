@@ -50,7 +50,7 @@
       .showNavInfo(false)
       .nodeRelSize(opts.nodeRelSize || 5)
       .nodeOpacity(0.92)
-      .linkColor(function () { return "rgba(148,163,184,0.26)"; })
+      .linkColor(function () { return "rgba(150,124,98,0.26)"; })
       .linkWidth(opts.linkWidth != null ? opts.linkWidth : 1)
       .linkDirectionalParticles(opts.particles != null ? opts.particles : 0)
       .linkDirectionalParticleWidth(opts.particleWidth || 2.2)

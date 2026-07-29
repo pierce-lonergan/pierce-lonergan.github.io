@@ -9,9 +9,9 @@
   --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
 
   /* Brand gradient */
-  --g1: #f0a866;  /* sky   */
-  --g2: #e07a5c;  /* indigo*/
-  --g3: #d56f7a;  /* violet*/
+  --g1: #f0a866;  /* amber      */
+  --g2: #e07a5c;  /* terracotta */
+  --g3: #d56f7a;  /* warm rose  */
   --gradient: linear-gradient(120deg, var(--g1), var(--g2) 50%, var(--g3));
 
   /* Warm accents - used sparingly (~10% of surface) for warmth without a temperature flip */
@@ -84,9 +84,9 @@ a { color: inherit; text-decoration: none; }
   z-index: -2;
   overflow: hidden;
   background:
-    radial-gradient(820px 460px at 88% 6%, rgba(251, 113, 133, 0.12), transparent 60%),
-    radial-gradient(1200px 600px at 80% -10%, rgba(129, 140, 248, 0.12), transparent 60%),
-    radial-gradient(900px 500px at -10% 20%, rgba(56, 189, 248, 0.1), transparent 55%),
+    radial-gradient(820px 460px at 88% 6%, rgba(213, 111, 122, 0.13), transparent 60%),
+    radial-gradient(1200px 600px at 80% -10%, rgba(224, 122, 92, 0.12), transparent 60%),
+    radial-gradient(900px 500px at -10% 20%, rgba(240, 168, 102, 0.11), transparent 55%),
     var(--bg);
 }
 .aurora-blob {
@@ -124,7 +124,7 @@ a { color: inherit; text-decoration: none; }
   width: 0%;
   background: var(--gradient);
   z-index: 100;
-  box-shadow: 0 0 12px rgba(129, 140, 248, 0.6);
+  box-shadow: 0 0 12px rgba(224, 122, 92, 0.55);
 }
 
 /* =========================== Navigation ================================ */
