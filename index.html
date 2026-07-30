@@ -61,7 +61,7 @@
   <!-- Fonts (progressive enhancement; system fonts are the fallback) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400..700&family=Space+Grotesk:wght@400..700&family=JetBrains+Mono:wght@400..700&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="styles.css" />
   <!-- Hide the hero name until its particle reveal; safety timeout + no-JS fallback guarantee it shows. -->
@@ -91,11 +91,13 @@
       <span class="brand-name">Pierce Lonergan</span>
     </a>
     <nav class="nav-links" aria-label="Primary">
+      <a href="#platform">Platform</a>
       <a href="#about">About</a>
       <a href="#experience">Experience</a>
       <a href="#skills">Skills</a>
       <a href="#projects">Projects</a>
-      <a href="#education">Education</a>
+      <a href="#embedding">Retrieval</a>
+      <a href="#fit">Fit</a>
     </nav>
     <div class="nav-actions">
       <button class="cmdk-trigger js-palette" type="button" aria-label="Open command palette (Ctrl K)" title="Command palette (Ctrl K)">
@@ -124,24 +126,22 @@
       <div class="hero-inner">
         <div class="hero-copy">
         <p class="hero-eyebrow reveal">
-          <span class="status-dot" aria-hidden="true"></span> Open to new opportunities · Columbus, OH
+          <span class="status-dot" aria-hidden="true"></span> Open to applied ML, data engineering, and platform roles · Columbus, OH
         </p>
         <h1 class="hero-name" id="heroName">Pierce Lonergan</h1>
-        <h2 class="hero-role reveal">
-          <span class="role-static">I build</span>
-          <span class="role-rotator" id="roleRotator" aria-live="polite"><span>data infrastructure</span></span>
-        </h2>
+        <h2 class="hero-deck reveal">I build the streaming and lakehouse infrastructure other engineers ship their pipelines on.</h2>
         <p class="hero-lede reveal">
-          <strong>Software Engineer III</strong> at <strong>JPMorganChase</strong>, building high-throughput
-          streaming &amp; batch data infrastructure. On the side, I explore applied ML &amp; retrieval
-          (RAG, semantic search) through open-source projects.
+          <strong>Software Engineer III</strong> at <strong>JPMorganChase</strong>, Consumer &amp; Community Banking.
+          Alongside the day job I build retrieval systems in the open. Everything below runs in this browser, and
+          where the numbers are illustrative the frame says so.
         </p>
         <div class="hero-cta reveal">
-          <a class="btn btn-primary" href="#projects">View Projects</a>
+          <a class="btn btn-primary" href="#platform">See the platform running</a>
           <a class="btn btn-ghost" href="assets/Pierce-Lonergan-Resume.pdf" download title="Download Pierce Lonergan's résumé (PDF)">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 11l5 5 5-5M5 21h14"/></svg>
-            Download résumé
+            Résumé (PDF)
           </a>
+          <a class="btn btn-ghost" href="#fit">Run the fit check on your own job description</a>
           <a class="btn btn-ghost" href="https://www.linkedin.com/in/pierce-lonergan-84034422a/" target="_blank" rel="noopener">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.55V9h3.57v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
             LinkedIn
@@ -153,21 +153,20 @@
         </div><!-- /.hero-cta -->
 
         <dl class="hero-stats reveal" id="heroStats">
-          <div class="stat"><dt class="stat-num" data-count="4" data-suffix="+ yrs">0</dt><dd>Shipping data infra at JPMorganChase</dd></div>
-          <div class="stat"><dt class="stat-num" data-count="15" data-prefix="" data-suffix="×">0</dt><dd>Pipeline output (≈2 → 30 / month)</dd></div>
-          <div class="stat"><dt class="stat-num" data-count="100" data-suffix="%">0</dt><dd>Precision@1, semantic schema matcher</dd></div>
-          <div class="stat"><dt class="stat-num" data-count="5" data-suffix="">0</dt><dd>Open-source projects</dd></div>
+          <div class="stat"><dt class="stat-num" data-count="30">0</dt><dd><span class="stat-unit">per month</span>Production pipelines, up from roughly 2, on platform code I wrote</dd></div>
+          <div class="stat"><dt class="stat-num" data-count="3">0</dt><dd><span class="stat-unit">promotions</span>Four years at JPMorganChase, Software Engineer I to III</dd></div>
+          <div class="stat"><dt class="stat-num" data-count="0">0</dt><dd><span class="stat-unit">signals shipped</span>From my own trading research: I measured the ensemble consensus as anti-predictive</dd></div>
         </dl>
         </div><!-- /.hero-copy -->
       </div><!-- /.hero-inner -->
     </section>
 
     <!-- THE PLATFORM (pipeline moved out of the hero for a calm first impression) -->
-    <section class="section section-alt" id="platform">
+    <section class="section" id="platform">
       <div class="container">
-        <p class="section-kicker reveal">00 · The platform, live</p>
-        <h2 class="section-title reveal">What I build, running.</h2>
-        <p class="section-sub reveal">A live model of the streaming and lakehouse platform. Data flows from sources through Kafka and Spark into Iceberg and Snowflake, then out to ML. Hit "inject chaos" to break a stage and watch it heal.</p>
+        <p class="section-kicker reveal">00 · The platform, running</p>
+        <h2 class="section-title reveal">What I build, running in this tab.</h2>
+        <p class="section-sub reveal">A live model of a streaming and lakehouse platform: sources into Kafka and Spark, through the Bronze, Silver and Gold layers, out to the warehouse and serving. The topology is the real shape of this kind of system. The telemetry is synthetic, and it says so here rather than pretending otherwise. Press inject chaos to stall a stage, then watch the backpressure cascade, dead-letter, and heal.</p>
         <div class="hero-viz reveal" id="heroViz" role="img" aria-label="Animated diagram of a streaming data platform: sources flow into Kafka, then Spark, into Iceberg and Snowflake, and out to machine learning and serving.">
           <div class="viz-telemetry" aria-hidden="true">
             <span class="vt-metric"><b id="vtThroughput">--</b><i>events/s</i></span>
@@ -206,7 +205,7 @@
               <button class="trace-play" id="tracePlay" type="button">▶ Play</button>
             </div>
           </div>
-          <p class="trace-sub">One event's journey through the platform, as a distributed trace. The slow path stalls on a p99 model-inference span. Scrub the timeline, or toggle the mitigation to see the fix. Each active span pulses the matching stage in the diagram above.</p>
+          <p class="trace-sub">The same event as a distributed trace. The slow path stalls on a p99 model-inference span. Scrub the timeline, or toggle the mitigation and watch 163 ms fall to 80 on a fixed axis. Each active span pulses the matching stage in the diagram above.</p>
           <div class="trace-chart" id="traceChart" role="img" aria-label="Distributed-trace waterfall of one event flowing through the pipeline stages, with per-span durations."></div>
           <input class="trace-scrub" id="traceScrub" type="range" min="0" max="1000" value="0" aria-label="Scrub the trace timeline" />
           <p class="trace-readout" id="traceReadout"></p>
@@ -214,11 +213,14 @@
       </div>
     </section>
 
+    <div class="act-ii">
+
     <!-- ABOUT -->
     <section class="section" id="about">
       <div class="container">
-        <p class="section-kicker reveal">01 · About</p>
+        <p class="section-kicker reveal">01 · Who is building it</p>
         <h2 class="section-title reveal">Engineer first, scientist by training.</h2>
+        <p class="section-sub reveal">Biochemistry for four years, then four years of data platforms. The habit that carried over is that the measurement outranks what I expected.</p>
         <div class="about-grid">
           <div class="about-copy reveal">
             <p>
@@ -236,7 +238,9 @@
             </p>
             <p>
               My foundation is scientific: a <strong>B.S. in Biochemistry</strong> with a minor in Computer &amp; Information Science
-              from Ohio State. It shows up as a bias toward measurement, evaluation, and honest results over hype.
+              from Ohio State. It shows up in what I do with a result I don't like. In MOMENTUM-X, a private research
+              project of mine that trades on signals from language models, my own evaluation found the ensemble
+              consensus signal was <em>anti-predictive</em>. I recorded that and shipped nothing.
             </p>
           </div>
           <aside class="about-aside reveal">
@@ -255,11 +259,11 @@
     </section>
 
     <!-- EXPERIENCE -->
-    <section class="section section-alt" id="experience">
+    <section class="section" id="experience">
       <div class="container">
-        <p class="section-kicker reveal">02 · Experience</p>
-        <h2 class="section-title reveal">Four years, three promotions, one mission: move data reliably.</h2>
-        <p class="section-sub reveal">JPMorganChase · Full-time · Columbus, Ohio · 4 yrs 3 mos</p>
+        <p class="section-kicker reveal">02 · What the work earned</p>
+        <h2 class="section-title reveal">Four years, three promotions, one platform.</h2>
+        <p class="section-sub is-data reveal">JPMorganChase · Consumer &amp; Community Banking · Columbus, Ohio · 4 yrs 3 mos · newest role first</p>
 
         <ol class="timeline">
           <li class="tl-item reveal">
@@ -320,8 +324,9 @@
     <!-- SKILLS -->
     <section class="section" id="skills">
       <div class="container">
-        <p class="section-kicker reveal">03 · Skills</p>
+        <p class="section-kicker reveal">03 · What I reach for</p>
         <h2 class="section-title reveal">The stack behind the systems.</h2>
+        <p class="section-sub reveal">Six domains, grouped by where each piece sits in a platform rather than by a self-scored percentage. Everything listed here has run in production.</p>
         <div class="skills-viz" id="skillsViz" role="img" aria-label="Interactive 3D constellation of skills grouped by domain: streaming, lakehouse, cloud, ML and retrieval, governance, and languages.">
           <span class="viz-tag" aria-hidden="true"><span class="viz-tag-dot"></span>drag to explore</span>
           <div class="viz-canvas" id="skillsVizCanvas"></div>
@@ -375,57 +380,12 @@
       </div>
     </section>
 
-    <!-- DATA FLOW (Sankey) -->
-    <section class="section" id="dataflow">
-      <div class="container">
-        <p class="section-kicker reveal">04 · Data flow</p>
-        <h2 class="section-title reveal">The lakehouse, by volume.</h2>
-        <p class="section-sub reveal">The same platform as a flow diagram: width tracks throughput as data moves from sources through Kafka and Spark into the Bronze, Silver, and Gold medallion layers, then out to the warehouse, ML features, and reverse ETL, with malformed and deduplicated records peeled off to a dead-letter sink at each stage. Throughput conserves at every node. Hover any path for its volume.</p>
-        <div id="sankey" class="reveal" role="img" aria-label="Sankey diagram of the data platform: throughput flows from sources through Kafka, Spark, and the Bronze, Silver, and Gold layers out to Snowflake, ML features, and reverse ETL."></div>
-      </div>
-    </section>
-
-    <!-- PROJECTS -->
-    <section class="section section-alt" id="projects">
-      <div class="container">
-        <p class="section-kicker reveal">05 · Projects</p>
-        <h2 class="section-title reveal">Open-source work. The systems, in public.</h2>
-        <p class="section-sub reveal">Live from GitHub · <a href="https://github.com/pierce-lonergan?tab=repositories" target="_blank" rel="noopener">@pierce-lonergan</a></p>
-        <div class="projects-grid" id="projectsGrid">
-          <!-- Cards injected by script.js (with a static fallback baked in below) -->
-        </div>
-      </div>
-    </section>
-
-    <!-- EMBEDDING SPACE -->
-    <section class="section" id="embedding">
-      <div class="container">
-        <p class="section-kicker reveal">06 · Retrieval, visualized</p>
-        <h2 class="section-title reveal">Watch semantic search think.</h2>
-        <p class="section-sub reveal">Every point is a piece of my résumé, embedded with a sentence-transformer and placed by meaning, so related work clusters together. Ask the assistant, or type a query below, to see what gets retrieved.</p>
-        <div class="galaxy-viz" id="galaxyViz" role="img" aria-label="3D map of résumé sections positioned in embedding space.">
-          <div class="viz-canvas" id="galaxyCanvas"></div>
-          <div class="gx-loading">Mapping the résumé into embedding space...</div>
-        </div>
-        <ul class="gx-legend" aria-hidden="true">
-          <li><i style="--c:#f0a866"></i>Experience</li>
-          <li><i style="--c:#34d399"></i>Skills</li>
-          <li><i style="--c:#d56f7a"></i>Projects</li>
-          <li><i style="--c:#fbbf24"></i>Background</li>
-        </ul>
-        <form class="gx-controls" id="gxForm" autocomplete="off">
-          <input id="gxQuery" type="text" placeholder="Try: kafka streaming · drug repurposing · what does he want next" aria-label="Query the embedding space" />
-          <button type="submit" class="btn btn-ghost">Retrieve</button>
-        </form>
-        <p class="gx-caption" id="gxCaption" aria-live="polite"></p>
-      </div>
-    </section>
-
     <!-- EDUCATION & AWARDS -->
     <section class="section" id="education">
       <div class="container">
-        <p class="section-kicker reveal">07 · Education &amp; Recognition</p>
-        <h2 class="section-title reveal">Where the rigor comes from.</h2>
+        <p class="section-kicker reveal">04 · Where the habit started</p>
+        <h2 class="section-title reveal">Biochemistry, then an award for making the result legible.</h2>
+        <p class="section-sub reveal">Four years of coursework where the result outranked the hypothesis. The visualization award is the same skill pointed at an audience.</p>
         <div class="edu-grid">
           <article class="edu-card reveal">
             <div class="edu-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="url(#iconGrad)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4L2 9l10 5 10-5-10-5z"/><path d="M6 11v4.5c0 1.4 2.7 2.5 6 2.5s6-1.1 6-2.5V11"/><path d="M22 9v5"/></svg></div>
@@ -446,13 +406,61 @@
         </div>
       </div>
     </section>
+    </div><!-- /.act-ii -->
+
+    <!-- DATA FLOW (Sankey) -->
+    <section class="section" id="dataflow">
+      <div class="container">
+        <p class="section-kicker reveal">05 · Where the volume goes</p>
+        <h2 class="section-title reveal">The lakehouse by volume, losses included.</h2>
+        <p class="section-sub reveal">The same platform as an accounting statement rather than a topology. Ribbon width is throughput. Malformed and duplicated records peel off to the dead-letter sink at every stage, and inflow equals outflow at every node, so nothing is quietly dropped. Hover any path for its volume.</p>
+        <div id="sankey" class="reveal" role="img" aria-label="Sankey diagram of the data platform: throughput flows from sources through Kafka, Spark, and the Bronze, Silver, and Gold layers out to Snowflake, ML features, and reverse ETL."></div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section class="section" id="projects">
+      <div class="container">
+        <p class="section-kicker reveal">06 · Built unsupervised</p>
+        <h2 class="section-title reveal">What I build when nobody is grading it.</h2>
+        <p class="section-sub reveal">Six systems, built without a deadline or a reviewer, and the source is open on every one. Star counts come live from the GitHub API. All of them: <a href="https://github.com/pierce-lonergan?tab=repositories" target="_blank" rel="noopener">@pierce-lonergan</a></p>
+        <div class="projects-grid" id="projectsGrid">
+          <!-- Cards injected by script.js (with a static fallback baked in below) -->
+        </div>
+      </div>
+    </section>
+
+    <!-- EMBEDDING SPACE -->
+    <section class="section" id="embedding">
+      <div class="container">
+        <p class="section-kicker reveal">07 · Watch it retrieve</p>
+        <h2 class="section-title reveal">Semantic search with the scores showing.</h2>
+        <p class="section-sub reveal">Every point is a chunk of my résumé, embedded with a sentence-transformer and placed by its real cosine geometry, so related work clusters. Ask a question and the chunks it pulled light up and name themselves, with their scores printed below, weak ones included. The model downloads only when you ask.</p>
+        <div class="galaxy-viz" id="galaxyViz" role="img" aria-label="3D map of résumé sections positioned in embedding space.">
+          <div class="viz-canvas" id="galaxyCanvas"></div>
+          <div class="gx-loading">Mapping the résumé into embedding space...</div>
+        </div>
+        <ul class="gx-legend" aria-hidden="true">
+          <li><i style="--c:#f0a866"></i>Experience</li>
+          <li><i style="--c:#34d399"></i>Skills</li>
+          <li><i style="--c:#d56f7a"></i>Projects</li>
+          <li><i style="--c:#fbbf24"></i>Background</li>
+        </ul>
+        <form class="gx-controls" id="gxForm" autocomplete="off">
+          <input id="gxQuery" type="text" placeholder="Try: kafka streaming · drug repurposing · what does he want next" aria-label="Query the embedding space" />
+          <button type="submit" class="btn btn-ghost">Retrieve</button>
+        </form>
+        <p class="gx-caption" id="gxCaption" aria-live="polite"></p>
+      </div>
+    </section>
+
 
     <!-- FIT CHECK (paste a JD -> client-side cosine fit map) -->
     <section class="section" id="fit">
       <div class="container">
-        <p class="section-kicker reveal">08 · Fit check</p>
-        <h2 class="section-title reveal">Hiring for a specific role?</h2>
-        <p class="section-sub reveal">Paste a job description below and I'll match it against my résumé, right here in your browser. It's cosine similarity, not a hiring decision: you get a requirement-by-requirement evidence map, with the gaps shown honestly. Nothing you paste ever leaves your device.</p>
+        <p class="section-kicker reveal">08 · Measure me</p>
+        <h2 class="section-title reveal">Now point it at me.</h2>
+        <p class="section-sub reveal">Paste a job description and I'll score it against my résumé here in your browser, requirement by requirement. It's cosine similarity, not a hiring decision, and it prints the gaps beside the matches, because that is how I would want a candidate read. Nothing you paste leaves your device.</p>
         <form class="fit-form reveal" id="fitForm">
           <textarea id="fitJD" rows="5" placeholder="Paste a job description, or a few key requirements…" aria-label="Job description"></textarea>
           <div class="fit-actions">
@@ -468,11 +476,12 @@
     <!-- CONTACT -->
     <section class="section contact" id="contact">
       <div class="container contact-inner reveal">
-        <h2 class="section-title">Let's build something that moves the business.</h2>
-        <p class="contact-sub">Open to roles in applied ML, data engineering, and platform work. The fastest way to reach me is LinkedIn.</p>
+        <p class="section-kicker">09 · Contact</p>
+        <h2 class="section-title">You have the numbers. Here is how to reach me.</h2>
+        <p class="contact-sub">Open to applied ML, data engineering, and platform roles. The fit check above prints my gaps next to my matches, because that is how I would want a candidate read. LinkedIn is the fastest way to reach me.</p>
         <div class="hero-cta">
           <a class="btn btn-primary" href="https://www.linkedin.com/in/pierce-lonergan-84034422a/" target="_blank" rel="noopener">Connect on LinkedIn</a>
-          <a class="btn btn-ghost" href="https://github.com/pierce-lonergan" target="_blank" rel="noopener">See the code on GitHub</a>
+          <a class="btn btn-ghost" href="https://github.com/pierce-lonergan/pierce-lonergan.github.io" target="_blank" rel="noopener">Read the source of this page</a>
         </div>
       </div>
     </section>

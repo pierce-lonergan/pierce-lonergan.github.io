@@ -148,17 +148,19 @@
 
   /* ------------------------------------------------------- Reveal on scroll */
   var revealEls = $$(".reveal");
+  // Deterministic stagger. The delay used to come from the IntersectionObserver
+  // batch index, so scrolling slowly gave every element index 0 and no stagger,
+  // while scrolling fast gave an arbitrary one. Each element's position within
+  // its own section is stamped up front instead, and CSS applies the delay.
+  $$("section").forEach(function (sec) {
+    $$(".reveal", sec).forEach(function (el, i) { el.style.setProperty("--ri", Math.min(i, 6)); });
+  });
   if (prefersReduced || !("IntersectionObserver" in window)) {
     revealEls.forEach(function (el) { el.classList.add("in"); });
   } else {
     var revObs = new IntersectionObserver(function (entries, obs) {
-      entries.forEach(function (en, i) {
-        if (en.isIntersecting) {
-          // small natural stagger for groups entering together
-          var delay = Math.min(i * 90, 430);
-          setTimeout(function () { en.target.classList.add("in"); }, delay);
-          obs.unobserve(en.target);
-        }
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { en.target.classList.add("in"); obs.unobserve(en.target); }
       });
     }, { threshold: 0.12, rootMargin: "0px 0px -8% 0px" });
     revealEls.forEach(function (el) { revObs.observe(el); });
@@ -214,25 +216,6 @@
       }, { passive: true });
       tlUpdate();
     }
-  }
-
-  /* ------------------------------------------------------- Hero role rotator */
-  var rotator = $("#roleRotator");
-  if (rotator && !prefersReduced) {
-    var words = ["data infrastructure", "streaming pipelines", "lakehouse platforms", "retrieval systems", "things that scale"];
-    var idx = 0;
-    setInterval(function () {
-      var cur = rotator.firstChild;
-      idx = (idx + 1) % words.length;
-      var next = document.createElement("span");
-      next.textContent = words[idx];
-      next.className = "swap-in";
-      if (cur) {
-        cur.className = "swap-out";
-        setTimeout(function () { if (cur && cur.parentNode) cur.parentNode.removeChild(cur); }, 400);
-      }
-      rotator.appendChild(next);
-    }, 2600);
   }
 
   /* ============================================================ Projects */
@@ -332,17 +315,18 @@
 
   if (grid) {
     grid.innerHTML = PROJECTS.map(cardHTML).join("");
-    // Re-observe the freshly injected reveal cards.
+    // Re-observe the freshly injected reveal cards, stamping the same
+    // deterministic stagger index the static sections use.
     if (!prefersReduced && "IntersectionObserver" in window) {
       var pObs = new IntersectionObserver(function (entries, obs) {
-        entries.forEach(function (en, i) {
-          if (en.isIntersecting) {
-            setTimeout(function () { en.target.classList.add("in"); }, Math.min(i * 70, 280));
-            obs.unobserve(en.target);
-          }
+        entries.forEach(function (en) {
+          if (en.isIntersecting) { en.target.classList.add("in"); obs.unobserve(en.target); }
         });
       }, { threshold: 0.12 });
-      $$(".project-card.reveal", grid).forEach(function (el) { pObs.observe(el); });
+      $$(".project-card.reveal", grid).forEach(function (el, i) {
+        el.style.setProperty("--ri", Math.min(i, 6));
+        pObs.observe(el);
+      });
     } else {
       $$(".project-card.reveal", grid).forEach(function (el) { el.classList.add("in"); });
     }

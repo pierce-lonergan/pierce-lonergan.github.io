@@ -22,8 +22,9 @@
   function buildCommands() {
     var c = [];
     [
-      ["platform", "The platform, live"], ["about", "About"], ["experience", "Experience"], ["skills", "Skills"],
-      ["dataflow", "Data flow"], ["projects", "Projects"], ["embedding", "Retrieval, visualized"], ["education", "Education & Recognition"], ["fit", "Fit check (paste a JD)"], ["contact", "Contact"]
+      ["platform", "The platform, running"], ["about", "Who is building it"], ["experience", "What the work earned"],
+      ["skills", "What I reach for"], ["education", "Where the habit started"], ["dataflow", "Where the volume goes"],
+      ["projects", "Built unsupervised"], ["embedding", "Watch it retrieve"], ["fit", "Measure me (paste a JD)"], ["contact", "Contact"]
     ].forEach(function (s) {
       if (!document.getElementById(s[0])) return;
       c.push({ title: "Go to " + s[1], keywords: s[1] + " section jump scroll", icon: ICON.jump,

@@ -248,6 +248,9 @@ a { color: inherit; text-decoration: none; }
 }
 .btn-ghost:hover { transform: translateY(-2px); border-color: var(--g2); color: var(--text); }
 .nav-cta { padding: 0.5rem 1rem; font-size: 0.85rem; }
+/* Seven links plus both CTA buttons overrun the no-wrap row below ~1300px;
+   the buttons drop first since Résumé and GitHub are also in the footer. */
+@media (max-width: 1299px) { .nav-cta { display: none; } }
 
 /* =========================== Layout ==================================== */
 .container { width: 100%; max-width: var(--maxw); margin: 0 auto; padding: 0 clamp(1.1rem, 4vw, 2rem); }
@@ -626,7 +629,7 @@ a { color: inherit; text-decoration: none; }
 .footer-links a:hover { color: var(--ink-accent); }
 
 /* =========================== Reveal animation ========================== */
-.reveal { opacity: 0; transform: translateY(24px) scale(0.992); filter: blur(7px); transition: opacity 0.85s var(--ease), transform 0.85s var(--ease), filter 0.85s var(--ease); }
+.reveal { opacity: 0; transform: translateY(24px) scale(0.992); filter: blur(7px); transition: opacity 0.85s var(--ease), transform 0.85s var(--ease), filter 0.85s var(--ease); transition-delay: calc(var(--ri, 0) * 70ms); }
 .reveal.in { opacity: 1; transform: none; filter: none; }
 /* Keep heavy canvas panels and word-cascade titles blur-free (blur is per-word / too costly there) */
 .hero-viz.reveal, .skills-viz.reveal, .galaxy-viz.reveal, #sankey.reveal, .section-title.reveal { filter: none; }
@@ -874,7 +877,33 @@ a { color: inherit; text-decoration: none; }
 
 /* Typographic ragging. Progressive: ignored where unsupported.
    Deliberately NOT on .hero-name, whose two-line layout the particle reveal is measured against. */
-.section-title, .hero-role, .trace-head h3, .colophon h3, .contact .section-title { text-wrap: balance; }
+.section-title, .hero-deck, .trace-head h3, .colophon h3, .contact .section-title { text-wrap: balance; }
+
+/* The hero deck: one concrete claim replacing the old rotating word list. */
+.hero-deck {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(1.1rem, 0.86rem + 1.15vw, 1.62rem);
+  line-height: 1.26;
+  letter-spacing: -0.012em;
+  color: var(--text-soft);
+  max-width: 36ch;
+  margin: 0.55rem 0 0;
+}
+/* The unit sits above its sentence so the numeral owns the eye. */
+.stat-unit {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-accent);
+  margin-bottom: 3px;
+}
+/* Act II: the four sections about the person read as one band, replacing an
+   alternating stripe that bore no relationship to the argument. */
+.act-ii { background: color-mix(in srgb, var(--bg-2) 58%, transparent); border-block: 1px solid var(--border); }
+.act-ii .section-alt { background: none; border: none; }
 .section-sub, .hero-lede, .about-copy p, .trace-sub, .fit-summary, .gx-caption { text-wrap: pretty; }
 body { font-optical-sizing: auto; }
 
