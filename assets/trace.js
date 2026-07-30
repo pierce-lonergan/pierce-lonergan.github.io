@@ -34,6 +34,12 @@
 
   var data, total, rows, lastActive = -1, tip = null, crit = null, engaged = false;
 
+  // Both states share ONE axis (the slower of the two). Without this the
+  // mitigated trace re-normalised to its own width, so every bar grew while
+  // the stall shrank and the 83 ms saved never actually looked saved.
+  function totalOf(m) { return spans(m).reduce(function (mx, s) { return Math.max(mx, s.start + s.dur); }, 0); }
+  var AXIS = Math.max(totalOf(false), totalOf(true));
+
   function build() {
     data = spans(fix && fix.checked);
     total = data.reduce(function (mx, s) { return Math.max(mx, s.start + s.dur); }, 0);
@@ -46,7 +52,7 @@
     var axTrack = document.createElement("div"); axTrack.className = "trace-track trace-axis-track";
     [0, 0.25, 0.5, 0.75, 1].forEach(function (f) {
       var tk = document.createElement("span"); tk.className = "trace-tick";
-      tk.style.left = (f * 100) + "%"; tk.textContent = Math.round(f * total) + (f === 1 ? " ms" : "");
+      tk.style.left = (f * 100) + "%"; tk.textContent = Math.round(f * AXIS) + (f === 1 ? " ms" : "");
       axTrack.appendChild(tk);
     });
     axis.appendChild(axLabel); axis.appendChild(axTrack); host.appendChild(axis);
@@ -59,8 +65,8 @@
       label.innerHTML = '<span class="trace-kind k-' + (s.kind || "") + '"></span>' + esc(s.name) + " · " + s.dur + "ms" + (s.hot ? "  ⚠" : "");
       var track = document.createElement("div"); track.className = "trace-track";
       var bar = document.createElement("div"); bar.className = "trace-bar" + (s.hot ? " trace-hot" : "");
-      bar.style.left = (s.start / total * 100).toFixed(2) + "%";
-      bar.style.width = Math.max(1.5, s.dur / total * 100).toFixed(2) + "%";
+      bar.style.left = (s.start / AXIS * 100).toFixed(2) + "%";
+      bar.style.width = Math.max(1.5, s.dur / AXIS * 100).toFixed(2) + "%";
       bar.style.color = COLORS[s.node] || "#e07a5c"; // currentColor drives the gradient fill + glow
       bar.style.setProperty("--fill", "100%");
       bar.addEventListener("mouseenter", function () { showTip(s, bar); });
@@ -97,7 +103,13 @@
       if (active >= 0 && window.PL_pipelinePulse) { try { window.PL_pipelinePulse(data[active].node); } catch (e) {} }
     }
     if (scrub && document.activeElement !== scrub) scrub.value = Math.round(total ? t / total * 1000 : 0);
-    if (readout) readout.textContent = "T+" + Math.round(t) + " / " + total + " ms · " + ((fix && fix.checked) ? "mitigated" : "slow path") + "  ·  bottleneck " + (crit ? crit.name + " " + crit.dur + "ms" : "n/a") + (a ? "  →  " + a.name + (a.hot ? " (stall)" : "") : "");
+    if (readout) {
+      var saved = AXIS - total;
+      readout.textContent = "T+" + Math.round(t) + " / " + total + " ms · " +
+        ((fix && fix.checked) ? ("mitigated, " + saved + " ms saved end to end") : "slow path") +
+        "  ·  bottleneck " + (crit ? crit.name + " " + crit.dur + "ms" : "n/a") +
+        (a ? "  →  " + a.name + (a.hot ? " (stall)" : "") : "");
+    }
   }
 
   var raf = null, playing = false, t0 = null, startT = 0;
