@@ -17,8 +17,14 @@
   /* Warm accents - used sparingly (~10% of surface) for warmth without a temperature flip */
   --warm-1: #fbbf24;  /* amber */
   --warm-2: #fb7185;  /* coral */
-  --warm-3: #fdba74;  /* peach */
   --gradient-warm: linear-gradient(115deg, var(--g1), var(--g2) 38%, var(--g3) 66%, var(--warm-2));
+
+  /* Text-bearing fills. The decorative gradients above measure as low as 2.0:1
+     against white, so anything carrying a white label uses this darker ramp
+     instead: its lightest stop measures 5.27:1. */
+  --gradient-fill: linear-gradient(115deg, #a85520, #b4482f 40%, #a83f52 74%, #ab3a58);
+
+  --nav-h: 72px;
 
   --radius: 16px;
   --radius-sm: 10px;
@@ -38,6 +44,8 @@
   --text: #f2ece1;
   --text-soft: #c6bdac;
   --text-mute: #8c8474;
+  --ink-accent: #f0a866;  /* 9.24:1 here */
+  --num: #f0a866;
   --shadow: 0 24px 60px -20px rgba(0, 0, 0, 0.7);
   --aurora-opacity: 0.55;
   color-scheme: dark;
@@ -47,13 +55,17 @@
 [data-theme="light"] {
   --bg: #faf5ef;
   --bg-2: #f3ebe0;
-  --surface: rgba(72, 50, 28, 0.03);
-  --surface-2: rgba(72, 50, 28, 0.055);
+  /* Raised surfaces must be LIGHTER than the page. These were darker than
+     #faf5ef, which made every card read as sunken and the theme as washed out. */
+  --surface: rgba(255, 253, 250, 0.78);
+  --surface-2: rgba(255, 253, 250, 0.95);
   --border: rgba(72, 50, 28, 0.11);
   --border-strong: rgba(72, 50, 28, 0.19);
   --text: #241a12;
   --text-soft: #564636;
-  --text-mute: #8a7a66;
+  --text-mute: #7a6a56;   /* was #8a7a66 at 3.83:1, an AA failure on body text; now 4.81:1 */
+  --ink-accent: #a8532b;  /* raw amber measures 1.85:1 as text here; this is 4.92:1 */
+  --num: #9a4a24;
   --shadow: 0 24px 50px -24px rgba(89, 60, 35, 0.3);
   --aurora-opacity: 0.4;
   color-scheme: light;
@@ -61,7 +73,13 @@
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
-html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  /* Anchor targets cleared the fixed nav before this; every in-page jump parked
+     the heading underneath it. Covers nav links and palette.js scrollIntoView. */
+  scroll-padding-top: calc(var(--nav-h) + 1rem);
+}
 
 body {
   font-family: var(--font-sans);
@@ -258,7 +276,7 @@ a { color: inherit; text-decoration: none; }
 }
 .section-sub { color: var(--text-mute); font-family: var(--font-mono); font-size: 0.88rem; margin-bottom: 2.4rem; }
 .section-sub a { color: var(--text-soft); border-bottom: 1px dashed var(--border-strong); }
-.section-sub a:hover { color: var(--g1); }
+.section-sub a:hover { color: var(--ink-accent); }
 
 /* =========================== Hero ====================================== */
 .hero {
@@ -476,7 +494,7 @@ a { color: inherit; text-decoration: none; }
 .about-grid { display: grid; grid-template-columns: 1.7fr 1fr; gap: 2.5rem; align-items: start; }
 .about-copy p { color: var(--text-soft); margin-bottom: 1.1rem; font-size: 1.04rem; }
 .about-copy strong { color: var(--text); }
-.about-copy em { color: var(--g1); font-style: normal; }
+.about-copy em { color: var(--ink-accent); font-style: normal; }
 .about-aside {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -510,7 +528,7 @@ a { color: inherit; text-decoration: none; }
 .tl-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 0.4rem 1rem; }
 .tl-head h3 { font-family: var(--font-display); font-size: 1.2rem; letter-spacing: -0.01em; }
 .tl-date { font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-mute); white-space: nowrap; }
-.tl-org { color: var(--g1); font-size: 0.9rem; font-weight: 500; margin: 0.15rem 0 0.9rem; }
+.tl-org { color: var(--ink-accent); font-size: 0.9rem; font-weight: 500; margin: 0.15rem 0 0.9rem; }
 .tl-card ul { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
 .tl-card li { position: relative; padding-left: 1.2rem; color: var(--text-soft); font-size: 0.96rem; }
 .tl-card li::before { content: "▸"; position: absolute; left: 0; color: var(--g2); }
@@ -605,7 +623,7 @@ a { color: inherit; text-decoration: none; }
 .footer-inner p { color: var(--text-mute); font-size: 0.82rem; }
 .footer-links { display: flex; gap: 1.2rem; }
 .footer-links a { color: var(--text-soft); font-size: 0.85rem; transition: color 0.2s; }
-.footer-links a:hover { color: var(--g1); }
+.footer-links a:hover { color: var(--ink-accent); }
 
 /* =========================== Reveal animation ========================== */
 .reveal { opacity: 0; transform: translateY(24px) scale(0.992); filter: blur(7px); transition: opacity 0.85s var(--ease), transform 0.85s var(--ease), filter 0.85s var(--ease); }
@@ -689,7 +707,7 @@ a { color: inherit; text-decoration: none; }
 .cb-body { font-size: 0.9rem; line-height: 1.5; padding: 0.6rem 0.85rem; border-radius: 14px; word-wrap: break-word; overflow-wrap: anywhere; }
 .cb-user .cb-body { color: #fff; background: var(--gradient); border-bottom-right-radius: 5px; }
 .cb-assistant .cb-body { color: var(--text); background: var(--surface-2); border: 1px solid var(--border); border-bottom-left-radius: 5px; }
-.cb-body a { color: var(--g1); text-decoration: underline; }
+.cb-body a { color: var(--ink-accent); text-decoration: underline; }
 .cb-user .cb-body a { color: #fff; }
 .cb-status { font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-mute); padding: 0.25rem 0.3rem 0; }
 .cb-status:empty { display: none; }
@@ -754,7 +772,7 @@ a { color: inherit; text-decoration: none; }
 .cmdk-item { display: flex; align-items: center; gap: 0.7rem; padding: 0.6rem 0.7rem; border-radius: 10px; cursor: pointer; font-size: 0.92rem; color: var(--text-soft); }
 .cmdk-item.sel { background: var(--surface-2); color: var(--text); }
 .cmdk-ico { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 7px; background: var(--surface); border: 1px solid var(--border); flex-shrink: 0; }
-.cmdk-ico svg { width: 15px; height: 15px; color: var(--g1); }
+.cmdk-ico svg { width: 15px; height: 15px; color: var(--ink-accent); }
 .cmdk-item.sel .cmdk-ico { border-color: var(--g2); }
 .cmdk-empty { padding: 1.4rem; text-align: center; color: var(--text-mute); font-size: 0.9rem; }
 .cmdk-foot { display: flex; gap: 1rem; align-items: center; padding: 0.55rem 0.9rem; border-top: 1px solid var(--border); font-family: var(--font-mono); font-size: 0.68rem; color: var(--text-mute); }
@@ -807,9 +825,9 @@ a { color: inherit; text-decoration: none; }
 .colophon p, .colophon li { color: var(--text-soft); font-size: 0.93rem; line-height: 1.62; }
 .colophon b { color: var(--text); }
 .colophon ul { margin: 0.9rem 0 0.9rem 1.1rem; display: grid; gap: 0.55rem; }
-.colophon-foot a { color: var(--g1); text-decoration: underline; }
+.colophon-foot a { color: var(--ink-accent); text-decoration: underline; }
 .footer-links button.js-colophon { background: none; border: none; padding: 0; cursor: pointer; color: var(--text-soft); font-size: 0.85rem; font-family: var(--font-sans); transition: color 0.2s; }
-.footer-links button.js-colophon:hover { color: var(--g1); }
+.footer-links button.js-colophon:hover { color: var(--ink-accent); }
 
 /* =========================== Animation wave ============================ */
 /* Pipeline telemetry sparkline */
@@ -832,7 +850,7 @@ a { color: inherit; text-decoration: none; }
 /* Chat: retrieval chips cascade in; streamed replies carry a caret */
 .cb-rag-chip { opacity: 0; transform: translateY(5px); animation: chipIn 0.4s var(--ease) calc(var(--ci, 0) * 75ms) both; }
 @keyframes chipIn { to { opacity: 1; transform: none; } }
-.cb-streaming::after { content: "▍"; color: var(--g1); margin-left: 2px; animation: caretBlink 0.9s steps(2) infinite; }
+.cb-streaming::after { content: "▍"; color: var(--ink-accent); margin-left: 2px; animation: caretBlink 0.9s steps(2) infinite; }
 @keyframes caretBlink { 50% { opacity: 0; } }
 .cb-launcher.cb-nudge { animation: nudge 0.8s var(--spring) 2; }
 @keyframes nudge { 0%, 100% { transform: translateY(0); } 38% { transform: translateY(-7px); } 70% { transform: translateY(2px); } }
@@ -887,7 +905,7 @@ html { scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--text) 20
 .cb-trace-body { display: grid; grid-template-columns: auto 1fr; gap: 2px 12px; margin-top: 6px; padding: 8px 10px; border: 1px solid var(--border); border-radius: 9px; background: var(--surface); font-size: 0.66rem; }
 .cb-trace-body span { color: var(--text-mute); }
 .cb-trace-body b { color: var(--text-soft); font-weight: 500; text-align: right; }
-.pc-proof { color: var(--g2) !important; }
+.pc-proof { color: var(--ink-accent) !important; }
 
 /* Mobile: the skills 3D panel is disabled <720px; show a tidy domain key, not an empty box */
 @media (max-width: 719px) {
@@ -991,3 +1009,17 @@ html { scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--text) 20
   a { color: #111; }
   .section-kicker, .stat-num, .role-rotator, .tl-org { -webkit-text-fill-color: currentColor; color: #444 !important; background: none; }
 }
+
+/* ===================== Contrast repair: fills carrying text =============
+   The decorative gradients are tuned for glow, not legibility: white on their
+   amber stop measures 2.0:1, and the gradient-clipped labels measure 1.85:1 on
+   the light page. Anything carrying TEXT swaps to --gradient-fill, whose
+   lightest stop measures 5.27:1 against white. Purely decorative fills
+   (scroll progress, nav indicator, timeline spine, card top-lines, aurora,
+   loading bar) deliberately keep the original bright gradient. */
+.brand-mark, .btn-primary, .cb-launcher, .cb-avatar, .cb-send,
+.cb-user .cb-body, .tl-badge { background-image: var(--gradient-fill); }
+
+[data-theme="light"] .section-kicker,
+[data-theme="light"] .role-rotator > span,
+[data-theme="light"] .stat-num { background-image: var(--gradient-fill); }
