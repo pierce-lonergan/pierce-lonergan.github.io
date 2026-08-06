@@ -207,10 +207,23 @@
     var wide = (canvas.clientWidth || panel.clientWidth || 0) > 620;
     // Particles per edge scale with throughput, so busy paths visibly carry more.
     var partCount = function (l) { return Math.max(1, Math.round((l.value || 12) / 14)); };
+    // Pin the cross axis by hand. The force simulation was choosing the composition,
+    // so every visitor saw a different, slightly random arrangement. With lanes fixed,
+    // the medallion (bronze, silver, gold) reads as a straight spine and the
+    // dead-letter sink visibly falls out the bottom of the flow, every time.
+    var LANE = {
+      api: 66, cdc: 0, files: -66, schema: 128, kafka: 30, spark: 0,
+      bronze: 0, silver: 0, gold: 22, mlf: -74, snow: 66, dash: 14, retl: -18, dlq: -128
+    };
+    data.nodes.forEach(function (n) {
+      if (LANE[n.id] === undefined) return;
+      if (wide) n.fy = LANE[n.id]; else n.fx = LANE[n.id] * 0.62;
+    });
     var graph = makeGraph(FG, canvas, { interactive: false, particles: 0, particleSpeed: 0.012, particleWidth: 3, nodeRelSize: 6 });
     graph
       .dagMode(wide ? "lr" : "td")
       .dagLevelDistance(wide ? 46 : 28)
+      .numDimensions(2)
       .linkColor(function (l) { return degraded(l) ? "rgba(224,82,82,0.6)" : "rgba(150,124,98,0.26)"; })
       .linkWidth(function (l) { return Math.max(0.6, (l.value || 12) / 22); })
       .nodeColor(function (n) { return n.booted === false ? "#8a7a68" : (n.degraded ? "#e04545" : n.color); })
@@ -221,7 +234,9 @@
       .linkDirectionalParticleColor(function (l) { var s = l.source; return (s && s.degraded) ? "#ff8a8a" : ((s && s.color) || "#f0b58a"); })
       .graphData(data);
     graph.onEngineStop(function () { try { graph.zoomToFit(700, 18); } catch (e) {} });
-    wireVisibility(graph, canvas, "sway");
+    // No sway: the layout is planar now, and rotating it would tilt the diagram
+    // off-axis and undo the composition the lanes just fixed.
+    wireVisibility(graph, canvas, false);
     panel.classList.add("viz-live");
     // Portrait layout: labels sit beside the vertical spine instead of under nodes.
     if (!wide) data.nodes.forEach(function (n) { n.labelDx = 52; n.labelDy = 0; });

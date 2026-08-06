@@ -90,15 +90,21 @@
       var cls = classify(x.score);
       var label = cls === "strong" ? "Strong" : cls === "partial" ? "Partial" : "Gap";
       var ev = cls === "gap" ? "no strong match in résumé" : ((x.chunk ? x.chunk.topic : "") + " · " + Math.round(x.score * 100) + "%");
+      // The score is the evidence, so draw it: a fixed 0 to 0.70 cosine axis with
+      // both classification thresholds marked, never rescaled to flatter the result.
+      var pct = Math.max(0, Math.min(100, x.score / 0.70 * 100));
       return '<li class="fit-row fit-' + cls + '" data-topic="' + esc((x.chunk && x.chunk.topic) || "") + '">' +
         '<span class="fit-badge">' + label + '</span>' +
         '<span class="fit-req">' + esc(x.req) + '</span>' +
+        '<span class="fit-bar" role="img" aria-label="cosine similarity ' + x.score.toFixed(2) + ' of a 0.70 axis">' +
+          '<i style="width:' + pct.toFixed(1) + '%"></i></span>' +
         '<span class="fit-ev">' + esc(ev) + '</span>' +
         '</li>';
     }).join("");
     resultsEl.innerHTML =
       '<p class="fit-summary"><b>' + strong + '</b> strong · <b>' + partial + '</b> partial · <b>' + gap + '</b> gap, across ' + scored.length + ' requirements. ' +
       '<span class="fit-disc">Cosine similarity over my résumé. Evidence, not a verdict. Hover a row to find it on the map above.</span></p>' +
+      '<p class="fit-axis">Bars run on a fixed 0 to 0.70 cosine axis. The two ticks are the cut-offs I classify on: 0.30 partial, 0.42 strong.</p>' +
       '<ul class="fit-list">' + rows + '</ul>';
     Array.prototype.forEach.call(resultsEl.querySelectorAll(".fit-row"), function (li) {
       li.addEventListener("mouseenter", function () {

@@ -437,7 +437,7 @@ a { color: inherit; text-decoration: none; }
 @media (max-width: 560px) { .gx-controls { flex-direction: column; } }
 
 /* =========================== Data-flow Sankey ========================== */
-#sankey { width: 100%; height: clamp(360px, 52vh, 480px); color: var(--text-soft); }
+#sankey { position: relative; width: 100%; height: clamp(360px, 52vh, 480px); color: var(--text-soft); }
 #sankey svg { display: block; width: 100%; height: 100%; overflow: visible; }
 #sankey .sankey-labels text { font-family: var(--font-mono); font-size: 11px; fill: currentColor; }
 #sankey path { transition: stroke-opacity 0.2s; }
@@ -991,7 +991,7 @@ html { scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--text) 20
 .fit-summary b { color: var(--text); }
 .fit-disc { color: var(--text-mute); }
 .fit-list { display: grid; gap: 7px; list-style: none; }
-.fit-row { display: grid; grid-template-columns: 74px 1fr auto; gap: 12px; align-items: center; padding: 9px 12px; border: 1px solid var(--border); border-radius: 10px; background: var(--surface); transition: border-color 0.2s; }
+.fit-row { display: grid; grid-template-columns: 74px 1fr 104px auto; gap: 12px; align-items: center; padding: 9px 12px; border: 1px solid var(--border); border-radius: 10px; background: var(--surface); transition: border-color 0.2s; }
 .fit-row:hover { border-color: var(--border-strong); }
 .fit-badge { font-family: var(--font-mono); font-size: 0.64rem; text-transform: uppercase; letter-spacing: 0.05em; text-align: center; padding: 3px 0; border-radius: 6px; font-weight: 600; }
 .fit-strong .fit-badge { background: rgba(52, 211, 153, 0.16); color: #2c9e72; }
@@ -999,7 +999,25 @@ html { scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--text) 20
 .fit-gap .fit-badge { background: rgba(150, 124, 98, 0.14); color: var(--text-mute); }
 .fit-req { font-size: 0.88rem; color: var(--text); }
 .fit-ev { font-family: var(--font-mono); font-size: 0.67rem; color: var(--text-mute); white-space: nowrap; }
-@media (max-width: 560px) { .fit-row { grid-template-columns: 64px 1fr; } .fit-ev { grid-column: 2; } }
+/* The score, drawn. Fixed 0 to 0.70 cosine axis (never rescaled to the data),
+   with the partial (0.30) and strong (0.42) cut-offs marked on every row so the
+   classification is auditable rather than asserted. */
+.fit-bar { position: relative; height: 6px; border-radius: 3px; background: color-mix(in srgb, var(--text) 9%, transparent); overflow: visible; }
+.fit-bar i { display: block; height: 100%; border-radius: 3px; background: var(--text-mute); transition: width 0.5s var(--ease); }
+.fit-strong .fit-bar i { background: #2c9e72; }
+.fit-partial .fit-bar i { background: var(--ink-accent); }
+.fit-bar::before, .fit-bar::after {
+  content: ""; position: absolute; top: -3px; width: 1px; height: 12px;
+  background: color-mix(in srgb, var(--text) 26%, transparent);
+}
+.fit-bar::before { left: 42.86%; }  /* 0.30 cosine: partial */
+.fit-bar::after  { left: 60%; }     /* 0.42 cosine: strong  */
+.fit-axis { font-family: var(--font-mono); font-size: 0.6rem; color: var(--text-mute); margin-top: 0.5rem; }
+@media (max-width: 560px) {
+  .fit-row { grid-template-columns: 64px 1fr; }
+  .fit-bar { grid-column: 2; }
+  .fit-ev { grid-column: 2; }
+}
 
 /* Command palette: items cascade on open only */
 .cmdk.fresh .cmdk-item { animation: cmdkIn 0.3s var(--ease) calc(var(--pi, 0) * 22ms) both; }

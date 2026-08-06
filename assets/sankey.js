@@ -13,6 +13,7 @@
   var host = document.getElementById("sankey");
   if (!host) return;
 
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]; }); }
   function load(src, integ) { return new Promise(function (res, rej) { var s = document.createElement("script"); s.src = src; s.async = true; s.crossOrigin = "anonymous"; if (integ) s.integrity = integ; s.onload = res; s.onerror = rej; document.head.appendChild(s); }); }
   function ensure() {
     if (window.d3 && window.d3.sankey) return Promise.resolve();
@@ -65,6 +66,22 @@
         .attr("stroke-opacity", 0.38)
         .attr("stroke-width", function (d) { return Math.max(1, d.width); });
       link.append("title").text(function (d) { return d.source.name + "  to  " + d.target.name + " : " + d.value; });
+
+      // Styled tooltip matching the trace chart above, with the share math.
+      // The native <title> stays for keyboard and assistive tech.
+      var tip = document.createElement("div");
+      tip.className = "trace-tooltip";
+      host.appendChild(tip);
+      link.on("pointerenter", function (e, d) {
+        var out = d.source.sourceLinks.reduce(function (s, l) { return s + l.value; }, 0);
+        var share = out ? Math.round(d.value / out * 100) : 0;
+        tip.innerHTML = "<b>" + esc(d.source.name) + " to " + esc(d.target.name) + "</b><br>" +
+          d.value + " of " + out + " units leaving " + esc(d.source.name) + " (" + share + "%)";
+        var r = this.getBoundingClientRect(), hr = host.getBoundingClientRect();
+        tip.style.left = (r.left - hr.left + r.width / 2) + "px";
+        tip.style.top = (r.top - hr.top) + "px";
+        tip.classList.add("on");
+      }).on("pointerleave", function () { tip.classList.remove("on"); });
 
       // A second pass of dashed strokes streams along every ribbon (CSS animates the offset).
       var flow = svg.append("g").attr("fill", "none").attr("pointer-events", "none")
