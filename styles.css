@@ -46,6 +46,7 @@
   --text-mute: #8c8474;
   --ink-accent: #f0a866;  /* 9.24:1 here */
   --num: #f0a866;
+  --mesh-mix: 1;
   --shadow: 0 24px 60px -20px rgba(0, 0, 0, 0.7);
   --aurora-opacity: 0.55;
   color-scheme: dark;
@@ -66,6 +67,7 @@
   --text-mute: #7a6a56;   /* was #8a7a66 at 3.83:1, an AA failure on body text; now 4.81:1 */
   --ink-accent: #a8532b;  /* raw amber measures 1.85:1 as text here; this is 4.92:1 */
   --num: #9a4a24;
+  --mesh-mix: 1.75;       /* warm accents over near-white need a deeper wash to register */
   --shadow: 0 24px 50px -24px rgba(89, 60, 35, 0.3);
   --aurora-opacity: 0.4;
   color-scheme: light;
@@ -319,9 +321,9 @@ a { color: inherit; text-decoration: none; }
 .hero-name {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(2.8rem, 9vw, 6rem);
-  line-height: 0.98;
-  letter-spacing: -0.03em;
+  font-size: clamp(2.8rem, 10vw, 7.5rem);
+  line-height: 0.94;
+  letter-spacing: -0.035em;
   margin-bottom: 0.5rem;
   background: linear-gradient(180deg, var(--text), color-mix(in srgb, var(--text) 55%, var(--g2)));
   -webkit-background-clip: text;
@@ -357,18 +359,20 @@ a { color: inherit; text-decoration: none; }
 
 .hero-stats {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1.2rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(1.4rem, 4vw, 3rem);
   width: 100%;
+  max-width: 62rem;
   border-top: 1px solid var(--border);
-  padding-top: 2rem;
+  padding-top: 2.2rem;
 }
-.stat { display: flex; flex-direction: column; gap: 0.25rem; }
+.stat { display: flex; flex-direction: column; gap: 0.3rem; }
 .stat-num {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(1.7rem, 4.5vw, 2.6rem);
-  line-height: 1;
+  font-size: clamp(2.6rem, 6vw, 4.2rem);
+  line-height: 0.95;
+  letter-spacing: -0.03em;
   color: transparent;
   background: var(--gradient);
   -webkit-background-clip: text;
@@ -886,9 +890,9 @@ a { color: inherit; text-decoration: none; }
   font-size: clamp(1.1rem, 0.86rem + 1.15vw, 1.62rem);
   line-height: 1.26;
   letter-spacing: -0.012em;
-  color: var(--text-soft);
-  max-width: 36ch;
-  margin: 0.55rem 0 0;
+  color: var(--text);
+  max-width: 26ch;
+  margin: 0.9rem 0 1.6rem;
 }
 /* The unit sits above its sentence so the numeral owns the eye. */
 .stat-unit {

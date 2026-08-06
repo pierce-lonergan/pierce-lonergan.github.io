@@ -24,7 +24,7 @@
   var VERT = "attribute vec2 p; void main(){ gl_Position = vec4(p, 0.0, 1.0); }";
   var FRAG = [
     "precision highp float;",
-    "uniform vec2 u_res; uniform float u_time;",
+    "uniform vec2 u_res; uniform float u_time; uniform float u_mix;",
     "uniform vec3 u_base; uniform vec3 u_c1; uniform vec3 u_c2; uniform vec3 u_c3;",
     "vec3 mod289(vec3 x){return x-floor(x*(1.0/289.0))*289.0;}",
     "vec2 mod289(vec2 x){return x-floor(x*(1.0/289.0))*289.0;}",
@@ -49,9 +49,9 @@
     "  float n2=fbm(p*0.75+vec2(-t*0.5,t*0.45)+5.0);",
     "  float n3=fbm(p*1.45+vec2(t*0.2,-t*0.35)+9.0);",
     "  vec3 col=u_base;",
-    "  col=mix(col,u_c1,clamp(smoothstep(-0.25,0.85,n1)*0.55,0.0,1.0));",
-    "  col=mix(col,u_c2,clamp(smoothstep(-0.10,0.90,n2)*0.40,0.0,1.0));",
-    "  col=mix(col,u_c3,clamp(smoothstep(0.00,0.95,n3)*0.32,0.0,1.0));",
+    "  col=mix(col,u_c1,clamp(smoothstep(-0.25,0.85,n1)*0.55*u_mix,0.0,1.0));",
+    "  col=mix(col,u_c2,clamp(smoothstep(-0.10,0.90,n2)*0.40*u_mix,0.0,1.0));",
+    "  col=mix(col,u_c3,clamp(smoothstep(0.00,0.95,n3)*0.32*u_mix,0.0,1.0));",
     "  float vig=smoothstep(1.35,0.15,length(p));",
     "  col=mix(u_base,col,0.30+0.70*vig);",
     "  gl_FragColor=vec4(col,1.0);",
@@ -86,6 +86,7 @@
   var uC1 = gl.getUniformLocation(prog, "u_c1");
   var uC2 = gl.getUniformLocation(prog, "u_c2");
   var uC3 = gl.getUniformLocation(prog, "u_c3");
+  var uMix = gl.getUniformLocation(prog, "u_mix");
 
   function hex2rgb(h) {
     h = (h || "").trim().replace("#", "");
@@ -101,6 +102,10 @@
     var c2 = hex2rgb(cs.getPropertyValue("--g1")) || [0.94, 0.66, 0.40];   // amber
     var c3 = hex2rgb(cs.getPropertyValue("--g3")) || [0.84, 0.43, 0.48];   // rose
     gl.uniform3fv(uBase, base); gl.uniform3fv(uC1, c1); gl.uniform3fv(uC2, c2); gl.uniform3fv(uC3, c3);
+    // The light theme mixes warm accents over a near-white base, so the same factors
+    // that read rich on #17130f wash out on #faf5ef. Depth is theme-tunable.
+    var mixv = parseFloat(cs.getPropertyValue("--mesh-mix")) || 1;
+    gl.uniform1f(uMix, mixv);
   }
 
   var dpr = Math.min(window.devicePixelRatio || 1, 1.4);
