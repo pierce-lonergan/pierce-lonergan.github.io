@@ -238,6 +238,11 @@
     // off-axis and undo the composition the lanes just fixed.
     wireVisibility(graph, canvas, false);
     panel.classList.add("viz-live");
+    // The telemetry and key now live in the rack bezel rather than floating over
+    // the canvas, so the rack needs the live class for those descendants to show.
+    if (panel.parentNode && panel.parentNode.classList && panel.parentNode.classList.contains("viz-rack")) {
+      panel.parentNode.classList.add("viz-live");
+    }
     // Portrait layout: labels sit beside the vertical spine instead of under nodes.
     if (!wide) data.nodes.forEach(function (n) { n.labelDx = 52; n.labelDy = 0; });
     labelOverlay(graph, panel, function () { return data.nodes; });
@@ -306,10 +311,12 @@
 
   // Live telemetry + chaos injection: turns the diagram into a running platform.
   function pipelineExtras(panel, graph, data) {
-    var vtThr = panel.querySelector("#vtThroughput");
-    var vtLag = panel.querySelector("#vtLag");
-    var vtP99 = panel.querySelector("#vtP99");
-    var statusEl = panel.querySelector("#vizStatus");
+    // Telemetry now lives in the rack header above the panel, so look these up by
+    // id rather than scoping to the panel they used to sit inside.
+    var vtThr = document.getElementById("vtThroughput");
+    var vtLag = document.getElementById("vtLag");
+    var vtP99 = document.getElementById("vtP99");
+    var statusEl = document.getElementById("vizStatus");
     var chaosBtn = panel.querySelector(".js-chaos");
     var nodeById = {};
     data.nodes.forEach(function (n) { nodeById[n.id] = n; });

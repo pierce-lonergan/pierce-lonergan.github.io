@@ -159,26 +159,24 @@
         <p class="section-kicker reveal">00 · The platform, running</p>
         <h2 class="section-title reveal">What I build, running in this tab.</h2>
         <p class="section-sub reveal">A live model of a streaming and lakehouse platform: sources into Kafka and Spark, through the Bronze, Silver and Gold layers, out to the warehouse and serving. The topology is the real shape of this kind of system. The telemetry is synthetic, and it says so here rather than pretending otherwise. Press inject chaos to stall a stage, then watch the backpressure cascade, dead-letter, and heal.</p>
-        <div class="hero-viz reveal" id="heroViz" role="img" aria-label="Animated diagram of a streaming data platform: sources flow into Kafka, then Spark, into Iceberg and Snowflake, and out to machine learning and serving.">
-          <div class="viz-telemetry" aria-hidden="true">
-            <span class="vt-metric"><b id="vtThroughput">--</b><i>events/s</i></span>
-            <span class="vt-metric"><b id="vtLag">--</b><i>consumer lag</i></span>
-            <span class="vt-metric"><b id="vtP99">--</b><i>p99 latency</i></span>
+        <div class="viz-rack reveal">
+          <div class="viz-bar">
+            <span class="viz-id">00.1</span>
+            <span class="viz-name">Streaming platform</span>
+            <div class="viz-telemetry" aria-hidden="true">
+              <span class="vt-metric"><b id="vtThroughput">--</b><i>events/s</i></span>
+              <span class="vt-metric"><b id="vtLag">--</b><i>consumer lag</i></span>
+              <span class="vt-metric"><b id="vtP99">--</b><i>p99 latency</i></span>
+            </div>
+            <span class="viz-state">live</span>
           </div>
+        <div class="hero-viz" id="heroViz" role="img" aria-label="Animated diagram of a streaming data platform: sources flow into Kafka, then Spark, into Iceberg and Snowflake, and out to machine learning and serving.">
           <button class="viz-chaos js-chaos" type="button" aria-label="Inject chaos into the pipeline">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2L4 14h7l-1 8 10-12h-7l1-8z"/></svg>
             Inject chaos
           </button>
           <div class="viz-status" id="vizStatus" aria-hidden="true"></div>
           <div class="viz-canvas" id="heroVizCanvas"></div>
-          <ul class="viz-legend" aria-hidden="true">
-            <li><i style="--c:#f0a866"></i>Sources</li>
-            <li><i style="--c:#5fb0a8"></i>Kafka</li>
-            <li><i style="--c:#e07a5c"></i>Spark</li>
-            <li><i style="--c:#c98a5c"></i>Bronze · Silver · Gold</li>
-            <li><i style="--c:#d56f7a"></i>Warehouse · ML</li>
-            <li><i style="--c:#9a7d74"></i>DLQ</li>
-          </ul>
           <ol class="viz-fallback flow">
             <li><span class="flow-dot" style="--c:#f0a866"></span><b>Sources</b><em>API events, CDC, files</em></li>
             <li><span class="flow-dot" style="--c:#5fb0a8"></span><b>Kafka</b><em>streaming backbone</em></li>
@@ -187,6 +185,18 @@
             <li><span class="flow-dot" style="--c:#d56f7a"></span><b>Snowflake · ML · Reverse ETL</b><em>warehouse + serving</em></li>
           </ol>
         </div>
+          <div class="viz-foot">
+            <ul class="viz-legend" aria-hidden="true">
+              <li><i style="--c:#f0a866"></i>Sources</li>
+              <li><i style="--c:#5fb0a8"></i>Kafka</li>
+              <li><i style="--c:#e07a5c"></i>Spark</li>
+              <li><i style="--c:#c98a5c"></i>Bronze · Silver · Gold</li>
+              <li><i style="--c:#d56f7a"></i>Warehouse · ML</li>
+              <li><i style="--c:#9a7d74"></i>DLQ</li>
+            </ul>
+            <p class="viz-method">Topology is the real shape of the platform. Telemetry is synthetic.</p>
+          </div>
+        </div><!-- /.viz-rack -->
 
         <!-- TRACE ONE EVENT (scrubbable distributed trace; pulses the DAG above) -->
         <div class="trace reveal" id="traceOne">
