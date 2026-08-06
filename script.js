@@ -238,7 +238,7 @@
       name: "nexus_matcher",
       icon: '<svg class="pc-icon" viewBox="0 0 24 24" fill="none" stroke="url(#iconGrad)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="6" r="1.5"/><circle cx="5" cy="12" r="1.5"/><circle cx="5" cy="18" r="1.5"/><circle cx="19" cy="6" r="1.5"/><circle cx="19" cy="12" r="1.5"/><circle cx="19" cy="18" r="1.5"/><path d="M6.5 6h11M6.5 12l11 6M6.5 18l11-6"/></svg>',
       title: "NexusMatcher",
-      desc: "A personal R&D project: an enterprise-grade semantic schema-matching system. Multi-stage retrieval → neural reranking → learned type projections. 100% Precision@1, sub-4ms rerank latency, 433 passing tests.",
+      desc: "A personal R&D project: semantic schema matching. Multi-stage retrieval → late-interaction reranking → learned type projections. Reranks 100 candidates in 3.17ms warm vs 274ms cold, a 94× speedup from precomputed token embeddings. P@1 is 1.0 in-domain and 0.29 on a harder 17-field set (P@5 0.76); both numbers are in the repo. 433 tests.",
       lang: "Python",
       tags: ["RAG", "BM25 + dense", "ColBERT", "Qdrant"],
       repo: "https://github.com/pierce-lonergan/nexus_matcher",

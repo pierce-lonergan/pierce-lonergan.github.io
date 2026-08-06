@@ -7,16 +7,16 @@
 <meta charset="UTF-8" />
 <title>Pierce Lonergan · Résumé</title>
 <style>
-  @page { size: Letter; margin: 0.42in 0.5in; }
+  @page { size: Letter; margin: 0.34in 0.46in; }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  body { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; color: #1c1c1c; font-size: 9.4pt; line-height: 1.26; }
+  body { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; color: #1c1c1c; font-size: 9.2pt; line-height: 1.21; }
   .name { font-size: 21pt; font-weight: 700; letter-spacing: -0.4px; color: #b8502e; }
   .tagline { font-size: 10pt; color: #444; margin-top: 1px; font-weight: 500; }
   .contact { font-size: 8.8pt; color: #555; margin-top: 3px; }
   .contact a { color: #555; text-decoration: none; }
   .contact span { color: #b8502e; margin: 0 5px; }
-  h2 { font-size: 9.2pt; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #b8502e; border-bottom: 1.2px solid #e3b8a6; padding-bottom: 1.5px; margin: 9px 0 4.5px; }
+  h2 { font-size: 9pt; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #b8502e; border-bottom: 1.2px solid #e3b8a6; padding-bottom: 1.5px; margin: 7px 0 3.5px; }
   .row { display: flex; justify-content: space-between; align-items: baseline; }
   .role-title { font-weight: 700; font-size: 9.6pt; }
   .role-meta { font-size: 8.7pt; color: #555; }
@@ -24,7 +24,7 @@
   .skills p { margin-bottom: 2px; }
   .skills b { color: #2a2a2a; }
   ul { list-style: none; margin-top: 1.5px; }
-  li { position: relative; padding-left: 11px; margin-bottom: 2.5px; font-size: 9.1pt; }
+  li { position: relative; padding-left: 11px; margin-bottom: 1.8px; font-size: 9pt; }
   li::before { content: ""; position: absolute; left: 1px; top: 5.5px; width: 3.5px; height: 3.5px; border-radius: 50%; background: #c87a5c; }
   .proj { margin-bottom: 4px; }
   .proj .row { margin-bottom: 1px; }
@@ -38,7 +38,7 @@
   <div class="contact">Columbus, OH <span>·</span> linkedin.com/in/pierce-lonergan <span>·</span> github.com/pierce-lonergan</div>
 
   <h2>Professional Summary</h2>
-  <p>Software Engineer III at JPMorganChase specializing in large-scale streaming and batch data infrastructure, with hands-on applied-ML and retrieval work. Designs reusable data platforms on Apache Kafka, Spark, Iceberg, Snowflake, and AWS, and builds Retrieval-Augmented Generation and semantic schema-matching systems using hybrid lexical and dense retrieval with ColBERT reranking. Builds production-grade systems end to end on the side, including a 17-module enterprise payments platform on Spring Modulith. Three promotions in four years. Scientific foundation (B.S. Biochemistry, minor in Computer &amp; Information Science) with a bias toward measurement and honest evaluation. Open to applied ML, data engineering, and platform roles.</p>
+  <p><b>Most RAG systems fail at the pipeline, not the model. I have spent four years building the pipeline.</b> Software Engineer III at JPMorganChase, building the streaming and batch data infrastructure Consumer &amp; Community Banking runs on: reusable platforms across Kafka, Spark, Iceberg, Snowflake, and AWS. Alongside it I build retrieval systems in the open and payment infrastructure on Spring Modulith. Software Engineer to Software Engineer III in four years. B.S. Biochemistry with a Computer &amp; Information Science minor, and a bias toward measurement and honest evaluation, including of my own results. Open to applied ML, data engineering, and platform roles.</p>
 
   <h2>Technical Skills</h2>
   <div class="skills">
@@ -54,9 +54,9 @@
   <div class="row"><span class="role-title">JPMorganChase &nbsp;|&nbsp; Consumer &amp; Community Banking, Data Engineering</span><span class="role-meta">Columbus, OH</span></div>
   <div class="sub">Software Engineer III (Feb 2026 – Present) · Associate Software Engineer (Jan 2024 – Feb 2026) · Software Engineer (Apr 2022 – Jan 2024)</div>
   <ul>
-    <li>Architected reusable streaming-pipeline infrastructure with declarative source/sink/transform factories, forward-compatible schema evolution, and generic recursive flattening for nested data, lifting the team from roughly 2 to 30 production pipelines per month.</li>
+    <li>Architected the reusable streaming-pipeline layer (declarative source/sink/transform factories, forward-compatible schema evolution, generic recursive flattening for nested data). Team throughput went from roughly 2 to 30 production pipelines per month over the two quarters after adoption; I built the framework, the number is the team's.</li>
     <li>Standardized pipeline lifecycle concerns once and reused them across every pipeline: checkpointing, error handling, and graceful shutdown.</li>
-    <li>Shipped data-governance automation that cut weeks from data-approval cycles and became a production internal product; drove schema-evolution standards, semantic schema matching, and entity resolution against a canonical catalog.</li>
+    <li>Shipped data-governance automation that replaced blank-page hand-mapping by stewards with machine-proposed mappings they confirm or correct, cutting weeks from approval cycles (product-owner estimate, not an instrumented baseline); now a production internal product. Drove schema-evolution standards, semantic schema matching, and entity resolution against a canonical catalog.</li>
     <li>Built high-performance Spark ETL with asynchronous processing and parallelization, and integrated Kafka for near-real-time distributed streaming, reducing latency and improving reliability and scalability.</li>
     <li>Modernized big-data systems with reactive paradigms (Project Reactor), pairing Kafka messaging with Cassandra reconciliation and Spark ETL, and migrated high-throughput systems to federated AWS.</li>
     <li>Led a hackathon team to 4th place globally; architects projected the platform would save roughly 80 engineer-hours per month.</li>
@@ -66,19 +66,19 @@
   <div class="proj">
     <div class="row"><span class="role-title">NexusPay &nbsp;|&nbsp; Enterprise payment-operations platform</span><span class="role-meta">Personal project · Java</span></div>
     <ul>
-      <li>17-module Spring Modulith (Java 21, hexagonal) layered on HyperSwitch: double-entry ledger on serializable transactions, transactional-outbox → Kafka via Debezium CDC, a fraud rules engine, FX / cross-border, a dispute state machine, subscription billing, Keycloak SSO with maker-checker approval workflows, Temporal, HashiCorp Vault (PCI), and full Prometheus / Grafana observability. <span class="stack">~845 Java files across 51 database migrations.</span></li>
+      <li>17-module Spring Modulith (Java 21, hexagonal) on HyperSwitch: a double-entry ledger holding its invariants under SERIALIZABLE, transactional outbox to Kafka via Debezium CDC so nothing is dual-written, fraud rules, FX, a dispute state machine, subscription billing, Keycloak SSO with maker-checker approvals, Temporal, Vault (PCI), Prometheus / Grafana SLOs. <span class="stack">Built solo with an agent-assisted loop; the architecture, module boundaries, money invariants and test strategy are mine.</span></li>
     </ul>
   </div>
   <div class="proj">
     <div class="row"><span class="role-title">NexusMatcher &nbsp;|&nbsp; Semantic schema-matching system</span><span class="role-meta">Personal project · Python</span></div>
     <ul>
-      <li>Enterprise-grade multi-stage retrieval, neural reranking, and learned type projections (hybrid BM25 + dense, ColBERT reranking, Qdrant). 100% Precision@1, sub-4ms rerank latency, 433 passing tests.</li>
+      <li>Multi-stage retrieval with late-interaction reranking and learned type projections (hybrid BM25 + dense, ColBERT, Qdrant). Reranks 100 candidates in 3.17 ms warm against 274 ms cold, a 94&times; speedup from precomputed token embeddings. P@1 is 1.0 on the in-domain benchmark and 0.29 on a harder 17-field set where P@5 holds at 0.76; 433 tests.</li>
     </ul>
   </div>
   <div class="proj">
     <div class="row"><span class="role-title">MOMENTUM-X &nbsp;|&nbsp; LLM-driven algorithmic trading system</span><span class="role-meta">Personal project · Python</span></div>
     <ul>
-      <li>End-to-end intraday trading system on the Alpaca API (phase-based stop-loss, live daemon, full observability). Designed and rigorously evaluated a multi-agent LLM ensemble, surfacing that ensemble consensus was anti-predictive and redirecting toward a validated execution edge; built mx-arena, a local exchange simulator for backtesting.</li>
+      <li>End-to-end intraday trading system on the Alpaca API (phase-based stop-loss, live daemon, full observability), plus mx-arena, a local exchange simulator for backtesting. Pre-registered the hypothesis and the kill criteria, validated out-of-sample with walk-forward evaluation, then ran an adversarial audit against my own conclusion: the multi-agent LLM ensemble consensus came out anti-predictive. I recorded the negative result and killed the feature I had spent months building.</li>
     </ul>
   </div>
 
