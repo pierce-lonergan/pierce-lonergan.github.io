@@ -14,10 +14,10 @@ window.PL_KB = [
     text: "Pierce solved pipeline lifecycle concerns once and reused them everywhere: checkpointing, error handling, and graceful shutdown standardized across every pipeline. This is a platform mindset focused on reusable building blocks rather than one-off jobs." },
 
   { topic: "Governance automation",
-    text: "Pierce shipped governance automation that cut weeks from data-approval cycles at JPMorganChase, and it became a production internal product. He also led a hackathon team to 4th place globally, with architects projecting the platform would save about 80 engineer-hours per month." },
+    text: "Pierce shipped governance automation that cut weeks from data-approval cycles at JPMorganChase, and it became a production internal product. He also led a hackathon team to 4th place in JPMorganChase's global internal hackathon, with architects projecting the platform would save about 80 engineer-hours per month." },
 
   { topic: "Career timeline",
-    text: "Pierce has been at JPMorganChase for over four years across three titles, moving from Software Engineer to Software Engineer III. Software Engineer III from February 2026 to present. Associate Software Engineer from January 2024 to February 2026. Software Engineer from April 2022 to January 2024." },
+    text: "Pierce has been at JPMorganChase for over four years and earned two promotions there, moving from Software Engineer to Software Engineer III. Software Engineer III from February 2026 to present. Associate Software Engineer from January 2024 to February 2026. Software Engineer from April 2022 to January 2024." },
 
   { topic: "Earlier engineering work",
     text: "As an Associate Software Engineer, Pierce built high-performance ETL Spark pipelines with asynchronous processing and parallelization, and integrated Kafka for near-real-time distributed streaming, reducing latency and improving reliability. Earlier, as a Software Engineer, he modernized big-data systems with reactive paradigms using Project Reactor, paired Kafka messaging with Cassandra reconciliation and Spark ETL, and began migrating high-throughput systems to federated AWS." },
