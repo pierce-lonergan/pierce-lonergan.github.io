@@ -227,31 +227,51 @@
       name: "NexusPay",
       icon: '<svg class="pc-icon" viewBox="0 0 24 24" fill="none" stroke="url(#iconGrad)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="5.5" width="19" height="13" rx="2"/><path d="M2.5 9.5h19"/><path d="M6 14.5h5"/></svg>',
       title: "NexusPay",
-      desc: "A personal R&D build: a security-first payment-orchestration platform on HyperSwitch. A Spring Modulith (Java 21, hexagonal) with zero-trust multi-tenancy, a double-entry ledger, transactional-outbox → Kafka via Debezium CDC, HMAC-signed webhooks, a fraud & sanctions engine, disputes, subscription billing, Temporal, and Vault-backed PCI-safe card handling — plus a Stripe-grade test-mode sandbox (forced outcomes, test clocks, sandbox reset) and three published @nexus-pay npm SDKs + a CLI.",
+      desc: "A personal R&D build, source currently private: a security-first payment-orchestration platform on HyperSwitch. A Spring Modulith (Java 21, hexagonal) with zero-trust multi-tenancy, a double-entry ledger, transactional-outbox → Kafka via Debezium CDC, HMAC-signed webhooks, a fraud & sanctions engine, disputes, subscription billing, Temporal, and Vault-backed PCI-safe card handling, plus a Stripe-grade test-mode sandbox (forced outcomes, test clocks, sandbox reset) and three published @nexus-pay npm SDKs + a CLI.",
       lang: "Java",
-      tags: ["Spring Modulith", "Double-entry ledger", "Zero-trust multi-tenant", "Published SDKs"],
-      repo: "https://github.com/pierce-lonergan/NexusPay",
-      demo: "https://pierce-lonergan.github.io/NexusPay/",
-      proof: { url: "https://github.com/pierce-lonergan/NexusPay/tree/main/ledger", label: "Ledger module ↗" }
+      tags: ["Spring Modulith", "Double-entry ledger", "Zero-trust multi-tenant", "Source private"],
+      demo: "https://pierce-lonergan.github.io/NexusPay/"
     },
     {
       name: "nexus_matcher",
       icon: '<svg class="pc-icon" viewBox="0 0 24 24" fill="none" stroke="url(#iconGrad)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="6" r="1.5"/><circle cx="5" cy="12" r="1.5"/><circle cx="5" cy="18" r="1.5"/><circle cx="19" cy="6" r="1.5"/><circle cx="19" cy="12" r="1.5"/><circle cx="19" cy="18" r="1.5"/><path d="M6.5 6h11M6.5 12l11 6M6.5 18l11-6"/></svg>',
       title: "NexusMatcher",
-      desc: "A personal R&D project: semantic schema matching. Multi-stage retrieval → late-interaction reranking → learned type projections. Reranks 100 candidates in 3.17ms warm vs 274ms cold, a 94× speedup from precomputed token embeddings. P@1 is 1.0 in-domain and 0.29 on a harder 17-field set (P@5 0.76); both numbers are in the repo. 433 tests.",
+      desc: "A published PyPI package (nexus-matcher 2.2.0). Maps schema fields onto data-dictionary entries by meaning rather than string equality, and returns a governance verdict: AUTO_APPROVE, REVIEW, or REJECT. The wheel carries its own int8 ONNX encoder, so it installs airgapped with no torch and no model download. P@1 0.581 and Recall@10 0.878 on a 688-pair labelled benchmark built from BIRD-SQL and OMOP CDM v5.4, at roughly 364 fields/sec on CPU; auto-approve fires on about 12% of fields at 95.3% precision and routes the rest to a human.",
       lang: "Python",
-      tags: ["RAG", "BM25 + dense", "ColBERT", "Qdrant"],
+      tags: ["PyPI package", "BM25 + dense", "int8 ONNX", "Governance"],
+      demo: "https://pypi.org/project/nexus-matcher/",
       repo: "https://github.com/pierce-lonergan/nexus_matcher",
-      proof: { url: "https://github.com/pierce-lonergan/nexus_matcher/tree/main/tests", label: "433 tests ↗" }
+      proof: { url: "https://github.com/pierce-lonergan/nexus_matcher/tree/main/benchmarks/results", label: "Benchmark artifacts ↗" },
     },
     {
       name: "NexusPiercer",
       icon: '<svg class="pc-icon" viewBox="0 0 24 24" fill="none" stroke="url(#iconGrad)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4v16M8 7v10M12 10v4"/><path d="M13 12h7M17 9l3 3-3 3"/></svg>',
       title: "NexusPiercer",
-      desc: "A data-engineering toolkit that pierces through deeply nested JSON & Avro, flattening, consolidating, and analyzing data and schemas into flat, Spark-ready structures with rich metadata. The recursive-flattening engine, productized.",
-      lang: "Java / Groovy",
-      tags: ["Java", "Avro", "Spark", "Schema"],
+      desc: "Flattens deeply nested JSON and Avro into flat, Spark-ready structures with rich metadata, and reconstructs Avro back again with round-trip fidelity. Published on Maven Central as io.github.pierce-lonergan:nexus-piercer (Java 17+, Apache 2.0), with documented airgapped install routes for environments that cannot reach Central.",
+      lang: "Java",
+      tags: ["Maven Central", "Java 17", "Avro", "Spark"],
+      demo: "https://central.sonatype.com/artifact/io.github.pierce-lonergan/nexus-piercer",
       repo: "https://github.com/pierce-lonergan/NexusPiercer"
+    },
+    {
+      name: "momentum-x-research",
+      icon: '<svg class="pc-icon" viewBox="0 0 24 24" fill="none" stroke="url(#iconGrad)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4v16h16"/><path d="M7 15l3.5-3 3 2 4.5-6"/><path d="M4 11h16" stroke-dasharray="2 2"/></svg>',
+      title: "Momentum-X Research",
+      desc: "A falsification-driven research program in systematic equity trading that ran 311 documented experiments across 39 hypothesis families and 33 registered trials, and certified zero edges. Over the same 2016 to 2026 window, buy-and-hold SPY returned 14.91%/yr and beat it. The asset is the machinery that established that honestly: a hash-chained tamper-evident trial registry, a promotion bar computed from the trial count via deflated Sharpe, day-clustered bootstrap, and pre-registration with executable fixtures.",
+      lang: "Python",
+      tags: ["Pre-registration", "Deflated Sharpe", "Bootstrap", "272 test files"],
+      repo: "https://github.com/pierce-lonergan/momentum-x-research",
+      proof: { url: "https://github.com/pierce-lonergan/momentum-x-research/blob/main/docs/ATTEMPTS_LEDGER.md", label: "Attempts ledger ↗" }
+    },
+    {
+      name: "AcronymKit",
+      icon: '<svg class="pc-icon" viewBox="0 0 24 24" fill="none" stroke="url(#iconGrad)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 5H5a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h2"/><path d="M17 5h2a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1h-2"/><path d="M9 12h.01M12 12h.01M15 12h.01"/></svg>',
+      title: "AcronymKit",
+      desc: "A published PyPI package (acronymkit 0.3.0) for expanding governed schema identifiers against a catalog you supply. Its design commitment is that anything the catalog cannot account for is reported as unknown rather than approximated, which is the property that makes it usable for governance. Typed (py.typed), MIT, Python 3.9 through 3.13, with an OpenSSF Scorecard and CI on every commit.",
+      lang: "Python",
+      tags: ["PyPI package", "Governance", "Typed", "OpenSSF"],
+      demo: "https://pypi.org/project/acronymkit/",
+      repo: "https://github.com/pierce-lonergan/AcronymKit"
     },
     {
       name: "MAMMAL_Cognitive_Enhancement_Drug_Repurposing",
@@ -307,7 +327,7 @@
           '<span class="pc-lang"><span class="lang-dot" style="background:' + color + '"></span>' + esc(p.lang) + '</span>' +
           '<span class="pc-links">' + demo +
             (p.proof ? '<a class="pc-proof" href="' + esc(p.proof.url) + '" target="_blank" rel="noopener" title="proof of work, see for yourself">' + esc(p.proof.label) + '</a>' : '') +
-            '<a href="' + esc(p.repo) + '" target="_blank" rel="noopener">Code ↗</a>' +
+            (p.repo ? '<a href="' + esc(p.repo) + '" target="_blank" rel="noopener">Code ↗</a>' : '<span class="pc-private" title="source not public">Source private</span>') +
           '</span>' +
         '</div>' +
       '</article>';

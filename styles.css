@@ -608,6 +608,7 @@ a { color: inherit; text-decoration: none; }
 .pc-links a { display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.85rem; font-weight: 600; color: var(--text); padding: 0.45rem 0.9rem; border: 1px solid var(--border-strong); border-radius: 999px; transition: all 0.2s var(--ease); }
 .pc-links a:hover { border-color: var(--g2); transform: translateY(-2px); }
 .pc-links a.primary { background: var(--surface-2); }
+.pc-private { display: inline-flex; align-items: center; font-size: 0.78rem; font-weight: 500; color: var(--text-mute); padding: 0.45rem 0.7rem; font-family: var(--font-mono); letter-spacing: 0.02em; }
 .pc-bottom { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; margin-top: auto; }
 
 /* =========================== Education ================================= */
