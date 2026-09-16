@@ -1,89 +1,111 @@
 <!DOCTYPE html>
 <!-- Source for assets/Pierce-Lonergan-Resume.pdf. Regenerate with:
      chrome --headless --disable-gpu --no-pdf-header-footer \
-       --print-to-pdf="../assets/Pierce-Lonergan-Resume.pdf" resume.html -->
+       --print-to-pdf="../assets/Pierce-Lonergan-Resume.pdf" resume.html
+     Design notes: conservative typography chosen for ATS parsing. Real ul/li bullets
+     so the PDF text layer carries them, standard section headings, single column,
+     no tables, no text in images, dates in a parseable "Mon YYYY" form. -->
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<title>Pierce Lonergan · Résumé</title>
+<title>Pierce Lonergan - Resume</title>
 <style>
-  @page { size: Letter; margin: 0.34in 0.46in; }
+  @page { size: Letter; margin: 0.26in 0.46in; }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  body { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; color: #1c1c1c; font-size: 9.2pt; line-height: 1.21; }
-  .name { font-size: 21pt; font-weight: 700; letter-spacing: -0.4px; color: #b8502e; }
-  .tagline { font-size: 10pt; color: #444; margin-top: 1px; font-weight: 500; }
-  .contact { font-size: 8.8pt; color: #555; margin-top: 3px; }
-  .contact a { color: #555; text-decoration: none; }
-  .contact span { color: #b8502e; margin: 0 5px; }
-  h2 { font-size: 9pt; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #b8502e; border-bottom: 1.2px solid #e3b8a6; padding-bottom: 1.5px; margin: 7px 0 3.5px; }
-  .row { display: flex; justify-content: space-between; align-items: baseline; }
-  .role-title { font-weight: 700; font-size: 9.6pt; }
-  .role-meta { font-size: 8.7pt; color: #555; }
-  .sub { font-size: 8.7pt; color: #555; margin-bottom: 2.5px; }
-  .skills p { margin-bottom: 2px; }
-  .skills b { color: #2a2a2a; }
-  ul { list-style: none; margin-top: 1.5px; }
-  li { position: relative; padding-left: 11px; margin-bottom: 1.8px; font-size: 9pt; }
-  li::before { content: ""; position: absolute; left: 1px; top: 5.5px; width: 3.5px; height: 3.5px; border-radius: 50%; background: #c87a5c; }
-  .proj { margin-bottom: 4px; }
-  .proj .row { margin-bottom: 1px; }
-  .proj li { margin-bottom: 2px; }
-  .stack { font-size: 8.4pt; color: #6a6a6a; }
+  body { font-family: Georgia, "Times New Roman", serif; color: #14171a; font-size: 8.7pt; line-height: 1.185; }
+  .sans { font-family: "Helvetica Neue", Arial, sans-serif; }
+  .name { font-family: "Helvetica Neue", Arial, sans-serif; font-size: 18.5pt; font-weight: 700; letter-spacing: 0.2px; color: #0f1c2e; }
+  .tagline { font-family: "Helvetica Neue", Arial, sans-serif; font-size: 9.8pt; color: #33465c; margin-top: 2px; font-weight: 600; }
+  .contact { font-family: "Helvetica Neue", Arial, sans-serif; font-size: 8.9pt; color: #44515e; margin-top: 4px; }
+  h2 { font-family: "Helvetica Neue", Arial, sans-serif; font-size: 8.9pt; font-weight: 700; text-transform: uppercase;
+       letter-spacing: 1.1px; color: #0f1c2e; border-bottom: 0.8pt solid #9aa7b4; padding-bottom: 2px; margin: 4.5px 0 2.5px; }
+  .row { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+  .org { font-family: "Helvetica Neue", Arial, sans-serif; font-weight: 700; font-size: 9.8pt; color: #0f1c2e; }
+  .meta { font-family: "Helvetica Neue", Arial, sans-serif; font-size: 8.7pt; color: #44515e; white-space: nowrap; }
+  .titles { font-family: "Helvetica Neue", Arial, sans-serif; font-size: 8.8pt; color: #33465c; margin: 1px 0 3px; }
+  .skills p { margin-bottom: 1.6px; }
+  .skills b { font-family: "Helvetica Neue", Arial, sans-serif; font-size: 8.8pt; color: #0f1c2e; }
+  ul { margin: 1.5px 0 0 12px; }
+  li { margin-bottom: 1.3px; padding-left: 1px; }
+  .proj { margin-bottom: 2px; }
+  .pname { font-family: "Helvetica Neue", Arial, sans-serif; font-weight: 700; font-size: 9.4pt; color: #0f1c2e; }
+  .pdesc { font-family: "Helvetica Neue", Arial, sans-serif; font-size: 8.7pt; color: #33465c; font-weight: 400; }
+  .pubnote { font-family: "Helvetica Neue", Arial, sans-serif; font-size: 8.4pt; color: #44515e; font-style: italic; margin-bottom: 2px; }
 </style>
 </head>
 <body>
-  <div class="name">Pierce Lonergan</div>
-  <div class="tagline">Software Engineer III &nbsp;·&nbsp; Data &amp; Applied ML &nbsp;·&nbsp; Platform</div>
-  <div class="contact">Columbus, OH <span>·</span> linkedin.com/in/pierce-lonergan <span>·</span> github.com/pierce-lonergan</div>
 
-  <h2>Professional Summary</h2>
-  <p><b>Most RAG systems fail at the pipeline, not the model. I have spent four years building the pipeline.</b> Software Engineer III at JPMorganChase, building the streaming and batch data infrastructure Consumer &amp; Community Banking runs on: reusable platforms across Kafka, Spark, Iceberg, Snowflake, and AWS. Alongside it I build retrieval systems in the open and payment infrastructure on Spring Modulith. Two promotions in four years, Software Engineer to Software Engineer III. B.S. Biochemistry with a Computer &amp; Information Science minor, and a bias toward measurement and honest evaluation, including of my own results. Open to applied ML, data engineering, and platform roles.</p>
+  <div class="name">Pierce Lonergan</div>
+  <div class="tagline">Software Engineer III &nbsp;|&nbsp; Data Engineering and Applied Machine Learning</div>
+  <div class="contact">Columbus, OH &nbsp;&nbsp;&middot;&nbsp;&nbsp; linkedin.com/in/pierce-lonergan-84034422a &nbsp;&nbsp;&middot;&nbsp;&nbsp; github.com/pierce-lonergan</div>
+
+  <h2>Summary</h2>
+  <p>Software Engineer III at JPMorganChase, four years and two promotions in Consumer &amp; Community Banking data engineering, building the high-throughput Kafka and Spark infrastructure behind the lakehouse and the schema-evolution standards that keep it safe to change. Maintains three open-source packages on PyPI and Maven Central covering semantic schema matching, nested-record flattening, and governed identifier expansion, each with a reproducible benchmark.</p>
 
   <h2>Technical Skills</h2>
   <div class="skills">
-    <p><b>Streaming &amp; Big Data:</b> Apache Kafka, Apache Spark (Structured Streaming), Apache Iceberg, Apache Avro, Project Reactor, Cassandra, schema evolution, CDC (Debezium), exactly-once processing</p>
-    <p><b>Lakehouse &amp; Warehouse:</b> Snowflake, Iceberg lakehouse, Parquet, partitioning, data modeling, incremental sync</p>
-    <p><b>Applied ML &amp; Retrieval:</b> RAG, hybrid retrieval (BM25 + dense), ColBERT / late-interaction reranking, cross-encoder reranking, BGE embeddings, Qdrant, LLM application development, INT8 quantization</p>
-    <p><b>Cloud, Platform &amp; Infra:</b> AWS (S3, EMR, MSK, Glue, Kinesis, Lambda), Docker, CI/CD, hexagonal architecture, microservices, Spring Boot / Spring Modulith, Temporal, Keycloak, PostgreSQL</p>
-    <p><b>Data Governance:</b> Canonical catalogs, semantic schema matching, entity resolution, lineage, data-quality validation</p>
-    <p><b>Languages:</b> Python, Java, Scala, Groovy, Bash, SQL</p>
+    <p><b>Streaming and Big Data:</b> Apache Kafka, Apache Spark (Structured Streaming), Apache Avro, Project Reactor, Cassandra, schema evolution, change data capture (Debezium), exactly-once processing, transactional outbox</p>
+    <p><b>Lakehouse and Warehouse:</b> Apache Iceberg, Snowflake, Parquet, partitioning strategies, data modeling, incremental sync</p>
+    <p><b>Applied ML and Retrieval:</b> Retrieval-augmented generation, hybrid dense and BM25 retrieval, sentence embeddings, cross-encoder reranking, HNSW vector indexes, ONNX Runtime, int8 quantization, benchmark construction and evaluation design</p>
+    <p><b>Data Governance:</b> Canonical catalogs, semantic schema matching, entity resolution, lineage, data-quality validation, data contracts, schema registry</p>
+    <p><b>Cloud and Platform:</b> AWS (S3, EMR, MSK, Glue, Kinesis, Lambda), Docker, CI/CD (GitHub Actions), PostgreSQL, Spring Boot and Spring Modulith, hexagonal architecture</p>
+    <p><b>Languages:</b> Python, Java, Scala, SQL, Groovy, Bash</p>
   </div>
 
   <h2>Professional Experience</h2>
-  <div class="row"><span class="role-title">JPMorganChase &nbsp;|&nbsp; Consumer &amp; Community Banking, Data Engineering</span><span class="role-meta">Columbus, OH</span></div>
-  <div class="sub">Software Engineer III (Feb 2026 – Present) · Associate Software Engineer (Jan 2024 – Feb 2026) · Software Engineer (Apr 2022 – Jan 2024)</div>
+  <div class="row">
+    <span class="org">JPMorganChase &nbsp;|&nbsp; Consumer &amp; Community Banking, Data Engineering</span>
+    <span class="meta">Columbus, OH</span>
+  </div>
+  <div class="titles">Software Engineer III (Feb 2026 - Present) &nbsp;&middot;&nbsp; Associate Software Engineer (Jan 2024 - Feb 2026) &nbsp;&middot;&nbsp; Software Engineer (Apr 2022 - Jan 2024)</div>
   <ul>
-    <li>Architected the reusable streaming-pipeline layer (declarative source/sink/transform factories, forward-compatible schema evolution, generic recursive flattening for nested data). Team throughput went from roughly 2 to 30 production pipelines per month over the two quarters after adoption; I built the framework, the number is the team's.</li>
-    <li>Standardized pipeline lifecycle concerns once and reused them across every pipeline: checkpointing, error handling, and graceful shutdown.</li>
-    <li>Shipped data-governance automation that replaced blank-page hand-mapping by stewards with machine-proposed mappings they confirm or correct, cutting weeks from approval cycles (product-owner estimate, not an instrumented baseline); now a production internal product. Drove schema-evolution standards, semantic schema matching, and entity resolution against a canonical catalog.</li>
-    <li>Built high-performance Spark ETL with asynchronous processing and parallelization, and integrated Kafka for near-real-time distributed streaming, reducing latency and improving reliability and scalability.</li>
-    <li>Modernized big-data systems with reactive paradigms (Project Reactor), pairing Kafka messaging with Cassandra reconciliation and Spark ETL, and migrated high-throughput systems to federated AWS.</li>
-    <li>Led a hackathon team to 4th place in JPMorganChase's global internal hackathon; architects projected the platform would save roughly 80 engineer-hours per month.</li>
+    <li>Architected the reusable streaming-pipeline layer the team builds on: declarative source, sink, and transform factories, forward-compatible schema evolution, generic recursive flattening for arbitrarily nested payloads, and lifecycle concerns solved once and reused everywhere (checkpointing, error handling, graceful shutdown). Team throughput moved from roughly 2 to 30 production pipelines per month in the two quarters after adoption; the framework is mine, the throughput number is the team&rsquo;s.</li>
+    <li>Shipped data-governance automation, now a production internal product, that replaced blank-page hand-mapping by data stewards with machine-proposed mappings they confirm or correct, cutting weeks from approval cycles (product-owner estimate, not an instrumented baseline). Drove schema-evolution standards, semantic schema matching, and entity resolution against a canonical catalog.</li>
+    <li>Built high-performance Spark ETL with asynchronous processing and parallelization and integrated Kafka for near-real-time streaming; earlier, modernized big-data systems with reactive paradigms (Project Reactor), pairing Kafka messaging with Cassandra reconciliation, and migrated high-throughput systems to federated AWS.</li>
+    <li>Placed 4th in JPMorganChase&rsquo;s global internal hackathon; reviewing architects projected roughly 80 engineer-hours per month saved if the prototype were productionized.</li>
   </ul>
 
-  <h2>Selected Projects</h2>
+  <h2>Open-Source and Published Work</h2>
+  <p class="pubnote">Personal projects, built solo with an agent-assisted development loop. Architecture, invariants, benchmark design, and test strategy are mine; every figure below regenerates from a committed artifact.</p>
+
   <div class="proj">
-    <div class="row"><span class="role-title">NexusPay &nbsp;|&nbsp; Enterprise payment-operations platform</span><span class="role-meta">Personal project · Java</span></div>
+    <div class="row"><span class="pname">nexus-matcher <span class="pdesc">&nbsp;|&nbsp; semantic schema-field matching, Python</span></span><span class="meta">PyPI v2.2.0</span></div>
     <ul>
-      <li>17-module Spring Modulith (Java 21, hexagonal) on HyperSwitch: a double-entry ledger holding its invariants under SERIALIZABLE, transactional outbox to Kafka via Debezium CDC so nothing is dual-written, fraud rules, FX, a dispute state machine, subscription billing, Keycloak SSO with maker-checker approvals, Temporal, Vault (PCI), Prometheus / Grafana SLOs. <span class="stack">Built solo with an agent-assisted loop; the architecture, module boundaries, money invariants and test strategy are mine.</span></li>
+      <li>Maps Avro, JSON Schema, and SQL DDL fields onto data-dictionary entries by meaning rather than string equality: P@1 0.581, Recall@10 0.878, 364 fields/sec on CPU across 688 labelled pairs (BIRD-SQL 361, OMOP CDM v5.4 327).</li>
+      <li>Kept the auto-approve gate conservative: at the 0.87 threshold it approves 85 of 688 fields (12.4%) at 95.3% precision and routes the rest to a human. The 22.9 MB wheel bundles its own int8 ONNX encoder, so it installs air-gapped with no model download and no torch.</li>
+      <li>Retracted an earlier P@1 of 0.715 after tracing it to token-identity leakage in the OMOP split, and published the retraction in the repository README.</li>
     </ul>
   </div>
+
   <div class="proj">
-    <div class="row"><span class="role-title">NexusMatcher &nbsp;|&nbsp; Semantic schema-matching system</span><span class="role-meta">Personal project · Python</span></div>
+    <div class="row"><span class="pname">nexus-piercer <span class="pdesc">&nbsp;|&nbsp; nested JSON and Avro flattening for Spark, Java 17</span></span><span class="meta">Maven Central</span></div>
     <ul>
-      <li>Multi-stage retrieval with late-interaction reranking and learned type projections (hybrid BM25 + dense, ColBERT, Qdrant). Reranks 100 candidates in 3.17 ms warm against 274 ms cold, a 94&times; speedup from precomputed token embeddings. P@1 is 1.0 on the in-domain benchmark and 0.29 on a harder 17-field set where P@5 holds at 0.76; 433 tests.</li>
+      <li>Flattens deeply nested JSON and Avro into Spark-ready columns and reconstructs Avro records from flat rows: the nested-payload problem production ingestion hits, solved as a library. Published as <span class="sans">io.github.pierce-lonergan:nexus-piercer</span> with GPG-signed jar, sources, and javadoc per release, plus four install routes including a fully offline build.</li>
     </ul>
   </div>
+
   <div class="proj">
-    <div class="row"><span class="role-title">MOMENTUM-X &nbsp;|&nbsp; LLM-driven algorithmic trading system</span><span class="role-meta">Personal project · Python</span></div>
+    <div class="row"><span class="pname">acronymkit <span class="pdesc">&nbsp;|&nbsp; governed identifier and abbreviation expansion, Python</span></span><span class="meta">PyPI v0.3.0</span></div>
     <ul>
-      <li>End-to-end intraday trading system on the Alpaca API (phase-based stop-loss, live daemon, full observability), plus mx-arena, a local exchange simulator for backtesting. Pre-registered the hypothesis and the kill criteria, validated out-of-sample with walk-forward evaluation, then ran an adversarial audit against my own conclusion: the multi-agent LLM ensemble consensus came out anti-predictive. I recorded the negative result and killed the feature I had spent months building.</li>
+      <li>Expands schema identifiers against a caller-supplied catalog and reports whatever the catalog cannot account for as unknown rather than guessing, which is what makes it safe for governance use. Precision 92.07%, recall 76.99%, F1 83.85% on the MED1250 benchmark; a claims gate fails CI when a documented figure cannot be traced to a recorded benchmark run.</li>
+    </ul>
+  </div>
+
+  <div class="proj">
+    <div class="row"><span class="pname">momentum-x-research <span class="pdesc">&nbsp;|&nbsp; research-methodology program, Python</span></span><span class="meta">Public repository</span></div>
+    <ul>
+      <li>Ran 311 documented experiments across 39 hypothesis families and 33 registered trials, certified zero edges, and published the null result: buy-and-hold SPY returned 14.91% per year over the same 2016 to 2026 window, above the program&rsquo;s own target.</li>
+      <li>Built the evaluation stack that makes the null trustworthy: a hash-chained tamper-evident trial registry raising the promotion bar as the trial count grows (deflated Sharpe), hash-frozen pre-registrations with executable fixtures, death dates, and a day-clustered block bootstrap adopted after measuring within-day intraclass correlation at 0.09 to 0.35. Voided its own first passing result after review caught the runner running a 1-day horizon against a spec frozen at 21 days.</li>
     </ul>
   </div>
 
   <h2>Education</h2>
-  <div class="row"><span class="role-title">The Ohio State University &nbsp;|&nbsp; B.S. Biochemistry, minor in Computer &amp; Information Science</span><span class="role-meta">Aug 2016 – Dec 2021</span></div>
-  <div class="sub">Best Data Visualization, ASA DataFest 2021 &nbsp;·&nbsp; Coursework: machine learning, distributed computing, multithreading, database systems.</div>
+  <div class="row">
+    <span class="org">The Ohio State University &nbsp;|&nbsp; B.S. Biochemistry, minor in Computer &amp; Information Science</span>
+    <span class="meta">Aug 2016 - Dec 2021</span>
+  </div>
+  <div class="titles">Best Data Visualization, ASA DataFest 2021</div>
+
 </body>
 </html>
